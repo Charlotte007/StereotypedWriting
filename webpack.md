@@ -12,18 +12,50 @@
 
 `Plugin`在`bundle`和`chunk`级别上工作，通常在`bundle`生成的末尾工作。`Plugin`比`Loader`具有更强大的控制能力。`Plugin`依赖hook，`Plugin`会在特定的时刻加入打包的过程，改变输出的结果。`Plugin`在`plugins`中配置。
 
-## 什么是sourceMap?
+## 什么是sourceMap? 如何配置sourceMap? sourceMap文件的格式你了解吗?
+
+### 什么是sourceMap?
+
+打包后的代码没有可读性，无法进行debug。而sourceMap是从已转换的代码映射到原始源的文件，使浏览器能够重构原始源并在调试器中显示重建的原始源。如果静态目录中包含sourceMap，并且浏览器打开了开发者工具，浏览器才会加载sourceMap。
+
+### 如何配置sourceMap?
+
+在配置文件的`devtool`属性配置sourceMap。常见的配置项：
+
+- `hidden-source-map`, 借助第三方错误监控平台Sentry使用
+- `nosources-source-map`, 创建的sourcemap不包含sourcesContent(源代码内容)。它可以用来映射客户端上的堆栈跟踪，而无须暴露所有的源代码。你可以将sourcemap文件部署到web服务器。
+- `sourcemap`,  整个sourceMap作为一个单独的文件生成。它为bundle添加了一个引用注释，以便开发工具知道在哪里可以找到它。
+
+等等……
+
+### sourceMap文件的格式你了解吗?
+
+```js
+{
+  "version": 3, // SourceMap的版本
+  "sources": [ // 转换前的文件来源
+    "webpack:///webpack/universalModuleDefinition",
+    "webpack:///webpack/bootstrap"
+  ],
+  "names": [], // 转换前的变量名
+  "mappings": "AAAA,AACA;AACA", // 位置信息
+  "file": "react-ui-components-library.js", // 转换后的文件名
+  "sourceRoot": "" // 转换前的文件目录,
+  "sourcesContent":[] // 原始文件内容
+}
+```
+
+对于压缩后源代码，需要在末尾添加`//# sourceURL=/path/to/file.js.map`注释后，浏览器就会通过`sourceURL`去查找对应的`sourceMap`文件，通过解释器解析后，实现源码和混淆代码之间的映射。因此`sourceMap`其实也是一项需要浏览器支持的技术。
 
 ## 如何编写Loader吗?
 
 ## 如何编写Plugin吗?
 
-
-## 说一说Webpack5的新特性?
+## 说一说如何配置长效缓存?
 
 ## 说一说热更新的原理?
 
-## 长效缓存如何配置?
+## 说一说Webpack5的新特性?
 
 ## webpack构建速度优化
 
