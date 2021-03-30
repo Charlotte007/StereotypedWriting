@@ -1,7 +1,11 @@
 ## 面试八股文
 
-### 参考
+用于前端面试的准备
+### 参考资料
 
+- [深入浅出 Webpack](http://webpack.wuhaolin.cn/)
+- [Webpack loaders vs plugins; what's the difference?](https://stackoverflow.com/questions/37452402/webpack-loaders-vs-plugins-whats-the-difference/46176755#:~:text=Loaders%20work%20at%20the%20individual,of%20the%20bundle%20generation%20process.)
+- [Webpack — The Confusing Parts](https://medium.com/@rajaraodv/webpack-the-confusing-parts-58712f8fcad9)
 - https://juejin.cn/post/6844904094281236487#heading-17
 - https://juejin.cn/post/6943468761575849992#heading-4
 - https://juejin.cn/post/6939774328858738696
