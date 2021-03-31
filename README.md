@@ -3,11 +3,13 @@
 用于前端面试的准备
 ### 参考资料
 
-- [深入浅出 Webpack](http://webpack.wuhaolin.cn/)
+- [《深入浅出 Webpack》](http://webpack.wuhaolin.cn/)
 - [Webpack loaders vs plugins; what's the difference?](https://stackoverflow.com/questions/37452402/webpack-loaders-vs-plugins-whats-the-difference/46176755#:~:text=Loaders%20work%20at%20the%20individual,of%20the%20bundle%20generation%20process.)
 - [Webpack — The Confusing Parts](https://medium.com/@rajaraodv/webpack-the-confusing-parts-58712f8fcad9)
 - [前端错误监控](https://juejin.cn/post/6844904169359294477#heading-9)
 - [JavaScript Source Map 详解](http://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html)
+- [当面试官问Webpack的时候他想知道什么](https://juejin.cn/post/6943468761575849992#heading-3)
+- [「吐血整理」再来一打Webpack面试题](https://juejin.cn/post/6844904094281236487#heading-5)
 - https://juejin.cn/post/6844904094281236487#heading-17
 - https://juejin.cn/post/6943468761575849992#heading-4
 - https://juejin.cn/post/6939774328858738696
