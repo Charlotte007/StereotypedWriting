@@ -167,7 +167,8 @@ compiler.plugin('event-name',function(params) {});
 
 `Webpack`的热更新又称热替换（Hot Module Replacement），缩写为`HMR`。 这个机制可以做到不用刷新浏览器而将新变更的模块替换掉旧的模块。
 
-1. 在`Webpack`的`watch`模式下，文件系统中某一个文件发生修改，`Webpack`监听到文件变化，根据配置文件对模块重新编译打包，并将打包后的代码通过简单的`JavaScript`对象保存在内存中。
+1. 在`Webpack`的`watch`模式下，文件系统中某一个文件发生修改，`Webpack`监听到文件变化，根据配置文件对模块重新编译打包，并将打包后的代码通过简单的`JavaScript`对象保存在内存中。不生成文件的原因就在于访问内存中的代码比访问文件系统中的文件更快，而且也减少了代码写入文件的开销。`webpack-dev-middleware`会使用`memory-fs`将`Webpack`原本的`outputFileSystem`替换成了`MemoryFileSystem`实例。这样代码就会从写入文件系统，变为写入内存中。
+2. 
 
 
 ## 说一说如何配置长效缓存?
