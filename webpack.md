@@ -125,7 +125,21 @@ class BasicPlugin{
 module.exports = BasicPlugin;
 ```
 
-`Webpack`启动后，在读取配置的过程中会先初始化一个`BasicPlugin`的实例。 在初始化`Compiler`对象后，再调用`basicPlugin.apply(compiler)`给插件实例传入`Compiler`对象。 插件实例在获取到`Compiler`对象后，就可以通过`compiler.plugin(事件名称, 回调函数)`监听到`Webpack`广播出来的事件。 并且可以通过`Compiler`对象去操作`Webpack`。
+`Webpack`启动后，在读取配置的过程中会先初始化一个`BasicPlugin`的实例。在初始化`Compiler`对象后，再调用`basicPlugin.apply(compiler)`给插件实例传入`Compiler`对象。 插件实例在获取到`Compiler`对象后，就可以通过`compiler.plugin(事件名称, 回调函数)`监听到`Webpack`广播出来的事件。 并且可以通过`Compiler`对象去操作`Webpack`。
+
+`Compiler`和`Compilation`都继承自`Tapable`，可以直接在`Compiler`和`Compilation`对象上广播和监听事件。`compilation.apply`和`compilation.plugin`同理。
+
+```js
+// 广播事件
+compiler.apply('event-name',params);
+
+// 监听事件
+compiler.plugin('event-name',function(params) {});
+```
+
+- 插件必须是一个函数或者是一个包含`apply`方法的对象，这样才能访问`Compiler`实例。- 
+- 传给每个插件的`Compiler`和`Compilation`对象都是同一个引用，若在一个插件中修改了它们身上的属性，会影响后面的插件;
+- 异步的事件需要在插件处理完任务时调用回调函数(异步的事件会附带两个参数，第二个参数为回调函数，在插件处理完任务时需要调用回调函数)通知`Webpack`进入下一个流程，不然会卡住。
 
 ## 😊 说一说Compile
 
