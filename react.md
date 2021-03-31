@@ -28,4 +28,7 @@
 
 ## useReducer比redux好在哪里？
 
-## React事件
+## React事件机制
+
+## 了解react scheduler吗？
+

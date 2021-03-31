@@ -6,11 +6,11 @@
 ![image.png](https://i.loli.net/2021/03/30/PkRF3SUhJ5EcjWY.png)
 ### Loader
 
-`Loader本质是一个函数。`Loader的职责是单一的，只需要关心输入和输出。`Loader`在生成`bundle`的期间和之前工作，在单个文件的级别上工作。一个文件可以链式的，经过多个`Loader`转换。`Loader`不依赖`hook`。`Loader`在`module.rules`中配置。
+`Loader本质是一个函数。`Loader的职责是单一的，只需要关心输入和输出。`Loader`在生成`bundle`的期间和之前工作，在单个文件的级别上工作。一个文件可以链式的，经过多个`Loader`转换。`Loader`不依赖与事件。`Loader`在`module.rules`中配置。
 
 ### Plugin
 
-`Plugin`在`bundle`和`chunk`级别上工作，通常在`bundle`生成的末尾工作。`Plugin`比`Loader`具有更强大的控制能力。`Plugin`依赖hook，`Plugin`会在特定的时刻加入打包的过程，改变输出的结果。`Plugin`在`plugins`中配置。
+`Plugin`在`bundle`和`chunk`级别上工作，通常在`bundle`生成的末尾工作。`Plugin`比`Loader`具有更强大的控制能力。`Plugin`依赖事件，`Plugin`会在特定的时刻（监听特定的事件）加入打包的过程，改变输出的结果。`Plugin`在`plugins`中配置。
 
 ## 😊 什么是sourceMap? 如何配置sourceMap? sourceMap文件的格式你了解吗?
 
@@ -102,7 +102,40 @@ module.exports = function(source) {
     });
 };
 ```
-## 如何编写Plugin吗?编写过Plugin吗?
+## 😊 如何编写Plugin吗?编写过Plugin吗?
+
+`Webpack`基于发布订阅模式，和`Node.js`中的`EventEmitter`相似。`Webpack`在运行过程中会广播事件，插件通过监听这些事件，就可以在特定的阶段执行自己的插件任务，从而实现自己想要的功能。`Compiler`和`Compilation`是`Webpack`两个非常核心的对象，其中`Compiler`暴露了和`Webpack`整个生命周期相关的钩子（compiler-hooks），而`Compilation`则暴露了与模块和依赖有关的粒度更小的事件钩子（Compilation Hooks）。
+
+一个最简单的`Plugin`源码如下：
+
+```js
+class BasicPlugin{
+  // 在构造函数中获取用户给该插件传入的配置
+  constructor(options){
+  }
+
+  // Webpack 会调用 BasicPlugin 实例的 apply 方法给插件实例传入 compiler 对象
+  apply(compiler){
+    compiler.plugin('compilation',function(compilation) {
+    })
+  }
+}
+
+// 导出 Plugin
+module.exports = BasicPlugin;
+```
+
+`Webpack`启动后，在读取配置的过程中会先初始化一个`BasicPlugin`的实例。 在初始化`Compiler`对象后，再调用`basicPlugin.apply(compiler)`给插件实例传入`Compiler`对象。 插件实例在获取到`Compiler`对象后，就可以通过`compiler.plugin(事件名称, 回调函数)`监听到`Webpack`广播出来的事件。 并且可以通过`Compiler`对象去操作`Webpack`。
+
+## 😊 说一说Compile
+
+`Compiler`对象包含了`Webpack`环境所有的的配置信息，包含`options`，`loaders`，`plugins`这些信息，这个对象在`Webpack`启动时候被实例化，它是全局唯一的，可以简单地把它理解为`Webpack`实例。
+
+## 😊 说一说Compilation
+
+`Compilation`对象包含了当前的模块资源、编译生成资源、变化的文件等。当`Webpack`以开发模式运行时，每当检测到一个文件变化，一次新的`Compilation`将被创建。`Compilation`对象也提供了很多事件回调供插件做扩展。通过`Compilation`也能读取到`Compiler`对象。
+
+`Compiler`和`Compilation`的区别在于：`Compiler`代表了整个`Webpack`从启动到关闭的生命周期，而 `Compilation`只是代表了一次新的编译。
 
 ## 了解Tree-shaking吗?Tree-shaking的原理说一说?
 
@@ -114,4 +147,4 @@ module.exports = function(source) {
 
 ## 说一说如何优化webpack构建速度
 
-## webpack如何做拆包，为什么做拆包？
+## 说一说webpack如何做拆包?说一说为什么做拆包？
