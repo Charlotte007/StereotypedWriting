@@ -151,14 +151,22 @@ compiler.plugin('event-name',function(params) {});
 
 `Compiler`和`Compilation`的区别在于：`Compiler`代表了整个`Webpack`从启动到关闭的生命周期，而 `Compilation`只是代表了一次新的编译。
 
-## 了解Tree-shaking吗?Tree-shaking的原理说一说?
+## 😊 了解Tree-shaking吗?Tree-shaking的原理说一说?
+
+`JavaScript`绝大多数情况需要通过网络进行加载，然后执行，加载的文件大小越小，整体执行时间更短，所以通过`Tree-shaking`将没有使用的模块删除, 去除无用代码以减少文件体积，对`JavaScript`来说很有意义。
+### Tree-shaking的原理
+
+首先了解下`Dead Code`的概念。`Dead Code`指那些代码不会被执行，不可到达；代码执行的结果不会被用到；代码只会影响死变量（只写不读）；的代码。
+
+1. 对于`Dead Code`，`Tree-shaking`会基于AST分析，以删除无用的代码。
+2. 对于无用的模块代码。`Tree-shaking`**依赖于ES6的模块特性**。由于ES6模块依赖关系是确定的，和运行时的状态无关，可以进行可靠的静态分析，这是`Tree-shaking`的基础。所以必须使用ES6模块的语法才能进行对无用模块代码的`Tree-shaking`。
 
 ## 说一说如何配置长效缓存?
 
 ## 说一说热更新的原理?
 
-## 说一说Webpack5的新特性?
-
 ## 说一说如何优化webpack构建速度
 
 ## 说一说webpack如何做拆包?说一说为什么做拆包？
+
+## 说一说Webpack5的新特性?
