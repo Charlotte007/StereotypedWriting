@@ -161,11 +161,18 @@ compiler.plugin('event-name',function(params) {});
 1. 对于`Dead Code`，`Tree-shaking`会基于AST分析，以删除无用的代码。
 2. 对于无用的模块代码。`Tree-shaking`**依赖于ES6的模块特性**。由于ES6模块依赖关系是确定的，和运行时的状态无关，可以进行可靠的静态分析，这是`Tree-shaking`的基础。所以必须使用ES6模块的语法才能进行对无用模块代码的`Tree-shaking`。
 
+## 😊 说一说热更新的原理?
+
+![image.png](https://i.loli.net/2021/03/31/QVpyIaE1PioUOXA.png)
+
+`Webpack`的热更新又称热替换（Hot Module Replacement），缩写为`HMR`。 这个机制可以做到不用刷新浏览器而将新变更的模块替换掉旧的模块。
+
+1. 在`Webpack`的`watch`模式下，文件系统中某一个文件发生修改，`Webpack`监听到文件变化，根据配置文件对模块重新编译打包，并将打包后的代码通过简单的`JavaScript`对象保存在内存中。
+
+
 ## 说一说如何配置长效缓存?
 
-## 说一说热更新的原理?
-
-## 说一说如何优化webpack构建速度
+## 说一说如何优化webpack构建速度?
 
 ## 说一说webpack如何做拆包?说一说为什么做拆包？
 

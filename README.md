@@ -1,6 +1,6 @@
 ## 面试八股文
 
-用于前端面试的准备。很多知识点流于表面，更多的是为了应付面试。如果想彻底了解，还需要自己深入学习。
+用于前端面试的准备。很多知识点流于表面，更多的是为了应付面试。如果想彻底了解知识点，还需要自己深入学习。
 ### 参考资料
 
 - [《深入浅出 Webpack》](http://webpack.wuhaolin.cn/)
@@ -10,6 +10,7 @@
 - [「吐血整理」再来一打Webpack面试题](https://juejin.cn/post/6844904094281236487#heading-5)
 - [Tree-Shaking性能优化实践 - 原理篇](https://juejin.cn/post/6844903544756109319)
 - [webpack-插件机制杂记](https://juejin.cn/post/6844903789804126222#heading-9)
+- [Webpack HMR 原理解析](https://zhuanlan.zhihu.com/p/30669007)
 - [前端错误监控](https://juejin.cn/post/6844904169359294477#heading-9)
 - [JavaScript Source Map 详解](http://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html)
 - [前端年后真题](https://bitable.feishu.cn/app8Ok6k9qafpMkgyRbfgxeEnet?from=logout&table=tblEnSV2PNAajtWE&view=vewJHSwJVd)
