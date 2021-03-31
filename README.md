@@ -18,3 +18,5 @@
 - https://juejin.cn/post/6844904045769916423#heading-1
 - https://juejin.cn/post/6934500357091360781
 - https://juejin.cn/post/6936913689115099143
+- [前端年后真题](https://bitable.feishu.cn/app8Ok6k9qafpMkgyRbfgxeEnet?from=logout&table=tblEnSV2PNAajtWE&view=vewJHSwJVd)
+- [面试被问项目经验不用慌，按这个步骤回答绝对惊艳](https://juejin.cn/post/6844904102795706375)

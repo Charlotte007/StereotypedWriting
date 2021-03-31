@@ -6,7 +6,7 @@
 ![image.png](https://i.loli.net/2021/03/30/PkRF3SUhJ5EcjWY.png)
 ### Loader
 
-`Loader`在生成`bundle`的期间和之前工作，在单个文件的级别上工作。`Loader`不依赖`hook`。`Loader`在`module.rules`中配置。
+`Loader本质是一个函数。`Loader的职责是单一的，只需要关心输入和输出。`Loader`在生成`bundle`的期间和之前工作，在单个文件的级别上工作。一个文件可以链式的，经过多个`Loader`转换。`Loader`不依赖`hook`。`Loader`在`module.rules`中配置。
 
 ### Plugin
 
@@ -47,7 +47,7 @@
 
 对于压缩后源代码，需要在末尾添加`//# sourceURL=/path/to/file.js.map`注释后，浏览器就会通过`sourceURL`去查找对应的`sourceMap`文件，通过解释器解析后，实现源码和混淆代码之间的映射。因此`sourceMap`其实也是一项需要浏览器支持的技术。
 
-## 如何编写Loader吗?
+## 😊 如何编写Loader吗?编写过Loader吗?
 
 一个`Loader`的职责是单一的，只需要完成一种转换。 如果一个源文件需要经历多步转换才能正常使用，就通过多个 `Loader`去转换。 在调用多个`Loader`去转换一个文件时，每个`Loader`会链式的顺序执行， 第一个`Loader`将会拿到需处理的原内容，上一个`Loader`处理后的结果会传给下一个接着处理，最后的`Loader`将处理后的最终结果返回给`Webpack`。
 
@@ -56,9 +56,55 @@
 一个最简单的`Loader`源码如下：
 
 ```js
+module.exports = function(source) {
+  // source为compiler传递给 Loader 的一个文件的原内容
+  // 该函数需要返回处理后的内容，这里简单起见，直接把原内容返回了，相当于该 Loader 没有做任何转换
+  return source;
+};
 ```
 
-## 如何编写Plugin吗?
+`Loader`中的`this`上下文由`Webpack`提供，可以通过`this`对象提供的相关属性，获取当前`Loader`需要的各种信息数据。
+
+```js
+module.exports = function(source) {
+    const content = doSomeThing2JsString(source);
+    
+    // 如果 loader 配置了 options 对象，那么this.query将指向 options
+    const options = this.query;
+    
+    /*
+     * this.callback 参数：
+     * error：Error | null，当无法转换原内容时，给 Webpack 返回一个 Error
+     * content：String | Buffer，原内容转换后的内容
+     * sourceMap：用于把转换后的内容得出原内容的 Source Map，方便调试
+     * abstractSyntaxTree: 如果本次转换为原内容生成了 AST 语法树，可以把这个 AST 返回, 以方便之后需要 AST 的 Loader 复用该 AST，以避免重复生成 AST，提升性能
+     */
+    this.callback(null, content);
+}
+```
+
+- this.query, 可以获取`Loader`的`options`对象。
+- this.callback, 可以返回除了内容之外的东西。
+- this.context，当前处理文件的所在目录，假如当前 Loader 处理的文件是 /src/main.js，则 this.context 就等于 /src
+
+等等...
+### 异步的Loader
+
+有些场景下转换的步骤只能是异步完成的，例如你需要通过网络请求才能得出结果，如果采用同步的方式网络请求就会阻塞整个构建，导致构建非常缓慢。
+
+```js
+module.exports = function(source) {
+    // 告诉 Webpack 本次转换是异步的，Loader 会在 callback 中回调结果
+    var callback = this.async();
+    someAsyncOperation(source, function(err, result, sourceMaps, ast) {
+        // 通过 callback 返回异步执行后的结果
+        callback(err, result, sourceMaps, ast);
+    });
+};
+```
+## 如何编写Plugin吗?编写过Plugin吗?
+
+## 了解Tree-shaking吗?Tree-shaking的原理说一说?
 
 ## 说一说如何配置长效缓存?
 
@@ -66,6 +112,6 @@
 
 ## 说一说Webpack5的新特性?
 
-## webpack构建速度优化
+## 说一说如何优化webpack构建速度
 
 ## webpack如何做拆包，为什么做拆包？
