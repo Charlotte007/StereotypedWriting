@@ -22,7 +22,14 @@
 - [Backtracking algorithm 回溯算法](https://juejin.cn/post/6906835912580300813)
 - [汤姆大叔的博客](https://www.cnblogs.com/TomXu/archive/2011/12/15/2288411.html)
 - [「学习笔记」深入理解JavaScript](https://juejin.cn/post/6895511189103919112)
-- [mqyqingfeng的博客](https://github.com/mqyqingfeng/Blog/issues/3)
+- [冴羽的博客](https://github.com/mqyqingfeng/Blog/issues/3)
+- [「学习笔记」Jake Archibald: In The Loop](https://juejin.cn/post/6844904083879526407#heading-19)
+- [React、Vue2、Vue3的三种Diff算法](https://juejin.cn/post/6919376064833667080#heading-18)
+- [React之diff算法](https://www.jianshu.com/p/3ba0822018cf)
+- [yck博客](https://yuchengkai.cn/docs/frontend/browser.html#cors)
+- [字节跳动最爱考的前端面试题：计算机网络基础](https://juejin.cn/post/6939691851746279437)
+- [从输入URL开始建立前端知识体系](https://juejin.cn/post/6935232082482298911#heading-0)
+- [踩雷几率99%的4道前端高频面试题精讲](https://www.baidu.com/)
 - https://juejin.cn/post/6844904094281236487#heading-17
 - https://juejin.cn/post/6943468761575849992#heading-4
 - https://juejin.cn/post/6939774328858738696
