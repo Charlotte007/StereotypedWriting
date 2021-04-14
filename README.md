@@ -29,13 +29,14 @@
 - [yck博客](https://yuchengkai.cn/docs/frontend/browser.html#cors)
 - [字节跳动最爱考的前端面试题：计算机网络基础](https://juejin.cn/post/6939691851746279437)
 - [从输入URL开始建立前端知识体系](https://juejin.cn/post/6935232082482298911#heading-0)
-- [踩雷几率99%的4道前端高频面试题精讲](https://www.baidu.com/)
-- https://juejin.cn/post/6844904094281236487#heading-17
-- https://juejin.cn/post/6943468761575849992#heading-4
-- https://juejin.cn/post/6939774328858738696
-- https://juejin.cn/post/6944719600613326855/
-- https://juejin.cn/post/6939691851746279437#heading-35
-- https://juejin.cn/post/6844904045769916423#heading-1
-- https://juejin.cn/post/6934500357091360781
-- https://juejin.cn/post/6936913689115099143
+- [踩雷几率99%的4道前端高频面试题精讲](github地址)
+- [前端知识点与面试题](https://woai3c.github.io/Front-end-basic-knowledge/js.html#%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%B1%A1%E6%B7%B1%E6%8B%B7%E8%B4%9D)
+- [renderToString和renderToStaticMarkup的区别](https://blog.csdn.net/songshuzhong/article/details/81129913)
+- [金三银四的前端社招面经](https://juejin.cn/post/6939774328858738696)
+- [一次“金三银四的前端社招面经”的答案](https://juejin.cn/post/6944719600613326855/)
+- [从优化到面试装逼指南——网络系列](https://juejin.cn/post/6844904045769916423#heading-1)
+- [字节跳动最爱考的前端面试题：JavaScript 基础](https://juejin.cn/post/6934500357091360781)
+- [字节跳动最爱考的前端面试题：CSS 基础](https://juejin.cn/post/6936913689115099143)
+- [What's the difference between hydrate() and render() in React 16?](https://stackoverflow.com/questions/46516395/whats-the-difference-between-hydrate-and-render-in-react-16)
+- [「react进阶」年终送给react开发者的八条优化建议(篇幅较长，占用20-30分钟)](https://juejin.cn/post/6908895801116721160)
 
