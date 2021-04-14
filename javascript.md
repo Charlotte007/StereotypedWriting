@@ -87,18 +87,93 @@ requestAnimationFrame只会在浏览器渲染前执行，和宏任务，微任�
 ### 事件循环的题目
 
 ```js
+// 1, 2, 3, 4, 5, 6
+setTimeout(() => {
+  console.log(1)
+  new Promise((resolve, reject) => {
+    console.log(2)
+    resolve()
+  }).then(() => {
+    console.log(3)
+  })
+}, 0)
 
-
-
+setTimeout(() => {
+  new Promise((resolve) => {
+    resolve()
+  }).then(() => {
+    console.log(4)
+    new Promise((resolve) => {
+      resolve()
+    }).then(() => {
+      console.log(5)
+    })
+  }).then(() => {
+    console.log(6)
+  })
+}, 0)
 ```
-## 😊 说一说原型和原型链
 
+## 😊 说一说原型链
 ## 😊 说一说继承
 ### ES5继承实现
 
+![es5.png](https://i.loli.net/2021/04/12/iaXDQAPbq93sLl6.png)
+
+```js
+/**
+ * 寄生组合式继承
+ */
+
+// 父类
+function Father(name) {
+  this.name = name
+}
+Father.prototype.sayName = function() {
+  console.log(this.name)
+}
+
+// 子类
+function Son(name, age) {
+  Father.call(this, name)
+  this.age = age
+}
+
+// 修正原型链
+Son.prototype = Object.create(Father.prototype)
+Son.prototype.constructor = Son
+
+Son.prototype.sayAge = function() {
+  console.log(this)
+}
+```
 ### ES6继承实现
+
+![es6继承.png](https://i.loli.net/2021/04/12/2CO5HRe4bda9GzK.png)
+
+```js
+class Father {
+  constructor(name) { this.name = name }
+  sayName() {
+	  console.log(this.name)
+  }
+}
+
+class Son extends Father {
+  constructor(name, age) {
+	  super(name)
+	  this.age = age
+  }
+  sayAge(age) {
+	  console.log(this.age)
+  }
+}
+```
 ### ES5继承和ES6继承有什么区别?
 
+- `ES5`是先创建子类实例对象的`this`，然后再将父类的方法添加到`this`上面（`Parent.apply(this)`）。
+- `ES6`的继承机制完全不同，实质是先将父类实例对象的属性和方法，加到`this`上面（所以必须先调用`super`方法），然后再用子类的构造函数修改`this`指向。
+- ES6继承中子类的`__proto__`指向父类。ES5继承中没有。
 ## 说一说this
 
 ## typeof
@@ -111,9 +186,32 @@ requestAnimationFrame只会在浏览器渲染前执行，和宏任务，微任�
 
 ## async和awiat原理
 
-## map和对象的区别
+## map和object的区别
 
-## 😊 输出结果的JS面试题
+## WeakSet与Set的区别
+
+
+## WeakMap与Map的区别
+
+## 😊 window.onload和DOMContentLoaded的区别
+
+## 😊 target和currentTarget区别
+
+- event.target，返回触发事件的元素，可能不是绑定事件的元素
+- event.currentTarget，返回绑定事件的元素
+## 😊 let，const，var的区别
+
+- `var`变量的作用域是它当前的执行上下文，`var`会使变量提升，这意味着变量可以在声明之前使用。`var`会直接在栈内存预分配内存空间，实际代码执行的时候再进行变量存储，如果传入的是应引用数据类型，则会在堆内存中开辟一个内存空间存储数据，栈内存存储的是数据的引用，指向堆内存地址。
+- `let`变量的作用域是块级作用域，`let`不会使变量提升。`let`则不会预分配内存空间，而且在栈内存分配变量时，做一个检查，如果已经有相同变量名存在就会报错。
+- `const`变量的作用域是块级作用域，`const`不会使变量提升。`const`与`let`的内容分配一致。
+
+## 😊 cookie，localStorage，sessionStorage区别
+
+
+## 😊 多个页面之间如何进行通信
+
+## 😊 bind, call, apply的区别
+## 😊 一些输出结果的JS面试题
 ### 题目一
 
 说出`['1', '2', '3'].map(parseInt)`的执行结果
@@ -133,7 +231,85 @@ parseInt('3', 2) // NaN
 
 ### 题目二
 
+说出下面代码的执行结果
+
+```js
+var b = 10;
+(function b() {
+  b = 20;
+  console.log(b);
+})();
+```
+
 
 ### 题目三
 
+说出下面代码的执行结果
 
+```js
+var obj = {
+  2: 3,
+  3: 4,
+  length: 2,
+  splice: Array.prototype.splice,
+  push: Array.prototype.push,
+};
+obj.push(1);
+obj.push(2);
+console.log(obj);
+```
+
+### 题目四
+
+说出下面代码的执行结果
+
+```js
+function Foo() {
+  Foo.a = function () {
+    console.log(1);
+  };
+  this.a = function () {
+    console.log(2);
+  };
+}
+Foo.prototype.a = function () {
+  console.log(3);
+};
+Foo.a = function () {
+  console.log(4);
+};
+Foo.a();
+let obj = new Foo();
+obj.a();
+Foo.a();
+```
+
+### 题目五
+
+说出下面代码的执行结果
+
+```js
+String("11") == new String("11");
+String("11") === new String("11");
+```
+
+### 题目六
+
+说出下面代码的执行结果
+
+```js
+function A() {
+  this.name = "Tom";
+  this.color = ["green", "yellow"];
+}
+function B() {}
+B.prototype = new A();
+var b1 = new B();
+var b2 = new B();
+b1.name = "Lily";
+b1.color.push("black");
+console.log(b1.name);
+console.log(b2.name);
+console.log(b1.color);
+console.log(b2.color);
+```
