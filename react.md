@@ -29,7 +29,12 @@ SSR渲染过程:
 
 ### react ssr的具体流程梳理
 
-1. 页面访问某一个`url`时
+1. `node`服务器监听任意`url`的请求。使用`react-router-config`的`matchRoutes`方法对`url`进行匹配。
+2. `matchRoutes`方法会以数组的形式返回匹配的组件。我们需要遍历匹配的组件，并调用它们暴露的初始化页面数据的方法，数据会存储到`redux`的`store`中。需要注意的是，`node`服务器是一个长期运行的进程，为了避免多个请求共享同一个`store`, 我们需要为每一次的请求生成一个`store`。
+3. 如果`url`地址不被匹配或者需要重定向，我们需要使用`node`服务器**显示**的发送重定向到客户端。
+4. 如果`url`被匹配，我们需要调用`react`的`renderToString`方法，结合之前获取页面的初始数据。生成`html`并返回。`html`中需要插入用于水合的`script`标签。以及在`window`上挂载页面初始化的数据，数据注入。
+5. `html`返回浏览器后，`js`文件加载后，会对页面进行水合，绑定事件。以及数据脱水将之前`window`上挂载的数据同步到客户端的`store`中。
+6. 对于`css`我们使用`isomorphic-style-loader`插件处理，将首屏的`css`注入到`html`模版中。
 
 ## 😊 renderToString, renderToStaticMarkup的区别
 
