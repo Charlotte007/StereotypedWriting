@@ -78,8 +78,7 @@ import { useState, useEffect } from 'react';
 
 ## 函数组件和class组件的区别
 
-## React页面如何优先渲染某一部分?
-
+## 😊 setState到底是异步还是同步
 ## setState如何获取更新后的值
 
 ## setState的原理
@@ -91,13 +90,23 @@ import { useState, useEffect } from 'react';
 ## 😊 说一说React Fiber
 
 `React Fiber`架构主要有两个阶段, `reconciliation(协调)`和`commit(提交)`, 在协调阶段会发生: 更新state和props, 调用生命周期, diff, 更新DOM的操作。如果`React`同步遍历整个组件树，可能会造成页面卡顿。所以`React`需要一种可以随时中断，随时恢复遍历的数据结构。`React Fiber`本质是一个链表树，每一个`Fiber`节点上包含了`stateNode`, `type`, `alternate`, `nextEffect`, `child`, `sibling`, `return`等属性。`React`的`nextUnitOfWork`变量会保留对当前`Fiber`节点的引用。以便随时恢复遍历。
+## 😊 说一说React事件机制
+
+React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发事件，会冒泡到`document`对象后，处理`React`合成事件。合成事件不能像原生事件一样使用`return flase`的形式阻止默认行为，必须使用`e.preventDefault`方法。
+
+合成事件的机制的优势：
+
+1. 浏览器兼容，实现更好的跨平台
+2. 方便事件统一管理和事务机制
+### Reactv17事件机制的改动？为什么这样改动?
+
+为了更好的实现跨平台。`React v17`版本不在将事件绑定在`document`上。而不绑定在了`React.render`的目标节点上。
+
+### React事件与原生事件执行顺序
+
+先执行原生事件，然后处理React合成事件。
 
 ## 说一说React Diff
-## 说一说React事件机制
-### React v17事件机制的改动
-
-`React v17`版本不在将事件绑定在`document`上。
-
 ## 了解React Scheduler吗？
 
 ## 说一说对Time Slice的理解?
@@ -116,5 +125,6 @@ import { useState, useEffect } from 'react';
 
 ## React组件通信
 
-## setState到底是异步还是同步
+## React页面如何优先渲染某一部分?
+
 
