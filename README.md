@@ -45,4 +45,8 @@
 - [postMessage & Scheduler](https://www.yuque.com/docs/share/8c167e39-1f5e-4c6d-8004-e57cf3851751#WO4my)
 - [寻找海蓝96博客](https://juejin.cn/user/3808363978175662)
 - [探索 React 合成事件](https://segmentfault.com/a/1190000038251163)
+- [SSR](https://github.com/peoplesing1832/blog/issues/67)
+- [解密Vue SSR](https://juejin.cn/post/6844903609667158030#heading-4)
+- [服务端渲染(SSR)和预渲染(Prerendering)有什么区别？](https://www.zhihu.com/question/273930443)
+- [ssr项目](https://github.com/peoplesing1832/ssr)
 
