@@ -1,3 +1,5 @@
+## React基础API回顾
+
 ## 😊 说一说react ssr
 
 ### 说一说ssr和csr的区别
@@ -124,6 +126,23 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 ## 虚拟DOM相比原生DOM的优劣
 
 ## React组件通信
+
+### 父子组件
+
+- 父组件给子组件添加props
+### 子父组件
+
+- 父组件通过props传递callback，子组件调用父组件传递的callback
+### 跨级组件
+
+- 状态管理工具
+- 多层props传递
+- context
+### 平行组件
+
+- EventBus（发布订阅）
+- 状态提升
+- 状态管理工具
 
 ## React页面如何优先渲染某一部分?
 
