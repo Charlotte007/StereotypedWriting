@@ -49,4 +49,5 @@
 - [解密Vue SSR](https://juejin.cn/post/6844903609667158030#heading-4)
 - [服务端渲染(SSR)和预渲染(Prerendering)有什么区别？](https://www.zhihu.com/question/273930443)
 - [ssr项目](https://github.com/peoplesing1832/ssr)
+- [字节跳动最爱考的 64 道算法题（JS版）](https://juejin.cn/post/6947842412102287373)
 
