@@ -52,4 +52,7 @@
 - [服务端渲染(SSR)和预渲染(Prerendering)有什么区别？](https://www.zhihu.com/question/273930443)
 - [ssr项目](https://github.com/peoplesing1832/ssr)
 - [字节跳动最爱考的 64 道算法题（JS版）](https://juejin.cn/post/6947842412102287373)
-
+- [关于v8垃圾回收记住，看这篇就够啦](https://juejin.cn/post/6844903993051709447)
+- [V8 引擎垃圾内存回收原理解析](https://juejin.cn/post/6844903993420840967)
+- [浏览器的回流与重绘 (Reflow & Repaint)](https://juejin.cn/post/6844903569087266823)
+- [你真的了解回流和重绘吗](https://juejin.cn/post/6844903779700047885)
