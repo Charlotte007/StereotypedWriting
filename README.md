@@ -69,3 +69,8 @@
 - [浏览器同源政策及其规避方法](https://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html)
 - [Cookie 的 SameSite 属性](https://www.ruanyifeng.com/blog/2019/09/cookie-samesite.html)
 - [😯「网络」CSP和Nonce](https://juejin.cn/post/6854573219010068493)
+- [跨域资源共享 CORS 详解](http://www.ruanyifeng.com/blog/2016/04/cors.html)
+- [webpack 中，module，chunk 和 bundle 的区别是什么？](https://www.cnblogs.com/skychx/archive/2020/05/18/webpack-module-chunk-bundle.html)
+- [webpack 中，filename 和 chunkFilename 的区别是什么？](https://www.cnblogs.com/skychx/p/webpack-filename-chunkFilename.html)
+- [webpack 中，hash、chunkhash、contenthash 的区别是什么?](https://www.cnblogs.com/skychx/p/webpack-hash-chunkhash-contenthash.html)
+- [webpack loader的加载顺序](https://www.cnblogs.com/ygunoil/p/13130858.html)
