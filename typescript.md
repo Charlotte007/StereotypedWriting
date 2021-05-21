@@ -100,8 +100,10 @@ type B = TupleToString<['B', 'F', 'E']> // 'BFE'
 type C = TupleToString<[]> // ''
 
 // 实现TupleToString
+type TupleToString<T extends any[], S extends string = '', A extends any[] = []> =
+    A['length'] extends T['length'] ? S : TupleToString<T, `${S}${T[A['length']]}`, [1, ...A]>
 ```
-### implement RepeatString<T, C>
+### 😊 implement RepeatString<T, C>
 
 ```ts
 type A = RepeatString<'a', 3> // 'aaa'
@@ -171,3 +173,98 @@ type F = IsEmptyType<Object> // false
 
 // 实现IsEmptyType
 ```
+
+### 😊 implement ReverseTuple<T>
+
+```ts
+type A = ReverseTuple<[string, number, boolean]> // [boolean, number, string]
+type B = ReverseTuple<[1,2,3]> // [3,2,1]
+type C = ReverseTuple<[]> // []
+
+// 实现ReverseTuple
+type ReverseTuple<T extends any[], A extends any[] = []> =
+    T extends [...infer Q, infer P] ? 
+        A['length'] extends T['length'] ? A : ReverseTuple<Q, [...A, P]>
+        : A;
+```
+
+### 😊 implement UnwrapPromise<T>
+
+```ts
+type A = UnwrapPromise<Promise<string>> // string
+type B = UnwrapPromise<Promise<null>> // null
+type C = UnwrapPromise<null> // Error
+
+// 实现UnwrapPromise
+type UnwrapPromise<T> = T extends Promise<infer P> ? P : Error;
+```
+
+
+### 😊 implement LengthOfString<T>
+
+```ts
+type A = LengthOfString<'BFE.dev'> // 7
+type B = LengthOfString<''> // 0
+
+// 实现LengthOfString
+type LengthOfString<T extends string, A extends any[] = []> =
+    T extends `${infer P}${infer Q}` ? LengthOfString<Q, [1, ...A]> : A['length']
+```
+
+### 😊 implement StringToTuple<T>
+
+```ts
+type A = StringToTuple<'BFE.dev'> // ['B', 'F', 'E', '.', 'd', 'e','v']
+type B = StringToTuple<''> // []
+
+// 实现
+type StringToTuple<T extends string, A extends any[] = []> =
+    T extends `${infer K}${infer P}` ? StringToTuple<P, [...A, K]> : A;
+```
+
+### 😊 implement LengthOfTuple<T>
+
+```ts
+type A = LengthOfTuple<['B', 'F', 'E']> // 3
+type B = LengthOfTuple<[]> // 0
+
+// 实现
+type LengthOfTuple<T extends any[], R extends any[] = []> =
+    R['length'] extends T['length'] ? R['length'] : LengthOfTuple<T, [...R, 1]>
+```
+
+### 😊 implement LastItem<T>
+
+```ts
+type A = LastItem<[string, number, boolean]> // boolean
+type B = LastItem<['B', 'F', 'E']> // 'E'
+type C = LastItem<[]> // never
+
+// 实现LastItem
+type LastItem<T> = T extends [...infer P, infer Q] ? Q : never;
+```
+
+### 😊 implement FirstItem<T>
+
+```ts
+type A = FirstItem<[string, number, boolean]> // string
+type B = FirstItem<['B', 'F', 'E']> // 'B'
+
+// 实现FirstItem
+type FirstItem<T> = T extends [infer P, ...infer Q] ? P : never;
+```
+
+### 😊 implement FirstChar<T>
+
+```ts
+type A = FirstChar<'BFE'> // 'B'
+type B = FirstChar<'dev'> // 'd'
+type C = FirstChar<''> // never
+
+// 实现FirstChar
+type FirstChar<T> = T extends `${infer P}${infer Q}` ? P : never;
+```
+
+### implement IsNever<T>
+
+### implement Omit<T, K>
