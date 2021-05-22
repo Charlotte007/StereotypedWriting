@@ -148,7 +148,6 @@ type C = Shift<[]> // []
 // 实现Shift
 type Shift<T extends any[]> = T extends [infer P, ...infer Q] ? [...Q] : [];
 ```
-
 ### 😊 implement Repeat<T, C>
 
 ```ts
@@ -173,7 +172,6 @@ type F = IsEmptyType<Object> // false
 
 // 实现IsEmptyType
 ```
-
 ### 😊 implement ReverseTuple<T>
 
 ```ts
@@ -198,7 +196,6 @@ type C = UnwrapPromise<null> // Error
 // 实现UnwrapPromise
 type UnwrapPromise<T> = T extends Promise<infer P> ? P : Error;
 ```
-
 
 ### 😊 implement LengthOfString<T>
 
@@ -265,6 +262,120 @@ type C = FirstChar<''> // never
 type FirstChar<T> = T extends `${infer P}${infer Q}` ? P : never;
 ```
 
-### implement IsNever<T>
+### 😊 implement Pick<T, K>
 
-### implement Omit<T, K>
+```ts
+type Foo = {
+  a: string
+  b: number
+  c: boolean
+}
+
+type A = MyPick<Foo, 'a' | 'b'> // {a: string, b: number}
+type B = MyPick<Foo, 'c'> // {c: boolean}
+type C = MyPick<Foo, 'd'> // Error
+
+// 实现MyPick<T, K>
+type MyPick<T, K extends keyof T> = {
+    [Key in K]: T[Key]
+}
+```
+
+### 😊 implement Readonly<T>
+
+```ts
+type Foo = {
+  a: string
+}
+
+const a:Foo = {
+  a: 'BFE.dev',
+}
+a.a = 'bigfrontend.dev'
+// OK
+
+const b:MyReadonly<Foo> = {
+  a: 'BFE.dev'
+}
+b.a = 'bigfrontend.dev'
+// Error
+
+// 实现MyReadonly
+type MyReadonly<T> = {
+    readonly [K in keyof T]: T[K]
+}
+```
+
+
+### 😊 implement Record<K, V>
+
+```ts
+type Key = 'a' | 'b' | 'c'
+
+const a: Record<Key, string> = {
+  a: 'BFE.dev',
+  b: 'BFE.dev',
+  c: 'BFE.dev'
+}
+a.a = 'bigfrontend.dev' // OK
+a.b = 123 // Error
+a.d = 'BFE.dev' // Error
+
+type Foo = MyRecord<{a: string}, string> // Error
+
+// 实现MyRecord
+type MyRecord<K extends number | string | symbol, V> = {
+    [Key in K]: V
+}
+```
+
+
+
+
+### 🤔️ implement Exclude
+
+```ts
+type Foo = 'a' | 'b' | 'c'
+
+type A = MyExclude<Foo, 'a'> // 'b' | 'c'
+type B = MyExclude<Foo, 'c'> // 'a' | 'b
+type C = MyExclude<Foo, 'c' | 'd'>  // 'a' | 'b'
+type D = MyExclude<Foo, 'a' | 'b' | 'c'>  // never
+
+// 实现 MyExclude<T, K>
+type MyExclude<T, K> = T extends K ? never : T;
+```
+
+### 🤔️ implement Extract<T, U>
+
+```ts
+type Foo = 'a' | 'b' | 'c'
+
+type A = MyExtract<Foo, 'a'> // 'a'
+type B = MyExtract<Foo, 'a' | 'b'> // 'a' | 'b'
+type C = MyExtract<Foo, 'b' | 'c' | 'd' | 'e'>  // 'b' | 'c'
+type D = MyExtract<Foo, never>  // never
+
+// 实现MyExtract<T, U>
+type MyExtract<T, U> = T extends U ? T : never
+```
+### 😊 implement Omit<T, K>
+
+```ts
+type Foo = {
+  a: string
+  b: number
+  c: boolean
+}
+
+type A = MyOmit<Foo, 'a' | 'b'> // {c: boolean}
+type B = MyOmit<Foo, 'c'> // {a: string, b: number}
+type C = MyOmit<Foo, 'c' | 'd'> // {a: string, b: number}
+
+// 实现MyOmit
+type MyOmit<T, K> = {
+    [Key in Exclude<keyof T, K>]: T[Key]
+}
+
+type MyOmit<T, K> = Pick<T, Exclude<keyof T, K>>
+```
