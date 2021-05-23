@@ -1,12 +1,21 @@
 ## 什么是泛型
 
-## type 和 interfa 的区别
+## type 和 interface 的区别
 
 1. 类型别名可以为任何类型引入名称。例如基本类型，联合类型等
 2. 类型别名不支持继承
 3. 类型别名不会创建一个真正的名字
 4. 类型别名无法被实现，而接口可以被派生类实现
 5. 类型别名重名时编译器会抛出错误，接口重名时会产生合并
+
+
+## implements 与 extends 的区别
+
+## window 扩展类型
+
+## 枚举和 object 的区别
+
+## never, void, unknown 的区别
 ## 复杂的类型推导题目 （🤯好难）
 
 ### 😊 implement ToNumber<T>
@@ -439,4 +448,35 @@ type B = MyInstanceType<() => string> // Error
 // 实现MyInstanceType<T>
 type MyInstanceType<T extends new (...params: any[]) => any> =
     T extends new (...params: any[]) => infer P ? P : never;
+```
+
+### implement ThisParameterType<T>
+
+```ts
+function Foo(this: {a: string}) {}
+function Bar() {}
+
+type A = MyThisParameterType<typeof Foo> // {a: string}
+type B = MyThisParameterType<typeof Bar> // unknown
+
+// 实现MyThisParameterType<T>
+type MyThisParameterType<T extends (this: any, ...params: any[]) => any> =
+    T extends (this: infer P, ...params: any[]) => any ? P : unknown;
+```
+
+### implement OmitThisParameter<T>
+
+```ts
+function foo(this: {a: string}) {}
+foo() // Error
+
+const bar = foo.bind({a: 'BFE.dev'})
+bar() // OK
+
+
+type Foo = (this: {a: string}) => string
+type Bar = MyOmitThisParameter<Foo> // () => string
+
+// 实现MyOmitThisParameter<T>
+
 ```
