@@ -464,19 +464,17 @@ type MyThisParameterType<T extends (this: any, ...params: any[]) => any> =
     T extends (this: infer P, ...params: any[]) => any ? P : unknown;
 ```
 
-### implement OmitThisParameter<T>
+### implement TupleToUnion<T>
 
 ```ts
-function foo(this: {a: string}) {}
-foo() // Error
+type Foo = [string, number, boolean]
 
-const bar = foo.bind({a: 'BFE.dev'})
-bar() // OK
+type Bar = TupleToUnion<Foo> // string | number | boolean
 
+// 实现TupleToUnion<T>
+type TupleToUnion<T extends any[], R = T[0]> =
+    T extends [infer P, ...infer Q] ? TupleToUnion<Q, R | P> : R;
 
-type Foo = (this: {a: string}) => string
-type Bar = MyOmitThisParameter<Foo> // () => string
-
-// 实现MyOmitThisParameter<T>
-
+// 其他回答
+type TupleToUnion<T extends any[]> = T[number]
 ```
