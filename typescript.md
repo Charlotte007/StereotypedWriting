@@ -1,6 +1,6 @@
 ## 什么是泛型
 
-## type 和 interface 的区别
+## 😊 type 和 interface 的区别
 
 1. 类型别名可以为任何类型引入名称。例如基本类型，联合类型等
 2. 类型别名不支持继承
@@ -8,15 +8,34 @@
 4. 类型别名无法被实现，而接口可以被派生类实现
 5. 类型别名重名时编译器会抛出错误，接口重名时会产生合并
 
-
 ## implements 与 extends 的区别
 
-## window 扩展类型
-
+- extends
+- implements
 ## 枚举和 object 的区别
 
-## never, void, unknown 的区别
-## 复杂的类型推导题目 （🤯好难）
+1. 枚举可以通过枚举的名称，获取枚举的值。也可以通过枚举的值获取枚举的名称。
+2. object只能通过key获取value
+3. 数字枚举在不指定初始值的情况下，枚举值会从0开始递增。
+4. `keyof typeof`才可以获取枚举所有属性名。
+
+## never, void 的区别
+
+- never，never表示永远不存在的类型。比如一个函数总是抛出错误，而没有返回值。或者一个函数内部有死循环，永远不会有返回值。函数的返回值就是Never类型。
+- void, 没有显示的返回值是函数返回值为void类型。如果一个变量为void类型，只能赋予undefined或者null。
+## 😊 如何在 window 扩展类型 ?
+
+```ts
+declare global {
+  interface Window {
+    myCustomFn: () => void;
+  }
+}
+```
+## 😊 unknown 类型 ?
+
+unknown类型和any类型类似。与any类型不同的是。unknown类型可以接受任意类型赋值，但是unknown类型赋值给其他类型前，必须被断言
+## 复杂的类型推导题目 
 
 ### 😊 implement ToNumber<T>
 
