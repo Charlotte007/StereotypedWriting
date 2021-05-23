@@ -416,3 +416,15 @@ type C = MyConstructorParameters<typeof Foo>
 type MyConstructorParameters<T extends new (...params: any[]) => any> =
     T extends new (...params: [...infer P]) => any ? P : never
 ```
+
+### 😊 implement ReturnType<T>
+
+```ts
+type Foo = () => {a: string}
+
+type A = MyReturnType<Foo> // {a: string}
+
+// 实现MyReturnType<T>
+type MyReturnType<T extends (...params: any[]) => any> =
+    T extends (...params: any[]) => infer P ? P : never;
+```
