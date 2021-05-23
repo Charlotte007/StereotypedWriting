@@ -329,9 +329,6 @@ type MyRecord<K extends number | string | symbol, V> = {
 }
 ```
 
-
-
-
 ### 🤔️ implement Exclude
 
 ```ts
@@ -373,9 +370,22 @@ type B = MyOmit<Foo, 'c'> // {a: string, b: number}
 type C = MyOmit<Foo, 'c' | 'd'> // {a: string, b: number}
 
 // 实现MyOmit
-type MyOmit<T, K> = {
+type MyOmit<T, K extends number | string | symbol> = {
     [Key in Exclude<keyof T, K>]: T[Key]
 }
 
-type MyOmit<T, K> = Pick<T, Exclude<keyof T, K>>
+type MyOmit<T, K extends number | string | symbol> = Pick<T, Exclude<keyof T, K>>
 ```
+
+### 😊 implement NonNullable<T>
+
+```ts
+type Foo = 'a' | 'b' | null | undefined
+
+type A = MyNonNullable<Foo> // 'a' | 'b'
+
+// 实现NonNullable
+type MyNonNullable<T> = T extends null | undefined ? never : T;
+```
+
+### 😊 implement Parameters<T>
