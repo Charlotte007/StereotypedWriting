@@ -1,4 +1,44 @@
-## 什么是泛型
+## ts基础知识复习
+
+https://juejin.cn/post/6844903981227966471#heading-79
+
+## 😊 什么是泛型
+
+泛型用来来创建可重用的组件，一个组件可以支持多种类型的数据。这样用户就可以以自己的数据类型来使用组件。简单的说，“泛型就是把类型当成参数”。
+
+## 😊 -?，-readonly
+
+用于删除修饰符
+## 😊 typescript的类型兼容
+
+typescript的类型兼容是基于结构的，不是基于名义的。下面的代码在ts中是完全可以的，但在java等基于名义的语言则会抛错。
+
+```ts
+interface Named { name: string }
+class Person {
+  name: string
+}
+let p: Named
+// ok
+p = new Person()
+```
+
+## 😊 const断言
+
+const断言，typescript会为变量添加一个自身的字面量类型
+
+1. 对象字面量的属性，获得readonly的属性，成为只读属性
+2. 数组字面量成为readonly tuple只读元组
+3. 字面量类型不能被扩展（比如从hello类型到string类型）
+
+```ts
+// type '"hello"'
+let x = "hello" as const
+// type 'readonly [10, 20]'
+let y = [10, 20] as const
+// type '{ readonly text: "hello" }'
+let z = { text: "hello" } as const
+```
 
 ## 😊 type 和 interface 的区别
 
@@ -8,22 +48,22 @@
 4. 类型别名无法被实现，而接口可以被派生类实现
 5. 类型别名重名时编译器会抛出错误，接口重名时会产生合并
 
-## implements 与 extends 的区别
+## 😊 implements 与 extends 的区别
 
-- extends
-- implements
-## 枚举和 object 的区别
+- extends, 子类会继承父类的所有属性和方法。
+- implements，使用implements关键字的类将需要实现该类的所有属性和方法。
+## 😊 枚举和 object 的区别
 
 1. 枚举可以通过枚举的名称，获取枚举的值。也可以通过枚举的值获取枚举的名称。
 2. object只能通过key获取value
 3. 数字枚举在不指定初始值的情况下，枚举值会从0开始递增。
 4. `keyof typeof`才可以获取枚举所有属性名。
 
-## never, void 的区别
+## 😊 never, void 的区别
 
 - never，never表示永远不存在的类型。比如一个函数总是抛出错误，而没有返回值。或者一个函数内部有死循环，永远不会有返回值。函数的返回值就是Never类型。
 - void, 没有显示的返回值是函数返回值为void类型。如果一个变量为void类型，只能赋予undefined或者null。
-## 😊 如何在 window 扩展类型 ?
+## 😊 如何在 window 扩展类型
 
 ```ts
 declare global {
@@ -32,7 +72,7 @@ declare global {
   }
 }
 ```
-## 😊 unknown 类型 ?
+## 😊 unknown 类型
 
 unknown类型和any类型类似。与any类型不同的是。unknown类型可以接受任意类型赋值，但是unknown类型赋值给其他类型前，必须被断言
 ## 复杂的类型推导题目 
