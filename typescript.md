@@ -169,18 +169,6 @@ type D = Repeat<0, 0> // []
 type Repeat<T, C, R extends any[] = []> = 
     R['length'] extends C ? R : Repeat<T, C, [...R, T]>
 ```
-### 😭 implement IsEmptyType<T>
-
-```ts
-type A = IsEmptyType<string> // false
-type B = IsEmptyType<{a: 3}> // false
-type C = IsEmptyType<{}> // true
-type D = IsEmptyType<any> // false
-type E = IsEmptyType<object> // false
-type F = IsEmptyType<Object> // false
-
-// 实现IsEmptyType
-```
 ### 😊 implement ReverseTuple<T>
 
 ```ts
@@ -450,7 +438,7 @@ type MyInstanceType<T extends new (...params: any[]) => any> =
     T extends new (...params: any[]) => infer P ? P : never;
 ```
 
-### implement ThisParameterType<T>
+### 😊 implement ThisParameterType<T>
 
 ```ts
 function Foo(this: {a: string}) {}
@@ -464,7 +452,7 @@ type MyThisParameterType<T extends (this: any, ...params: any[]) => any> =
     T extends (this: infer P, ...params: any[]) => any ? P : unknown;
 ```
 
-### implement TupleToUnion<T>
+### 😊 implement TupleToUnion<T>
 
 ```ts
 type Foo = [string, number, boolean]
@@ -477,4 +465,99 @@ type TupleToUnion<T extends any[], R = T[0]> =
 
 // 其他回答
 type TupleToUnion<T extends any[]> = T[number]
+```
+
+### 😊 implement Partial<T>
+
+```ts
+type Foo = {
+  a: string
+  b: number
+  c: boolean
+}
+
+// below are all valid
+
+const a: MyPartial<Foo> = {}
+
+const b: MyPartial<Foo> = {
+  a: 'BFE.dev'
+}
+
+const c: MyPartial<Foo> = {
+  b: 123
+}
+
+const d: MyPartial<Foo> = {
+  b: 123,
+  c: true
+}
+
+const e: MyPartial<Foo> = {
+  a: 'BFE.dev',
+  b: 123,
+  c: true
+}
+
+// 实现MyPartial<T>
+type MyPartial<T> = {
+    [K in keyof T]?: T[K]
+}
+```
+
+### 😊 Required<T>
+
+```ts
+// all properties are optional
+type Foo = {
+  a?: string
+  b?: number
+  c?: boolean
+}
+
+
+const a: MyRequired<Foo> = {}
+// Error
+
+const b: MyRequired<Foo> = {
+  a: 'BFE.dev'
+}
+// Error
+
+const c: MyRequired<Foo> = {
+  b: 123
+}
+// Error
+
+const d: MyRequired<Foo> = {
+  b: 123,
+  c: true
+}
+// Error
+
+const e: MyRequired<Foo> = {
+  a: 'BFE.dev',
+  b: 123,
+  c: true
+}
+// valid
+
+// 实现MyRequired<T>
+type MyRequired<T> = {
+    [K in keyof T]-?: T[K]
+}
+```
+
+### 😊 implement LastChar<T>
+
+```ts
+type A = LastChar<'BFE'> // 'E'
+type B = LastChar<'dev'> // 'v'
+type C = LastChar<''> // never
+
+// 实现FirstChar<T>
+type LastChar<T extends string, A extends string[] = []> =
+    T extends `${infer P}${infer Q}` ?  LastChar<Q, [...A, P]> :
+        A extends [...infer L, infer R] ? R : never
+;
 ```
