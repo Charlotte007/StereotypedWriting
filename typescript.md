@@ -389,3 +389,15 @@ type MyNonNullable<T> = T extends null | undefined ? never : T;
 ```
 
 ### 😊 implement Parameters<T>
+
+```ts
+type Foo = (a: string, b: number, c: boolean) => string
+
+type A = MyParameters<Foo> // [a:string, b: number, c:boolean]
+type B = A[0] // string
+type C = MyParameters<{a: string}> // Error
+
+// 实现MyParameters<T>
+type MyParameters<T extends (...params: any[]) => any> =
+    T extends (...params: [...infer P]) => any ? P : true
+```
