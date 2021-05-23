@@ -561,3 +561,14 @@ type LastChar<T extends string, A extends string[] = []> =
         A extends [...infer L, infer R] ? R : never
 ;
 ```
+
+### 😊 implement IsNever<T>
+
+```ts
+type A = IsNever<never> // true
+type B = IsNever<string> // false
+type C = IsNever<undefined> // false
+
+// 实现IsNever<T>
+type IsNever<T> = [T] extends [never] ? true : false;
+```
