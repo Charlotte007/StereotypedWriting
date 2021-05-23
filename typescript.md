@@ -399,5 +399,20 @@ type C = MyParameters<{a: string}> // Error
 
 // 实现MyParameters<T>
 type MyParameters<T extends (...params: any[]) => any> =
-    T extends (...params: [...infer P]) => any ? P : true
+    T extends (...params: [...infer P]) => any ? P : never
+```
+
+### 😊 implement ConstructorParameters<T>
+
+```ts
+class Foo {
+  constructor (a: string, b: number, c: boolean) {}
+}
+
+type C = MyConstructorParameters<typeof Foo> 
+// [a: string, b: number, c: boolean]
+
+// 实现MyConstructorParameters<T>
+type MyConstructorParameters<T extends new (...params: any[]) => any> =
+    T extends new (...params: [...infer P]) => any ? P : never
 ```
