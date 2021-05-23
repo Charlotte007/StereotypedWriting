@@ -428,3 +428,15 @@ type A = MyReturnType<Foo> // {a: string}
 type MyReturnType<T extends (...params: any[]) => any> =
     T extends (...params: any[]) => infer P ? P : never;
 ```
+
+### 😊 implement InstanceType<T>
+
+```ts
+class Foo {}
+type A = MyInstanceType<typeof Foo> // Foo
+type B = MyInstanceType<() => string> // Error
+
+// 实现MyInstanceType<T>
+type MyInstanceType<T extends new (...params: any[]) => any> =
+    T extends new (...params: any[]) => infer P ? P : never;
+```
