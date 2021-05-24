@@ -1,15 +1,37 @@
-## ts基础知识复习
+## TS基础知识复习
 
 https://juejin.cn/post/6844903981227966471#heading-79
 
 ## 😊 什么是泛型
 
-泛型用来来创建可重用的组件，一个组件可以支持多种类型的数据。这样用户就可以以自己的数据类型来使用组件。简单的说，“泛型就是把类型当成参数”。
-
+泛型用来来创建可重用的组件，一个组件可以支持多种类型的数据。这样用户就可以以自己的数据类型来使用组件。**简单的说，“泛型就是把类型当成参数”。**
 ## 😊 -?，-readonly
 
 用于删除修饰符
-## 😊 typescript的类型兼容
+
+```ts
+type A = {
+    a: string;
+    b: number;
+}
+
+type B = {
+    [K in keyof A]?: A[K]
+}
+
+type C = {
+    [K in keyof B]-?: B[K]
+}
+
+type D = {
+    readonly [K in keyof A]: A[K]
+}
+
+type E = {
+    -readonly [K in keyof A]: A[K]
+}
+```
+## 😊 结构类型兼容
 
 typescript的类型兼容是基于结构的，不是基于名义的。下面的代码在ts中是完全可以的，但在java等基于名义的语言则会抛错。
 
@@ -45,13 +67,13 @@ let z = { text: "hello" } as const
 1. 类型别名可以为任何类型引入名称。例如基本类型，联合类型等
 2. 类型别名不支持继承
 3. 类型别名不会创建一个真正的名字
-4. 类型别名无法被实现，而接口可以被派生类实现
+4. 类型别名无法被实现(implements)，而接口可以被派生类实现
 5. 类型别名重名时编译器会抛出错误，接口重名时会产生合并
 
 ## 😊 implements 与 extends 的区别
 
 - extends, 子类会继承父类的所有属性和方法。
-- implements，使用implements关键字的类将需要实现该类的所有属性和方法。
+- implements，使用implements关键字的类将需要实现需要实现的类的所有属性和方法。
 ## 😊 枚举和 object 的区别
 
 1. 枚举可以通过枚举的名称，获取枚举的值。也可以通过枚举的值获取枚举的名称。
@@ -61,8 +83,8 @@ let z = { text: "hello" } as const
 
 ## 😊 never, void 的区别
 
-- never，never表示永远不存在的类型。比如一个函数总是抛出错误，而没有返回值。或者一个函数内部有死循环，永远不会有返回值。函数的返回值就是Never类型。
-- void, 没有显示的返回值是函数返回值为void类型。如果一个变量为void类型，只能赋予undefined或者null。
+- never，never表示永远不存在的类型。比如一个函数总是抛出错误，而没有返回值。或者一个函数内部有死循环，永远不会有返回值。函数的返回值就是never类型。
+- void, 没有显示的返回值的函数返回值为void类型。如果一个变量为void类型，只能赋予undefined或者null。
 ## 😊 如何在 window 扩展类型
 
 ```ts
@@ -77,6 +99,18 @@ declare global {
 unknown类型和any类型类似。与any类型不同的是。unknown类型可以接受任意类型赋值，但是unknown类型赋值给其他类型前，必须被断言
 ## 复杂的类型推导题目 
 
+### 🤔 implement UnionToIntersection<T>
+
+```ts
+type A = UnionToIntersection<{a: string} | {b: string} | {c: string}> 
+// {a: string} & {b: string} & {c: string}
+
+// 实现UnionToIntersection<T>
+type UnionToIntersection<U> = 
+  (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never
+// https://stackoverflow.com/questions/50374908/transform-union-type-to-intersection-type
+// https://jkchao.github.io/typescript-book-chinese/tips/infer.html#%E4%B8%80%E4%BA%9B%E7%94%A8%E4%BE%8B
+```
 ### 😊 implement ToNumber<T>
 
 ```ts
@@ -624,6 +658,8 @@ type LastChar<T extends string, A extends string[] = []> =
 ### 😊 implement IsNever<T>
 
 ```ts
+// https://stackoverflow.com/questions/53984650/typescript-never-type-inconsistently-matched-in-conditional-type
+// https://www.typescriptlang.org/docs/handbook/advanced-types.html#v
 type A = IsNever<never> // true
 type B = IsNever<string> // false
 type C = IsNever<undefined> // false
@@ -631,3 +667,36 @@ type C = IsNever<undefined> // false
 // 实现IsNever<T>
 type IsNever<T> = [T] extends [never] ? true : false;
 ```
+
+
+### 😊 implement KeysToUnion<T>
+
+```ts
+type A = KeyToUnion<{
+  a: string;
+  b: number;
+  c: symbol;
+}>
+// 'a' | 'b' | 'c'
+
+// 实现KeyToUnion
+type KeyToUnion<T> = {
+  [K in keyof T]: K;
+}[keyof T]
+```
+
+### 😊 implement ValuesToUnion<T>
+
+```ts
+type A = ValuesToUnion<{
+  a: string;
+  b: number;
+  c: symbol;
+}>
+// string | number | symbol
+
+// ValuesToUnion
+type ValuesToUnion<T> = T[keyof T]
+```
+
+还有更多 `UnionToTuple`, `IntersectionToUnion` ?
