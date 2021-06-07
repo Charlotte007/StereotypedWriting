@@ -699,4 +699,39 @@ type A = ValuesToUnion<{
 type ValuesToUnion<T> = T[keyof T]
 ```
 
+### FindIndex<T, E>
+
+> https://bigfrontend.dev/zh/typescript/Search
+
+```ts
+
+type IsAny<T> = 0 extends (T & 1) ? true : false;
+type IsNever<T> = [T] extends [never] ? true : false;
+
+type TwoAny<A, B> = IsAny<A> extends IsAny<B> ? IsAny<A> : false;
+type TwoNever<A, B> = IsNever<A> extends IsNever<B> ? IsNever<A> : false;
+
+type SingleAny<A, B> = IsAny<A> extends true ? true : IsAny<B>
+type SingleNever<A, B> = IsNever<A> extends true ? true : IsNever<B>
+
+
+type FindIndex<T extends any[], E, A extends any[] = []> =
+    T extends [infer P, ...infer Q] ?
+        TwoAny<P, E> extends true ? 
+            A['length']
+            :
+            TwoNever<P, E> extends true ?
+                A['length']
+                :
+                SingleAny<P, E> extends true ?
+                    FindIndex<Q, E, [1, ...A]>
+                    :
+                    SingleNever<P, E> extends true ?
+                        FindIndex<Q, E, [1, ...A]>
+                        :
+                        P extends E ? A['length'] : FindIndex<Q, E, [1, ...A]>
+        : 
+        never
+```
+
 还有更多 `UnionToTuple`, `IntersectionToUnion` ?
