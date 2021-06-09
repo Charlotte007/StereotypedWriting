@@ -172,8 +172,12 @@ type D = IsAny<never> // false
 
 // 实现IsAny
 type IsAny<T> = true extends (T extends never ? true : false) ?
-                false extends (T extends never ? true : false) ? true : false
-                : false;
+                  false extends (T extends never ? true : false) ?
+                    true
+                    :
+                    false
+                  :
+                  false;
 
 // 更简单的实现
 type IsAny<T> = 0 extends (T & 1) ? true : false;
@@ -704,7 +708,6 @@ type ValuesToUnion<T> = T[keyof T]
 > https://bigfrontend.dev/zh/typescript/Search
 
 ```ts
-
 type IsAny<T> = 0 extends (T & 1) ? true : false;
 type IsNever<T> = [T] extends [never] ? true : false;
 
@@ -732,6 +735,82 @@ type FindIndex<T extends any[], E, A extends any[] = []> =
                         P extends E ? A['length'] : FindIndex<Q, E, [1, ...A]>
         : 
         never
+```
+
+### Equal<A, B>
+
+> 不太对
+
+```ts
+type IsAny<T> = 0 extends (T & 1) ? true : false;
+type IsNever<T> = [T] extends [never] ? true : false;
+type IsString<T> = T extends string ? true : false;
+type IsNumber<T> = T extends number ? true : false;
+type IsBoolean<T> = T extends boolean ? true : false;
+type IsObject<T> = T extends object ? true : false;
+
+type EqualAny<A, B> = IsAny<A> extends IsAny<B> ? IsAny<A> : false;
+type EqualNever<A, B> = IsNever<A> extends IsNever<B> ? IsNever<A> : false;
+type EqualString<A, B> = IsString<A> extends true ?
+    IsString<B> extends true ?
+        A extends B ?
+            B extends A ? true : false
+            :
+            false
+        :
+        false
+    :
+    false;
+type EqualNumber<A, B> = IsNumber<A> extends true ?
+    IsNumber<B> extends true ?
+        A extends B ?
+            B extends A ? true : false
+            :
+            false
+        :
+        false
+    :
+    false;
+type EqualBoolean<A, B> = IsBoolean<A> extends true ?
+    IsBoolean<B> extends true ?
+        A extends B ?
+            B extends A ? true : false
+            :
+            false
+        :
+        false
+    :
+    false;
+type EqualObject<A, B> = IsObject<A> extends true ?
+    IsObject<B> extends true ?
+        A extends B ?
+            B extends A ? true : false
+            :
+            false
+        :
+        false
+    :
+    false;
+
+type Equal<A, B> = EqualAny<A, B> extends true ?
+    true
+    :
+    EqualNever<A, B> extends true ?
+        true
+        :
+        EqualString<A, B> extends true ?
+            true
+            :
+            EqualNumber<A, B> extends true ?
+                true
+                :
+                EqualBoolean<A, B> extends true ?
+                    true
+                    :
+                    EqualObject<A, B> extends true ?
+                        true
+                        :
+                        false;
 ```
 
 还有更多 `UnionToTuple`, `IntersectionToUnion` ?
