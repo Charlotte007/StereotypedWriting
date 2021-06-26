@@ -737,7 +737,7 @@ type FindIndex<T extends any[], E, A extends any[] = []> =
         never
 ```
 
-### Equal<A, B>
+### 😭 implement Equal<A, B>
 
 > 不太对
 
@@ -811,6 +811,35 @@ type Equal<A, B> = EqualAny<A, B> extends true ?
                         true
                         :
                         false;
+```
+
+### implement Trim<T>
+
+```ts
+type A = Trim<'    BFE.dev'> // 'BFE'
+type B = Trim<' BFE. dev  '> // 'BFE. dev'
+type C = Trim<'  BFE .   dev  '> // 'BFE .   dev'
+
+type StringToTuple<T extends string, A extends any[] = []> =
+    T extends `${infer K}${infer P}` ? StringToTuple<P, [...A, K]> : A;
+
+type TupleToString<T extends any[], S extends string = '', A extends any[] = []> =
+    A['length'] extends T['length'] ? S : TupleToString<T, `${S}${T[A['length']]}`, [1, ...A]>
+
+type Trim<T extends string, A extends any[] = StringToTuple<T>> =
+    A extends [infer P, ...infer Q] ?
+        P extends ' ' ?
+            Trim<T, Q>
+            :
+            A extends [...infer M, infer N] ? 
+                N extends ' ' ?
+                    Trim<T, M>
+                    :
+                    TupleToString<A>
+                :
+                ''
+        :
+        '';
 ```
 
 还有更多 `UnionToTuple`, `IntersectionToUnion` ?
