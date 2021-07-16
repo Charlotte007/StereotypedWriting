@@ -204,8 +204,12 @@ class Son extends Father {
 
 ## WeakSet与Set的区别
 
-
+- WeakSet, 只能存储对象类型的数据，不能存储普通的对象类型，不能遍历。WeakSet内部的对象是弱引用的，不会阻止垃圾回收机制回收WeakSet内部的对象。
+- Set可以存储对象类型的数据，以及普通类型的数据。可以被遍历。
 ## WeakMap与Map的区别
+
+- Map，是键值对的集合的。键可以任意的数据类型。Map可以被遍历。
+- WeakMap，只接收对象作为键。WeakMap不会阻止垃圾回收机制回收。WeakMap不能遍历
 
 ## 😊 window.onload和DOMContentLoaded的区别
 
