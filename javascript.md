@@ -192,7 +192,7 @@ class Son extends Father {
 - ES6使用class和extends关键字实现
 ## 说一说this
 
-this是执行上下文中的一个属性。在全局上下文中this，就是全局对象本身。在函数的上下文中，this是在进入上下文时确定的。（箭头函数是在定义时确定的）, 但是在上下文运行期间永久不变。函数上下文的this取决于调用函数的方式。调用函数的方式如何影响this？我们需要深入了解只存在在ECMAScript规范中的抽象类型Reference。
+this是执行上下文中的一个属性。在全局上下文中this，就是全局对象本身。在函数的上下文中，this是在进入上下文时确定的。（箭头函数是在定义时确定的）, 但是在上下文运行期间永久不变。**函数上下文的this取决于调用函数的方式。**调用函数的方式如何影响this？我们需要深入了解只存在在ECMAScript规范中的抽象类型Reference。
 
 ### Reference
 
@@ -207,14 +207,14 @@ Reference类型，简单的理解由两部分组成：
 var foo = 10;
 // 对应的Reference是：
 var fooReference = {
-  base: global,
+  base: EnvironmentRecord,
   propertyName: 'foo'
 };
  
 function bar() {}
 // 对应的Reference是：
 var barReference = {
-  base: global,
+  base: EnvironmentRecord,
   propertyName: 'bar'
 };
 
@@ -230,6 +230,126 @@ var BarReference = {
 };
 ```
 
+### GetValue
+
+GetValue内部函数，可以从Reference类型获取对应的值。但是记住调用**GetValue**返回的不在是Reference对象
+
+```js
+GetValue(fooReference); // 10
+GetValue(barReference); // function object "bar"
+```
+
+### this与Reference的关系
+
+1.计算 MemberExpression 的结果赋值给 ref
+2.判断 ref 是不是一个 Reference 类型
+  - 2.1 如果 ref 是 Reference，并且 IsPropertyReference(ref) 是 true, 那么 this 的值为 GetBase(ref)
+  - 2.2 如果 ref 是 Reference，并且 base value 值是 Environment Record, 那么this的值为 ImplicitThisValue(ref)
+  - 2.3 如果 ref 不是 Reference，那么 this 的值为 undefined
+
+- MemberExpression 可以简单理解为，`函数左边 ()`, 左边这部分内容
+- IsPropertyReference，如果Reference的base是一个对象返回true
+- GetBase, 返回Reference的base
+- ImplicitThisValue，始终返回undefined
+
+下面看几个例子：
+
+```js
+// 例子一
+// fooReference = {
+//   base: EnvironmentRecord,
+//   propertyName: 'foo'
+// };
+
+// 1. ref是Reference类型
+// 2. IsPropertyReference返回false
+// 3. ImplicitThisValue返回undefined
+// this等于undefined，非严格模式是全局对象
+function foo() {
+  return this;
+}
+ 
+foo(); // global
+
+
+// 例子二
+var foo = {
+  bar: function () {
+    return this;
+  }
+};
+// fooBarReference = {
+//   base: foo,
+//   propertyName: 'bar'
+// };
+// 1. ref是Reference类型
+// 2. IsPropertyReference返回true
+// 3. GetBase(ref)foo
+// this等于foo
+foo.bar(); // foo
+
+
+// 例子三
+var test = foo.bar;
+// testReference = {
+//   base: EnvironmentRecord,
+//   propertyName: 'test'
+// };
+// 1. ref是Reference类型
+// 2. IsPropertyReference返回false
+// 3. ImplicitThisValue返回undefined
+// this等于undefined，非严格模式是全局对象
+test(); // global
+
+
+// 例子四
+// barReference = {
+//   base: AO,
+//   propertyName: 'bar'
+// };
+// 1. ref是Reference类型
+// 2. IsPropertyReference返回false
+// 3. ImplicitThisValue返回undefined
+// this等于undefined，非严格模式是全局对象
+function foo() {
+  function bar() {
+    alert(this); 
+  }
+  bar(); 
+}
+```
+
+### 非引用对象
+
+调用括号()的左边是函数对象, 相应地，this值最终设为全局对象。
+
+```js
+(function () {
+  alert(this); // global
+})();
+```
+
+再看一个例子：
+
+```js
+var foo = {
+  bar: function () {
+    alert(this);
+  }
+};
+ 
+foo.bar(); // foo，无需解释
+(foo.bar)(); // foo，(foo.bar)没有调用GetValue，所以还是foo
+
+// =，||, , 三种运算符调用了GetValue，所以返回的结果是函数对象
+// 如果ref不是 Reference，那么this的值为 undefined
+(foo.bar = foo.bar)(); // global，
+(false || foo.bar)(); // global
+(foo.bar, foo.bar)(); // global
+```
+### 构造函数中的this
+
+构造函数中的this，指向新创建的实例对象。
 
 ## typeof
 
