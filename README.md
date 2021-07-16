@@ -7,6 +7,8 @@
 
 > 😯, 表示我自己的博客文章
 
+- [This? Yes,this!](https://www.cnblogs.com/TomXu/archive/2012/01/17/2310479.html)
+- [ES5与ES6继承的区别](https://blog.csdn.net/qq_42908794/article/details/83863886)
 - [《深入浅出 Webpack》](http://webpack.wuhaolin.cn/)
 - [Webpack loaders vs plugins; what's the difference?](https://stackoverflow.com/questions/37452402/webpack-loaders-vs-plugins-whats-the-difference/46176755#:~:text=Loaders%20work%20at%20the%20individual,of%20the%20bundle%20generation%20process.)
 - [Webpack — The Confusing Parts](https://medium.com/@rajaraodv/webpack-the-confusing-parts-58712f8fcad9)

@@ -128,7 +128,7 @@ setTimeout(() => {
 }, 0)
 ```
 
-## 😊 说一说原型链
+## 说一说原型链
 ## 😊 说一说继承
 ### ES5继承实现
 
@@ -138,7 +138,6 @@ setTimeout(() => {
 /**
  * 寄生组合式继承
  */
-
 // 父类
 function Father(name) {
   this.name = name
@@ -148,6 +147,7 @@ Father.prototype.sayName = function() {
 }
 
 // 子类
+// 继承构造函数
 function Son(name, age) {
   Father.call(this, name)
   this.age = age
@@ -186,9 +186,50 @@ class Son extends Father {
 ### ES5继承和ES6继承有什么区别?
 
 - `ES5`是先创建子类实例对象的`this`，然后再将父类的方法添加到`this`上面（`Parent.apply(this)`）。
-- `ES6`的继承机制完全不同，实质是先将父类实例对象的属性和方法，加到`this`上面（所以必须先调用`super`方法），然后再用子类的构造函数修改`this`指向。
-- ES6继承中子类的`__proto__`指向父类。ES5继承中没有。
+- `ES6`的继承机制完全不同，实质上是先创建父类的实例对象this（**所以必须先调用父类的super()方法**），然后再用子类的构造函数修改this。因为子类没有自己的this对象，而是继承了父类的this对象，然后对其进行加工，所以必须调用super。如果不调用super方法，子类得不到this对象。
+- ES6继承中会有一条额外的继承链，在ES6继承中，子类的构造函数`__proto__`指向父类。ES5继承中子类构造函数没有这条继承链。
+- ES5的继承通过原型，构造函数机制来实现。
+- ES6使用class和extends关键字实现
 ## 说一说this
+
+this是执行上下文中的一个属性。在全局上下文中this，就是全局对象本身。在函数的上下文中，this是在进入上下文时确定的。（箭头函数是在定义时确定的）, 但是在上下文运行期间永久不变。函数上下文的this取决于调用函数的方式。调用函数的方式如何影响this？我们需要深入了解只存在在ECMAScript规范中的抽象类型Reference。
+
+### Reference
+
+Reference类型，简单的理解由两部分组成：
+
+- base value，属性所在的对象或者就是 EnvironmentRecord
+- referenced name，referenced name 就是属性的名称
+
+举一个例子：
+
+```js
+var foo = 10;
+// 对应的Reference是：
+var fooReference = {
+  base: global,
+  propertyName: 'foo'
+};
+ 
+function bar() {}
+// 对应的Reference是：
+var barReference = {
+  base: global,
+  propertyName: 'bar'
+};
+
+var foo = {
+  bar: function () {
+    return this;
+  }
+};
+// bar对应的Reference是：
+var BarReference = {
+  base: foo,
+  propertyName: 'bar',
+};
+```
+
 
 ## typeof
 
@@ -255,10 +296,29 @@ parseInt('3', 2) // NaN
 var b = 10;
 (function b() {
   b = 20;
+  // 打印函数b
   console.log(b);
 })();
 ```
 
+```js
+var b = 10;
+function b() {
+  b = 20;
+  // 打印函数b
+  console.log(b);
+}
+// error
+// 函数声明的优先级会高于变量声明, 所以上面的代码其实是这样的
+// var b
+// function b() {
+//   b = 20;
+//   // 打印函数b
+//   console.log(b);
+// }
+// b = 10
+b()
+```
 
 ### 题目三
 
