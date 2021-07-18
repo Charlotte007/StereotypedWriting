@@ -1,3 +1,7 @@
+## 😊 JS的数据类型
+
+Boolean、Null、Undefined、Number、BigInt、String、Symbol 和 Object
+
 ## 😊 Javascript是静态作用域(词法作用域)与动态作用域?
 
 Javascript是静态作用域, 函数的作用域在函数定义的时候就确定了。动态作用域是在函数调用的时候才确立。
@@ -128,7 +132,7 @@ setTimeout(() => {
 }, 0)
 ```
 
-## 说一说原型链
+## 😊 说一说原型链
 
 ![原型链](https://i.loli.net/2021/07/18/uBlOcmVhWFSpvX2.png)
 
@@ -356,10 +360,32 @@ foo.bar(); // foo，无需解释
 
 构造函数中的this，指向新创建的实例对象。
 
+
 ## typeof
 
-## instanceof
+typeof 用于检测变量数据类型，由解释器内部实现。
 
+不同的对象在底层都表示为二进制，在 Javascript 中二进制前（低）三位存储其类型信息。
+
+- 000: 对象
+- 010: 浮点数
+- 100：字符串
+- 110： 布尔
+- 1： 整数
+- null：所有机器码均为 0
+
+所以`typeof null`会返回"objcect"
+
+## instanceof
+## new
+
+### 如何让函数不能被new?
+
+## 箭头函数
+
+## 变量提升
+
+## 立即执行函数
 ## 移动端的布局
 
 ## generater原理
