@@ -398,8 +398,30 @@ function myInstanceOf(obj, target) {
 ```
 ## new
 
+1. 创建一个原型链为空的空对象`obj`
+2. 使用apply或者call调用构造函数，并将this指向刚才创建的`obj`
+3. 修改`obj`的`___proto___`, 指向构造函数的`prototype`
+4. 如果调用构造函数有返回值则返回返回值，否则返回obj
+
+```ts
+const myNew = (constructor, ...args) => {
+  const obj = Object.create({})
+  const returnValue = constructor.call(obj, ...args)
+  Object.setPrototypeOf(obj, constructor.prototype)
+  return returnValue || obj
+}
+```
 ### 如何让函数不能被new?
 
+```ts
+class Shape {
+  constructor() {
+    if (new.target === Shape) {
+      throw new Error("本类不能实例化");
+    }
+  }
+}
+```
 ## 箭头函数
 
 ## 变量提升
