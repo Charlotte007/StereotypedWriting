@@ -593,9 +593,52 @@ for (let value of flat(arr)) {
 
 ### co模块
 
+```js
+function co(gen) {
+  const ctx = this;
+
+  function next(ret) {
+    if (ret.done) {
+      return resolve(ret.value)
+    }
+    // 确保返回值是Promise对象
+    const value = toPromise.call(ctx, ret.value)
+    if (value && isPromise(value)) {
+      return value.then(onFulfilled, onRejected)
+    }
+    return onRejected(new TypeError(String(ret.value)));
+  }
+
+  return new Promise(function(resolve, reject) {
+    // 返回迭代器
+    gen = gen.call(ctx)
+    function onFulfilled(res) {
+      let ret
+      try {
+        ret = gen.next(res)
+      } catch (e) {
+        return reject(e)
+      }
+      next(ret)
+    }
+    onFulfilled()
+  })
+}
+```
+
+### js中generater的实现原理
+
+C#中同样拥有yield关键词，C#中yield是一个语法糖。C#的编译器会将yield编译为`switch case`。编译器为我们生成了一个状态机。实现了yield关键字的特性。
+
+[状态机.png](http://www.alloyteam.com/wp-content/uploads/2016/02/statemachine.png)
+
+- Before 为迭代器初始状态
+- Running 为调用 MoveNext 后进入这个状态。在这个状态，枚举数检测并设置下一项的位置。遇到 yield return、yield break - 或者迭代结束时，退出该状态
+- Suspended 为状态机等待下次调用 MoveNext 的状态
+- After 为迭代结束的状态
 
 
-### generater的实现原理
+在js中与C#类似，yield表达式会在内部重写为`switch case`的状态机。
 
 ## 😊 async和awiat原理
 
@@ -614,7 +657,6 @@ function fn(args) {
   });
 }
 ```
-
 ## promise的原理
 
 
@@ -662,7 +704,7 @@ function fn(args) {
 - `let`变量的作用域是块级作用域，存在暂存性死区，`let`不会使变量提升。`let`则不会预分配内存空间，而且在栈内存分配变量时，做一个检查，如果已经有相同变量名存在就会报错。
 - `const`变量的作用域是块级作用域，存在暂存性死区，`const`不会使变量提升。`const`与`let`的内容分配一致。
 
-## cookie，localStorage，sessionStorage区别
+## 😊 cookie，localStorage，sessionStorage区别
 
 ## 多个页面之间如何进行通信
 
