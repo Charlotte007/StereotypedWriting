@@ -510,7 +510,7 @@ Function.prototype.mybind = function (thisArg, ...initArgs) {
 }
 ```
 
-## js浮点数精度问题
+## 😊 js浮点数精度问题
 
 ### 为什么会出现这个问题?
 
@@ -555,9 +555,78 @@ function precisionRound(number, precision) {
   return Math.round(number * factor) / factor
 }
 ```
-## generater原理
+## 😊 generater原理
 
-## async和awiat原理
+### generater基础
+
+> 😂忘了generater的语法, 所以复习一下
+
+1. generater函数调用后，会返回一个迭代器对象
+2. 迭代器对象调用`next()`方法，内部指针就从函数头部或上一次停下来的地方开始执行，直到遇到下一个yield表达式（或return语句）为止。
+3. `next()`方法会返回一个对象, `{value: yield表达式的值, done: 遍历是否结束}`
+4. 如果是有`return`, 最后一个对象是`{value: return的值, done: 遍历是否结束}`。否则，`{value: undefined, done: 遍历是否结束}`。
+5. `next()`方法可以添加一个参数。`next()`的参数会当作上一个`yield`的返回值
+
+```js
+const var arr = [1, [[2, 3], 4], [5, 6]];
+
+function* flat (arr) {
+  for (let i = 0; i < arr.length; i += 1) {
+    if (Array.isArray(arr[i])) {
+      yield* flat(arr[i])
+    } else {
+      yield arr[i]
+    }
+  }
+}
+```
+
+### co模块
+
+### generater的实现原理
+
+## 😊 async和awiat原理
+
+async函数的实现原理，就是将generator函数和自动执行器，包装在一个函数里。
+
+```js
+async function fn(args) {
+  // ...
+}
+
+// 等同于
+// spawn是generator函数的自执行器
+function fn(args) {
+  return spawn(function* () {
+    // ...
+  });
+}
+```
+
+## promise的原理
+
+
+## 😊 Unicode和UTF-8
+
+- Unicode是字符集
+- UTF-8是字符编码
+
+计算机是以二进制形式存储和表示数据，二进制是 0 和 1 的集合。例如：0100，1010。比如，要存储数字 13 计算机需要将数字转换为 1101。
+
+但是，数字不是我们唯一需要存储处理的数据，我们还需要处理字符串，图片，视频。以字符串为例，那么计算机怎么存储字符串呢？例如，我们要存储字符串 "S" ，计算机首先会将 "S", 转换为数字'S'.charCodeAt() === 83, 那么计算机是如何知道83表示"S"的？
+### 字符集
+
+字符集是已经定义好的规则，每一个字符都有一个确切的数字表示。字符集有不同规则的定义，例如："Unicode", "ASCII"。浏览器中使用"Unicode"字符集。正是"Unicode"字符集，定义了83表示"S"。
+
+
+那么接下来，计算机会直接将83转为二进制吗？并不是，我们还需要使用"字符编码"。
+
+### 字符编码
+
+字符集定义了使用特定的数字表示字符（汉字也是同样的）。而字符编码定义了，如何将数字转换为特定长度的二进制数据。常见的utf-8字符编码，规定了字符最多由4个字节进行编码（一个字节由8个，0或者1表示）。
+
+`h e l l o =Unicode字符集==> 104 101 108 108 111 =utf-8字符编码==> 1101000 1100101 1101100 1101100 1101111` 
+
 ## 😊 WeakSet与Set的区别
 
 - WeakSet, 只能存储对象类型的数据，不能存储普通的对象类型，不能遍历。WeakSet内部的对象是弱引用的，不会阻止垃圾回收机制回收WeakSet内部的对象。
@@ -586,3 +655,4 @@ function precisionRound(number, precision) {
 ## 多个页面之间如何进行通信
 
 ## 移动端的布局
+
