@@ -378,7 +378,7 @@ typeof 用于检测变量数据类型，由解释器内部实现。
 
 ## 😊 instanceof
 
-`A instanceof B`, 自下往上查找A的原型是否等于`B.prototype`。
+`A instanceof B`, 自下往上查找A的原型是否等于`B.prototype`, 直到向上查找到null
 
 ```js
 function myInstanceOf(obj, target) {
@@ -396,7 +396,7 @@ function myInstanceOf(obj, target) {
   }
 }
 ```
-## new
+## 😊 new
 
 1. 创建一个原型链为空的空对象`obj`
 2. 使用apply或者call调用构造函数，并将this指向刚才创建的`obj`
@@ -422,7 +422,14 @@ class Shape {
   }
 }
 ```
-## 箭头函数
+## 😊 箭头函数
+
+1. 箭头函数不能通过`new`实例化
+2. 箭头函数没有自己的this, 箭头函数中的this，需要通过查找作用域链来确定this的值(换句话说在箭头函数定义时就确定了this)。也无法通过`call`, `apply`, `bind`改变this。
+3. 没有arguments对象
+4. 没有new.target
+5. 没有原型 `var Foo = () => {}; console.log(Foo.prototype); // undefined`
+6. 箭头函数默认会有返回值，更简洁
 
 ## 变量提升
 
