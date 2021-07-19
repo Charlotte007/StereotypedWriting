@@ -509,6 +509,8 @@ Function.prototype.mybind = function (thisArg, ...initArgs) {
   }
 }
 ```
+
+## js精度问题
 ## generater原理
 
 ## async和awiat原理
@@ -521,8 +523,10 @@ Function.prototype.mybind = function (thisArg, ...initArgs) {
 - Map，是键值对的集合的。键可以任意的数据类型。Map可以被遍历。
 - WeakMap，只接收对象作为键。WeakMap不会阻止垃圾回收机制回收。WeakMap不能遍历
 
-## window.onload和DOMContentLoaded的区别
+## 😊 window.onload和DOMContentLoaded的区别
 
+- dom, css, js, 图片，加载完成后触发
+- dom加载完成后触发
 ## 😊 target和currentTarget区别
 
 - event.target，返回触发事件的元素，可能不是绑定事件的元素
