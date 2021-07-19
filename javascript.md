@@ -431,12 +431,20 @@ class Shape {
 5. 没有原型 `var Foo = () => {}; console.log(Foo.prototype); // undefined`
 6. 箭头函数默认会有返回值，更简洁
 
-## 立即执行函数
+## 😊 立即执行函数(IIFE)
 
 
+立即执行函数，主要用来创建一个新的函数执行上下文。函数函数上下文的变量，不会干扰到全局变量。直接在函数声明后使用`()`, 会产生`SyntaxError`。需要使用圆括号，圆括号中不能包含声明。当圆括号为了包裹函数碰上了function关键词，它便知道将它作为一个函数表达式去解析而不是函数声明。
 
+```js
+(function () { return 1 })()
 
-
+// 也可以使用一元操作符
+!function(){/* code */}();
+~function(){/* code */}();
+-function(){/* code */}();
++function(){/* code */}(); 
+```
 
 ## 😊 map和object的区别，set和array的区别
 
