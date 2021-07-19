@@ -361,7 +361,7 @@ foo.bar(); // foo，无需解释
 构造函数中的this，指向新创建的实例对象。
 
 
-## typeof
+## 😊 typeof
 
 typeof 用于检测变量数据类型，由解释器内部实现。
 
@@ -376,7 +376,26 @@ typeof 用于检测变量数据类型，由解释器内部实现。
 
 所以`typeof null`会返回"objcect"
 
-## instanceof
+## 😊 instanceof
+
+`A instanceof B`, 自下往上查找A的原型是否等于`B.prototype`。
+
+```js
+function myInstanceOf(obj, target) {
+  if (typeof obj !== 'object' || obj === null) {
+    return false
+  }
+  const proto = Object.getPrototypeOf(obj)
+  if (proto === null) {
+    return false
+  }
+  if (proto === target.prototype) {
+    return true
+  } else {
+    return myInstanceOf(proto, target)
+  }
+}
+```
 ## new
 
 ### 如何让函数不能被new?
