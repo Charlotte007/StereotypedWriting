@@ -657,8 +657,49 @@ function fn(args) {
   });
 }
 ```
+
+具体实现
+
+```js
+function spawn(genF) {
+  return new Promise(function(resolve, reject) {
+    const gen = genF();
+
+    function step(nextF) {
+      let next;
+      try {
+        next = nextF();
+      } catch(e) {
+        return reject(e);
+      }
+      if(next.done) {
+        return resolve(next.value);
+      }
+      Promise.resolve(next.value).then(function(v) {
+        step(function() {
+          // 返回yield的值
+          return gen.next(v);
+        });
+      }, function(e) {
+        step(function() {
+          return gen.throw(e);
+        });
+      });
+    }
+
+    step(function() {
+      return gen.next(undefined);
+    });
+  });
+}
+```
 ## promise的原理
 
+
+## 😊 cookie，localStorage，sessionStorage区别
+
+1. cookie如果不设置有效期是
+2. sessionStorage仅在当前会话下有效
 
 ## 😊 Unicode和UTF-8
 
@@ -703,8 +744,6 @@ function fn(args) {
 - `var`变量的作用域是它当前的执行上下文，`var`会使变量提升，这意味着变量可以在声明之前使用。`var`会直接在栈内存预分配内存空间，实际代码执行的时候再进行变量存储，如果传入的是应引用数据类型，则会在堆内存中开辟一个内存空间存储数据，栈内存存储的是数据的引用，指向堆内存地址。
 - `let`变量的作用域是块级作用域，存在暂存性死区，`let`不会使变量提升。`let`则不会预分配内存空间，而且在栈内存分配变量时，做一个检查，如果已经有相同变量名存在就会报错。
 - `const`变量的作用域是块级作用域，存在暂存性死区，`const`不会使变量提升。`const`与`let`的内容分配一致。
-
-## 😊 cookie，localStorage，sessionStorage区别
 
 ## 多个页面之间如何进行通信
 
