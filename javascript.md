@@ -431,27 +431,37 @@ class Shape {
 5. 没有原型 `var Foo = () => {}; console.log(Foo.prototype); // undefined`
 6. 箭头函数默认会有返回值，更简洁
 
-## 变量提升
-
 ## 立即执行函数
-## 移动端的布局
+
+
+
+
+
+
+## 😊 map和object的区别，set和array的区别
+
+1. map实现了迭代器，可以使用`for...of`遍历。object不可以
+2. map具有有序性，object没有有序性
+3. map可以展开为二维数组，object不可以
+4. map可以使用对象作为key，object不可以
+
+1. set是基于键的集合，不能通过直接通过索引访问。array可以直接通过索引访问
+2. set不可以包含重复的元素。array可以。
+3. 添加，删除元素的方法不同。
 
 ## generater原理
 
 ## async和awiat原理
-
-## map和object的区别
-
-## WeakSet与Set的区别
+## 😊 WeakSet与Set的区别
 
 - WeakSet, 只能存储对象类型的数据，不能存储普通的对象类型，不能遍历。WeakSet内部的对象是弱引用的，不会阻止垃圾回收机制回收WeakSet内部的对象。
 - Set可以存储对象类型的数据，以及普通类型的数据。可以被遍历。
-## WeakMap与Map的区别
+## 😊 WeakMap与Map的区别
 
 - Map，是键值对的集合的。键可以任意的数据类型。Map可以被遍历。
 - WeakMap，只接收对象作为键。WeakMap不会阻止垃圾回收机制回收。WeakMap不能遍历
 
-## 😊 window.onload和DOMContentLoaded的区别
+## window.onload和DOMContentLoaded的区别
 
 ## 😊 target和currentTarget区别
 
@@ -463,9 +473,10 @@ class Shape {
 - `let`变量的作用域是块级作用域，存在暂存性死区，`let`不会使变量提升。`let`则不会预分配内存空间，而且在栈内存分配变量时，做一个检查，如果已经有相同变量名存在就会报错。
 - `const`变量的作用域是块级作用域，存在暂存性死区，`const`不会使变量提升。`const`与`let`的内容分配一致。
 
-## 😊 cookie，localStorage，sessionStorage区别
+## cookie，localStorage，sessionStorage区别
 
+## 多个页面之间如何进行通信
 
-## 😊 多个页面之间如何进行通信
+## bind, call, apply的区别
 
-## 😊 bind, call, apply的区别
+## 移动端的布局
