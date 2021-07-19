@@ -457,6 +457,58 @@ class Shape {
 2. set不可以包含重复的元素。array可以。
 3. 添加，删除元素的方法不同。
 
+## 😊 bind, call, apply的区别
+
+1. bind接收多个参数，第一个参数会修改this，之后的参数可以是函数的参数，并返回一个新的函数。返回的新函数，新函数不能再次修改this。函数的参数可以分多次传入，第一次修改this时传入，第二次调用时传入。
+2. call接收多个参数，第一个参数会修改this，之后的参数可以是函数的参数。call会立即执行。
+3. apply接收两个参数，第一个参数会修改this，第二个参数可以是函数的参数的数组。apply会立即执行。
+
+```js
+// 实现一个call方法
+Function.prototype.mycall = function(thisArg, ...args) {
+  if (thisArg === undefined || thisArg === null) {
+    thisArg = window
+  }
+  if (typeof thisArg === 'string') {
+    thisArg = new String(thisArg)
+  }
+  if (typeof thisArg === 'number') {
+    thisArg = new Number(thisArg)
+  }
+  if (typeof thisArg === 'boolean') {
+    thisArg = new Boolean(thisArg)
+  }
+  const key = Symbol()
+  thisArg[key] = this
+  const result = thisArg[key](...args)
+  delete thisArg[key]
+  return result
+}
+
+// 实现一个bind方法
+Function.prototype.mybind = function (thisArg, ...initArgs) {
+  if (thisArg === undefined || thisArg === null) {
+    thisArg = window
+  }
+  if (typeof thisArg === 'string') {
+    thisArg = new String(thisArg)
+  }
+  if (typeof thisArg === 'number') {
+    thisArg = new Number(thisArg)
+  }
+  if (typeof thisArg === 'boolean') {
+    thisArg = new Boolean(thisArg)
+  }
+  const that = this
+  return function (...args) {
+    const key = Symbol()
+    thisArg[key] = that
+    const result = thisArg[key](...initArgs, ...args)
+    delete thisArg[key]
+    return result
+  }
+}
+```
 ## generater原理
 
 ## async和awiat原理
@@ -484,7 +536,5 @@ class Shape {
 ## cookie，localStorage，sessionStorage区别
 
 ## 多个页面之间如何进行通信
-
-## bind, call, apply的区别
 
 ## 移动端的布局
