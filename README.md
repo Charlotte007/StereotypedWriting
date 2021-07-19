@@ -78,3 +78,4 @@
 - [webpack 中，hash、chunkhash、contenthash 的区别是什么?](https://www.cnblogs.com/skychx/p/webpack-hash-chunkhash-contenthash.html)
 - [webpack loader的加载顺序](https://www.cnblogs.com/ygunoil/p/13130858.html)
 - [[译] JavaScript：立即执行函数表达式（IIFE）](https://segmentfault.com/a/1190000003985390)
+- [【转向 Javascript 系列】深入理解 Generators](http://www.alloyteam.com/2016/02/generators-in-depth/)

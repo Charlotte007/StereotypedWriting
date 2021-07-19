@@ -559,16 +559,22 @@ function precisionRound(number, precision) {
 
 ### generater基础
 
-> 😂忘了generater的语法, 所以复习一下
+> 😂忘了generater的语法, 所以简单复习一下generater的语法规则
 
 1. generater函数调用后，会返回一个迭代器对象
 2. 迭代器对象调用`next()`方法，内部指针就从函数头部或上一次停下来的地方开始执行，直到遇到下一个yield表达式（或return语句）为止。
 3. `next()`方法会返回一个对象, `{value: yield表达式的值, done: 遍历是否结束}`
 4. 如果是有`return`, 最后一个对象是`{value: return的值, done: 遍历是否结束}`。否则，`{value: undefined, done: 遍历是否结束}`。
-5. `next()`方法可以添加一个参数。`next()`的参数会当作上一个`yield`的返回值
+5. `next()`方法可以添加一个参数。`next()`的参数会当作上一个`yield`的返回值。第一次就传入`next`参数没有用。
+6. `for...of`可以自动遍历generater函数返回的迭代器对象。
+7. 迭代器有一个`throw`方法, 使用迭代器`throw`的方法，可以在generater外抛出错误，在generater内部捕获。如果内部没有捕获会尝试外部捕获。
+8. 迭代器有一个`return`方法可以提前结束遍历
+9. `yield*`可以在generater函数内部执行另一个generater函数
+10. 迭代器可以使用扩展运输符
+11. generater函数不能使用`new`操作符
 
 ```js
-const var arr = [1, [[2, 3], 4], [5, 6]];
+const arr = [1, [[2, 3], 4], [5, 6]];
 
 function* flat (arr) {
   for (let i = 0; i < arr.length; i += 1) {
@@ -579,9 +585,15 @@ function* flat (arr) {
     }
   }
 }
+
+for (let value of flat(arr)) {
+  console.log('value:', value)
+}
 ```
 
 ### co模块
+
+
 
 ### generater的实现原理
 
