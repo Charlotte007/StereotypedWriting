@@ -794,8 +794,33 @@ session是一种服务器机制，是存储在服务器上的信息。存储方�
 
 ![image.png](https://i.loli.net/2021/07/20/rHe6ljbYI4yvLCN.png)
 
-## for……in 和 for……of 的区别
+## 😊 for……in 和 for……of 的区别
 
+- for……in，遍历的是key，for……in遍历可枚举属性（包括它的原型链上的可枚举属性）
+- for……of，遍历的是value，需要对象实现`iterator`（`Symbol.iterator`属性）接口才可以使用，否则会报错。for……of遍历可迭代对象定义要迭代的数据。
 
-## 移动端的布局
+## 😊 怎么判断一个对象是不是可迭代的？
 
+判断对象是否实现了`Symbol.iterator`属性的迭代器对象
+
+```ts
+let o = {};
+typeof o[Symbol.iterator] === "function";
+```
+
+## 😊 DOM事件模型
+
+DOM事件模型分为捕获和冒泡
+
+1. 捕获阶段：事件从window对象自上而下向目标节点传播的阶段
+2. 目标阶段：真正的目标节点正在处理事件的阶段
+3. 冒泡阶段：事件从目标节点自下而上向window对象传播的阶段
+
+![event.png](https://i.loli.net/2021/07/21/EYPRnHqsiZNdTml.png)
+
+### 没有冒泡阶段的事件（蚂蚁一面有问过这题）
+
+1. scroll事件
+2. blur & focus 事件
+3. onload 事件
+4. error事件
