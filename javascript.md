@@ -652,6 +652,7 @@ async function fn(args) {
 // 等同于
 // spawn是generator函数的自执行器
 function fn(args) {
+  // spawn会自动执行generator函数
   return spawn(function* () {
     // ...
   });
@@ -698,8 +699,37 @@ function spawn(genF) {
 
 ## 😊 cookie，localStorage，sessionStorage区别
 
-1. cookie如果不设置有效期是
-2. sessionStorage仅在当前会话下有效
+1. cookie如果不设置有效期是临时存储。如果是设置有效期，cookie存储在本地。
+2. sessionStorage仅在当前会话下有效。sessionStorage在同源的窗口中始终存在的数据。只要这个浏览器窗口没有关闭，即使刷新页面或者进入同源另一个页面，数据依然存在。
+3. localStorage是永久保存的，除非手动删除。
+4. cookie会自动发送给服务端，localStorage，sessionStorage不会。cookie可以设置Secure只在https时发送cookie。
+5. cookie，与localStorage，sessionStorage内容大小限制不同。
+6. sessionStorage，localStorage可以监听变化。
+7. localstorage, cookie在所有同源窗口中共享的。sessionStorage在同一个浏览器窗口是共享的。
+8. cookie可以通过服务端设置，cookie可以设置httpOnly，浏览器无法获取设置为httpOnly的cookie。
+
+## 😊 cookie和session
+
+session是一种服务器机制，是存储在服务器上的信息。存储方式多种多样，可以是服务器的内存中，或者是mongo数据库，redis内存数据库中。而session是基于cookie实现的(服务器会生成sessionID)通过set-cookie的方式写入到客户端的cookie中。每一次的请求都会携带服务器写入的sessionID发送给服务端，通过解析sessionID与服务器端保存的session，来判断用户是否登录。
+
+鉴权步骤如下：
+
+1. 客户端发起登录请求，服务器端创建session，并通过set-cookie将生成的sessionID写入的客户端的cookie中。
+2. 在发起其他需要权限的接口的时候，客户端的请求体的Header部分会携带sessionID发送给服务端。然后根据这个sessionId去找服务器端保存的该客户端的session，然后判断该请求是否合法。
+
+### 如何生成sessionId
+
+## 😊 session和jwt
+
+1. 浏览器发起登录请求
+2. 请求通过后，服务器会向浏览器返回token
+3. 浏览器接收到token后需要讲token保存到本地（比如localStorage）
+4. 浏览器在下一次请求的时候会携带token信息（需要ajax手动添加）
+5. 服务器收到请求，去验证token（是否正确，是否过期）验证成功后会返回信息。
+
+乍一看，token是类似sessionID的存在。其实token和sessionID还是有一定的不同的。sessionID是基于cookie实现的，而token不需要基于cookie。这就导致了sessionID只能用在浏览器上，对于原生的应用无法实现。原生的应用是不具备cookie的特性的。另外sessionID可以实现服务端注销会话，而token不能(当然你可以把用户登陆的token存入到redis中，但是不推荐token入库)
+
+### 如何生成token
 
 ## 😊 Unicode和UTF-8
 
@@ -745,7 +775,10 @@ function spawn(genF) {
 - `let`变量的作用域是块级作用域，存在暂存性死区，`let`不会使变量提升。`let`则不会预分配内存空间，而且在栈内存分配变量时，做一个检查，如果已经有相同变量名存在就会报错。
 - `const`变量的作用域是块级作用域，存在暂存性死区，`const`不会使变量提升。`const`与`let`的内容分配一致。
 
-## 多个页面之间如何进行通信
+## 😊 多个页面之间如何进行通信
 
+1. WebSocket
+2. 监听`storage`事件，监听`localStorage`的变化
+3. Worker线程，postMessage发送给Worker，Worker再推送给其他页面
 ## 移动端的布局
 
