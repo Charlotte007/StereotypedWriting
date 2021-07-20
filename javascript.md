@@ -696,7 +696,6 @@ function spawn(genF) {
 ```
 ## promise的原理
 
-
 ## 😊 cookie，localStorage，sessionStorage区别
 
 1. cookie如果不设置有效期是临时存储。如果是设置有效期，cookie存储在本地。
@@ -767,8 +766,8 @@ session是一种服务器机制，是存储在服务器上的信息。存储方�
 
 ## 😊 window.onload和DOMContentLoaded的区别
 
-- dom, css, js, 图片，加载完成后触发
-- dom加载完成后触发
+- window.onload, dom, css, js, 图片，加载完成后触发
+- DOMContentLoaded, dom加载完成后触发
 ## 😊 target和currentTarget区别
 
 - event.target，返回触发事件的元素，可能不是绑定事件的元素
@@ -784,5 +783,19 @@ session是一种服务器机制，是存储在服务器上的信息。存储方�
 1. WebSocket
 2. 监听`storage`事件，监听`localStorage`的变化
 3. Worker线程，postMessage发送给Worker，Worker再推送给其他页面
+
+## 😊 script标签的defer，async
+
+现代的浏览器中无论是否添加defer，async属性js文件都是**并行下载**。如果没有添加defer，async属性，js是并行下载，按照顺序执行。但是在过去的IE，FireFox和Chrome的早期版本中，script标签是同步加载和执行的。
+
+- 普通的script标签, 阻塞时间HTML解析时间等于 = 下载时间 + JS执行时间，
+- async, 阻塞时间HTML的时间等于 = JS执行时间，async的script标签，那一个下载完成就执行哪一个JS，只适用于外链。
+- defer, 不会阻塞HTML解析，defer的script标签，会等待HTML解析完成后按照顺序执行
+
+![image.png](https://i.loli.net/2021/07/20/rHe6ljbYI4yvLCN.png)
+
+## for……in 和 for……of 的区别
+
+
 ## 移动端的布局
 
