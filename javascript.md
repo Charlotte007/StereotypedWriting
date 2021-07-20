@@ -710,7 +710,7 @@ function spawn(genF) {
 
 ## 😊 cookie和session
 
-session是一种服务器机制，是存储在服务器上的信息。存储方式多种多样，可以是服务器的内存中，或者是mongo数据库，redis内存数据库中。而session是基于cookie实现的(服务器会生成sessionID)通过set-cookie的方式写入到客户端的cookie中。每一次的请求都会携带服务器写入的sessionID发送给服务端，通过解析sessionID与服务器端保存的session，来判断用户是否登录。
+session是一种服务器机制，是存储在服务器上的信息。存储方式多种多样，可以是服务器的内存中，或者是mongo数据库，redis内存数据库中（可以通过`express-session`指定数据库）。而session是基于cookie实现的(服务器会生成sessionID)通过set-cookie的方式写入到客户端的cookie中。每一次的请求都会携带服务器写入的sessionID发送给服务端，通过解析sessionID与服务器端保存的session，来判断用户是否登录。
 
 鉴权步骤如下：
 
@@ -718,6 +718,8 @@ session是一种服务器机制，是存储在服务器上的信息。存储方�
 2. 在发起其他需要权限的接口的时候，客户端的请求体的Header部分会携带sessionID发送给服务端。然后根据这个sessionId去找服务器端保存的该客户端的session，然后判断该请求是否合法。
 
 ### 如何生成sessionId
+
+一般通过用户信息生成sessionId
 
 ## 😊 session和jwt
 
@@ -730,6 +732,8 @@ session是一种服务器机制，是存储在服务器上的信息。存储方�
 乍一看，token是类似sessionID的存在。其实token和sessionID还是有一定的不同的。sessionID是基于cookie实现的，而token不需要基于cookie。这就导致了sessionID只能用在浏览器上，对于原生的应用无法实现。原生的应用是不具备cookie的特性的。另外sessionID可以实现服务端注销会话，而token不能(当然你可以把用户登陆的token存入到redis中，但是不推荐token入库)
 
 ### 如何生成token
+
+一般根据用户id，和一个存储在后端的随机字符串`secret`，利用`jsonwebtoken`生成token，token可以指定过期时间
 
 ## 😊 Unicode和UTF-8
 
