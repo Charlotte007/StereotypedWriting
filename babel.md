@@ -1,5 +1,7 @@
 ## 说一说Babel的原理
 
+## 简单描述一下 Babel 的编译过程？
+
 ## 喜马拉雅面试题: webpack可以打包es模块吗？
 
 不可以。组件库常规的作法是使用gulp打包es模块。
@@ -23,3 +25,5 @@
 ## babel-runtime
 
 ## babel-polyfill
+
+## Babel 对于 TypeScript 的支持有哪些限制？

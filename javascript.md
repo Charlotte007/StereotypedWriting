@@ -825,6 +825,11 @@ DOM事件模型分为捕获和冒泡
 3. onload 事件
 4. error事件
 
-## Object.defineProperty 有哪几个参数？各自都有什么作用？
+##  有哪几个参数各自都有什么作用？
 
-## Object.defineProperty 和 ES6 的 Proxy 有什么区别？
+
+
+## Object.defineProperty和ES6的Proxy有什么区别？
+
+
+## 如何处理浏览器中表单项的密码自动填充问题？
