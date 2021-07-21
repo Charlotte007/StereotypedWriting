@@ -1,4 +1,14 @@
-## React基础API回顾
+## React基础回顾
+
+### React.lazy & Suspense
+
+### Context
+
+### 错误边界
+
+### 高阶组件
+
+### Portals
 
 ## 😊 说一说react ssr
 
@@ -64,7 +74,7 @@ SSR渲染过程:
 8. 使用`useMemo`, `React.memo`隔离组件避免重复渲染。(👇见下面的示例代码)。
 9. 对于在`jsx`中没有使用的状态, `class`组件可以直接使用实例的属性保存，对于`fc`组件可以使用`useRef`。
 10. 时间分片, 使用`requestAnimationFrame`，或者使用`setTimeout`分割渲染任务，比如从一次性渲染`100000`个列表，使用`requestAnimationFrame`分割成多次渲染。因为`requestAnimationFrame`会在每一次渲染之前执行，使用`requestAnimationFrame`可以分割成多次渲染，每一次渲染`10000`条。
-11. 超长列表可以使用虚拟列表技术。实际只渲染部分列表
+11. 超长列表可以使用虚拟列表技术。只渲染可见的那部分列表
 
 ```jsx
 import { useState, useEffect } from 'react';
@@ -102,7 +112,7 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 2. 方便事件统一管理和事务机制
 ### Reactv17事件机制的改动？为什么这样改动?
 
-为了更好的实现跨平台。`React v17`版本不在将事件绑定在`document`上。而不绑定在了`React.render`的目标节点上。
+为了更好的实现跨平台。`React v17`版本不在将事件绑定在`document`上。而绑定在了`React.render`的目标节点上。
 
 ### React事件与原生事件执行顺序
 
@@ -125,7 +135,7 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 
 ## 虚拟DOM相比原生DOM的优劣
 
-## React组件通信
+## React组件如何通信
 
 ### 父子组件
 
@@ -144,6 +154,20 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 - 状态提升
 - 状态管理工具
 
+## React Context
+
 ## React页面如何优先渲染某一部分?
 
+## React组件原理
 
+> 回顾一下之前写的组件库的原理
+
+### Modal
+
+### Radio
+
+### 动画组件
+
+### Tabs
+
+### Alert
