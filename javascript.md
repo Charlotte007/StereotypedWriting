@@ -825,11 +825,28 @@ DOM事件模型分为捕获和冒泡
 3. onload 事件
 4. error事件
 
-##  有哪几个参数各自都有什么作用？
+## 😊 Object.defineProperty有哪几个参数各自都有什么作用？
+
+```js
+Object.defineProperties(`需要修改的对象obj`, {
+  'obj的属性名': {
+    configurable: boolean, // 该属性描述符是否可以被修改，是否可以被删除。默认false
+    enumerable: boolean, // 是否被枚举。默认false
+    value: any, // 属性值。默认 undefined
+    writable: boolean, // 是否只读，默认false
+    get () {},  // getter
+    set () {}, // setter
+  }
+})
+```
+
+## 😊 Object.defineProperty和ES6的Proxy有什么区别？
+
+### proxy基础
+
+> 好久没有使用忘了proxy
+
+### proxy和Object.defineProperty区别
 
 
-
-## Object.defineProperty和ES6的Proxy有什么区别？
-
-
-## 如何处理浏览器中表单项的密码自动填充问题？
+## 😊 如何处理浏览器中表单项的密码自动填充问题？
