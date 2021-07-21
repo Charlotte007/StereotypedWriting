@@ -313,11 +313,13 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 ### Redux异步插件
 
 
-## 😊 ReactClass组件中请求可以在componentWillMount中发起吗？为什么？
+## 😊 Class组件中请求可以在componentWillMount中发起吗？为什么？
 
 不可以。因为Fiber的引入componentWillMount，可能会被调用多次。
 
-## React Class 组件和 React Hook 的区别有哪些？
+具体细节：https://stackoverflow.com/questions/58853565/react-js-async-rendering-when-componentwillmount-will-be-called-multiple-times
+
+## Class组件和Hook组件的区别有哪些？
 
 
 ## React 中高阶函数和自定义 Hook 的优缺点？
