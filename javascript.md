@@ -824,3 +824,7 @@ DOM事件模型分为捕获和冒泡
 2. blur & focus 事件
 3. onload 事件
 4. error事件
+
+## Object.defineProperty 有哪几个参数？各自都有什么作用？
+
+## Object.defineProperty 和 ES6 的 Proxy 有什么区别？
