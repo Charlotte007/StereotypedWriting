@@ -842,11 +842,40 @@ Object.defineProperties(`需要修改的对象obj`, {
 
 ## 😊 Object.defineProperty和ES6的Proxy有什么区别？
 
-### proxy基础
+### Reflect基础
 
-> 好久没有使用忘了proxy
+1. 将Object对象的一些明显属于语言内部的方法，放到了Reflect对象上部署。比如：Object.defineProperty。
+2. Object.defineProperty在设置不能设置的属性时，会抛出错误。Reflect.defineProperty会返回false。
+3. 让Object操作都变成函数行为。`name in obj` => `Reflect.has(obj, name)`
+4. Reflect对象的方法与Proxy对象的方法一一对应。这就让Proxy对象可以方便地调用对应的Reflect方法，完成默认行为。
 
+### Proxy基础
+
+> 好久没有使用忘了proxy的语法了😂
+
+Proxy可以对对象的一些操作进行一层拦截。外界对对象的访问都需要通过这层代理。Proxy可以拦截13种操作：get（读取属性），set(设置属性)，has（拦截`in`）, deleteProperty(拦截delete)，ownKeys（拦截Object.getOwnPropertyNames(proxy)、Object.getOwnPropertySymbols(proxy)、Object.keys(proxy)）....等等
+
+```js
+const obj = new Proxy(target, {
+  get: function (target, propKey, receiver) {
+    // 使用默认行为
+    return Reflect.get(target, propKey, receiver);
+  },
+  set: function (target, propKey, value, receiver) {
+    // 
+    return Reflect.set(target, propKey, value, receiver);
+  }
+});
+```
 ### proxy和Object.defineProperty区别
+
+- Object.defineProperty不能监听数组的变化，比如push，pop等操作。Vue对其进行了重写。
+- 如果需要对对象做代理，必须对每一个属性进行设置，需要配合Object.keys
+- 对于属性值也是对象的属性，避免逐层遍历，对每一个对象调用Object.defineProperty。
+
+- Proxy支持对数组操作的拦截
+- Proxy支持对整个对象进行拦截，不在需要为每一个属性进行设置
+- Proxy支持对嵌套对象的拦截
 
 
 ## 😊 如何处理浏览器中表单项的密码自动填充问题？
