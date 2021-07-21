@@ -128,6 +128,14 @@ MyClass.contextType = MyContext;
 ```
 ### 错误边界
 
+无法捕获以下的错误
+
+1. 事件处理
+2. 异步代码（例如 setTimeout 或 requestAnimationFrame 回调函数）
+3. 服务端渲染
+4. 它自身抛出来的错误（并非它的子组件）
+
+### Ref
 ### 高阶组件
 
 ### Portals
@@ -305,7 +313,9 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 ### Redux异步插件
 
 
-## React Class 组件中请求可以在 componentWillMount 中发起吗？为什么？
+## 😊 ReactClass组件中请求可以在componentWillMount中发起吗？为什么？
+
+不可以。因为Fiber的引入componentWillMount，可能会被调用多次。
 
 ## React Class 组件和 React Hook 的区别有哪些？
 
