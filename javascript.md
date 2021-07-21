@@ -879,3 +879,6 @@ const obj = new Proxy(target, {
 
 
 ## 😊 如何处理浏览器中表单项的密码自动填充问题？
+
+1. 浏览器遇到type="text"与type="password"的<input/>标签紧邻时触发自动填充行为，则将两个<input/>隔开。中间添加隐藏的<input/>。
+2. password输入框设置readonly属性，焦点在该表单输入的时候再将可读属性移除。
