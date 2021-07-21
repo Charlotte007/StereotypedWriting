@@ -1,4 +1,4 @@
-## React基础回顾
+## 😊 React基础回顾
 
 > 回顾一些API的使用方式
 ### React.lazy & Suspense
@@ -148,7 +148,9 @@ MyClass.contextType = MyContext;
 ### isValidElement
 ### forceUpdate
 
-## React Hooks回顾
+### renderProps
+
+## 😊 React Hooks回顾
 
 
 ### useLayoutEffect与useEffect的区别
@@ -313,38 +315,42 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 ### Redux异步插件
 
 
+## 😊 react和react-dom的区别是什么？
 ## 😊 Class组件中请求可以在componentWillMount中发起吗？为什么？
 
-不可以。因为Fiber的引入componentWillMount，可能会被调用多次。
+不可以。由于Fiber的引入componentWillMount，可能会被调用多次。
 
-具体细节：https://stackoverflow.com/questions/58853565/react-js-async-rendering-when-componentwillmount-will-be-called-multiple-times
+## 😊 Class组件和Hook组件的区别有哪些？
 
-## Class组件和Hook组件的区别有哪些？
+## 😊 React中高阶函数和自定义Hook的优缺点？
 
-
-## React 中高阶函数和自定义 Hook 的优缺点？
-
-## 简要说明 React Hook 中 useState 和 useEffect 的运行原理？
+## 😊 简要说明ReactHook中useState和useEffect的运行原理？
 
 > 准备介绍一下preact原理
 
-## React 中 useState 是如何做数据初始化的？
+## 😊 React中useState是如何做数据初始化的？
 
-## React 的 useEffect 是如何监听数组依赖项的变化的？
+## 😊 React的useEffect是如何监听数组依赖项的变化的？
 
-## react 和 react-dom 的区别是什么？
+## 😊 useState为什么不能放到条件语句里面？
 
-## useState 为什么不能放到条件语句里面？
+> 我这个回答是完成是我自己总结的，不一定对😂。
 
-## useState 怎么做缓存的？
+因为我没有具体看过React的源码所以我从preact的源码的角度解释一下。在preact中，组件的实例拥有一个`__hooks`属性，属性值是一个对象。对象上有一个`_list`属性，属性值是一个数组。除此之外在每一个preact的组件中还有一个`currentIndex`的变量。每执行一个hooks函数时，`currentIndex`都会加1，然后把hook的状态push到`_list`中。组件刷新获取之前的状态时，是通过索引获取的。所以可以看出，hooks的状态和顺序有着关联，如果将hook放到条件语句中，如果条件发生了变化，状态的索引可能会和之前对应不上。所以useState不能放到条件语句里面。
+## 😊 useState怎么做缓存的？
 
-## 怎么解决 useState 闭包的问题？
+> 我这个回答是我自己总结的，不一定对😂
+
+
+
+## 😊 怎么解决useState闭包的问题？
+
 
 
 ## useReducer 比 redux 好在哪里？
-## React组件原理
+## React部分组件的核心逻辑
 
-> 回顾一下之前写的组件库的原理
+> 回顾一下之前写的组件库的原理，面试的时候方便回答
 
 ### Modal
 
