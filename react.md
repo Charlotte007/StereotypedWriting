@@ -1,6 +1,6 @@
 ## React基础回顾
 
-> 回顾一些API的使用
+> 回顾一些API的使用方式
 ### React.lazy & Suspense
 
 React.lazy可以用来动态加载组件，可以减小包的体积。但是React.lazy上层必须配合Suspense组件的使用。但是React.lazy与Suspense目前不支持SSR，需要使用`react-loadable`库。
@@ -94,6 +94,38 @@ function loadable (importFn) {
 
 Context提供了一个无需为每层组件手动添加props，就能在组件树间进行数据传递的方法。
 
+```js
+// 父层组件, 并设置默认值
+// 创建context
+const MyContext = React.createContext({})
+
+class Father extends React.Compoent {
+  render () {
+    // 允许消费组件订阅 context 的变化
+    <TransitionContext.Provider value={this.state}>
+      { children }
+    </TransitionContext.Provider>
+  }
+}
+```
+
+```js
+// 子组件
+// 函数组件，可以使用Context.Consumer, 消费Context
+// 也可以使用useContext消费Context
+<MyContext.Consumer>
+  {value => /* 基于 context 值进行渲染*/}
+</MyContext.Consumer>
+
+// class组件
+class MyClass extends React.Component {
+  render() {
+    let value = this.context;
+  }
+}
+// contextType消费Context
+MyClass.contextType = MyContext;
+```
 ### 错误边界
 
 ### 高阶组件
