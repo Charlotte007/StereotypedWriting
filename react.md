@@ -1,10 +1,11 @@
 ## React基础回顾
 
+> 回顾一些API的使用
 ### React.lazy & Suspense
 
-React.lazy可以用来动态加载组件，可以减小包的体积。但是React.lazy上层必须配合Suspense组件的使用。但是React.lazy与Suspense目前不支持SSR，需要使用`loadable-components`库。
+React.lazy可以用来动态加载组件，可以减小包的体积。但是React.lazy上层必须配合Suspense组件的使用。但是React.lazy与Suspense目前不支持SSR，需要使用`react-loadable`库。
 
-```js
+```tsx
 import React, { Suspense } from 'react';
 
 const OtherComponent = React.lazy(() => import('./OtherComponent'));
@@ -21,9 +22,77 @@ function Test() {
 ```
 
 React.lazy & Suspense也可以用来配合基于路由的分割代码
-#### loadable-components的原理(手写一个React懒加载)
 
+```tsx
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+const Home = lazy(() => import('./routes/Home'));
+const About = lazy(() => import('./routes/About'));
+
+const App = () => (
+  <Router>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route exact path="/" component={Home}/>
+        <Route path="/about" component={About}/>
+      </Switch>
+    </Suspense>
+  </Router>
+);
+```
+#### react-loadable的原理(手写一个React懒加载)
+
+```tsx
+// react-loadable的使用
+import Loadable from 'react-loadable';
+import Loading from './my-loading-component';
+
+const LoadableComponent = Loadable({
+  loader: () => import('./my-component'),
+  loading: Loading,
+});
+```
+
+手写React懒加载，同样是基于import()实现
+
+```tsx
+import React from 'react'
+
+function loadable (importFn) {
+  return class extends React.Component {
+    constructor (props) {
+      super(props)
+      this.state = {
+        Component: null
+      }
+    }
+
+    componentDidMount () {
+      importFn().then((res) => {
+        this.setState({
+          Component: res
+        })
+      })
+    }
+
+    render () {
+      const { Component } = this.state
+
+      return (
+        <>
+          {
+            Component ? <Component {...this.props} /> : '...loading'
+          }
+        </>
+      )
+    }
+  }
+}
+```
 ### Context
+
+Context提供了一个无需为每层组件手动添加props，就能在组件树间进行数据传递的方法。
 
 ### 错误边界
 
@@ -32,11 +101,17 @@ React.lazy & Suspense也可以用来配合基于路由的分割代码
 ### Portals
 
 ### unmountComponentAtNode
+
 ### findDOMNode
 ### cloneElement
 
 ### isValidElement
 ### forceUpdate
+
+## React Hooks回顾
+
+
+### useLayoutEffect与useEffect的区别
 
 ## 😊 说一说react ssr
 
@@ -76,6 +151,7 @@ SSR渲染过程:
 5. `html`返回浏览器后，`js`文件加载后，会对页面进行水合，绑定事件。以及数据脱水将之前`window`上挂载的数据同步到客户端的`store`中。
 6. 对于`css`我们使用`isomorphic-style-loader`插件处理，将首屏的`css`注入到`html`模版中。这样首屏的html包含了css文件，如果单纯的由客户端添加会产生样式的闪烁。
 
+## render 和 renderToString 的底层实现上的区别？
 ## 😊 renderToString, renderToStaticMarkup的区别
 
 - `renderToString`, 将`React Component`转化为`HTML`字符串，生成的`HTML`的`DOM`会带有额外属性：各个 DOM会有`data-react-id`属性，第一个`DOM`会有`data-checksum`属性。
@@ -162,7 +238,10 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 
 ## React Route的原理（前端路由的原理）
 
-## 虚拟DOM相比原生DOM的优劣
+## 虚拟DOM
+
+### 什么是虚拟DOM
+### 虚拟DOM相比原生DOM的优劣
 
 ## React组件如何通信
 
@@ -193,6 +272,32 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 
 ### Redux异步插件
 
+
+## React Class 组件中请求可以在 componentWillMount 中发起吗？为什么？
+
+## React Class 组件和 React Hook 的区别有哪些？
+
+
+## React 中高阶函数和自定义 Hook 的优缺点？
+
+## 简要说明 React Hook 中 useState 和 useEffect 的运行原理？
+
+> 准备介绍一下preact原理
+
+## React 中 useState 是如何做数据初始化的？
+
+## React 的 useEffect 是如何监听数组依赖项的变化的？
+
+## react 和 react-dom 的区别是什么？
+
+## useState 为什么不能放到条件语句里面？
+
+## useState 怎么做缓存的？
+
+## 怎么解决 useState 闭包的问题？
+
+
+## useReducer 比 redux 好在哪里？
 ## React组件原理
 
 > 回顾一下之前写的组件库的原理
@@ -206,3 +311,4 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 ### Tabs
 
 ### Alert
+
