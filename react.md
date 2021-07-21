@@ -128,12 +128,41 @@ MyClass.contextType = MyContext;
 ```
 ### 错误边界
 
-无法捕获以下的错误
+错误边界，必须使用class组件，错误边界组件中需要定义两个生命周期函数：
+
+1. `static getDerivedStateFromError()`, 用来渲染错误时显示的ui
+2. `componentDidCatch()`, 用来上报错误。
+
+
+错误边界无法捕获以下的错误：
 
 1. 事件处理
 2. 异步代码（例如 setTimeout 或 requestAnimationFrame 回调函数）
 3. 服务端渲染
 4. 它自身抛出来的错误（并非它的子组件）
+
+```tsx
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError(error) {
+    // 更新ui
+    return { hasError: true };
+  }
+  componentDidCatch(error, errorInfo) {
+    // 上报错误
+    logErrorToMyService(error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return <h1>页面出现错误</h1>;
+    }
+    return this.props.children; 
+  }
+}
+```
 
 ### Ref
 ### 高阶组件
@@ -155,7 +184,7 @@ MyClass.contextType = MyContext;
 
 ### useLayoutEffect与useEffect的区别
 
-## 😊 说一说react ssr
+## 😊 说一说react ssr (顺便介绍了SSR)
 
 ### 说一说ssr和csr的区别
 
@@ -346,8 +375,9 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 
 1. 使用useRef。useRef可以拿到最新的值。
 2. 在useEffect，useState中如果使用了state，需要把state添加到依赖的数组中。
+### 为什么useRef可以获取最新的值？
 
-### 为什么useRef可以获取最新的值 ？
+> 我这个回答是我自己总结的，从preact源码的角度进行解释，准确的回答还请大家自己查找。
 
 ## useReducer 比 redux 好在哪里？
 ## React部分组件的核心逻辑
