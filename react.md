@@ -2,6 +2,27 @@
 
 ### React.lazy & Suspense
 
+React.lazy可以用来动态加载组件，可以减小包的体积。但是React.lazy上层必须配合Suspense组件的使用。但是React.lazy与Suspense目前不支持SSR，需要使用`loadable-components`库。
+
+```js
+import React, { Suspense } from 'react';
+
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+
+function Test() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <OtherComponent />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+React.lazy & Suspense也可以用来配合基于路由的分割代码
+#### loadable-components的原理(手写一个React懒加载)
+
 ### Context
 
 ### 错误边界
@@ -9,6 +30,13 @@
 ### 高阶组件
 
 ### Portals
+
+### unmountComponentAtNode
+### findDOMNode
+### cloneElement
+
+### isValidElement
+### forceUpdate
 
 ## 😊 说一说react ssr
 
@@ -118,6 +146,7 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 
 先执行原生事件，然后处理React合成事件。
 
+
 ## 说一说React Diff
 ## 了解React Scheduler吗？
 
@@ -157,6 +186,12 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 ## React Context
 
 ## React页面如何优先渲染某一部分?
+
+## Redux
+
+> 好久没有使用过Redux了
+
+### Redux异步插件
 
 ## React组件原理
 
