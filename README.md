@@ -87,3 +87,5 @@
 - [Preventing rerenders with React.memo and useContext hook.](https://github.com/facebook/react/issues/15156#issuecomment-474590693)
 - [React Scheduler 为什么使用 MessageChannel 实现](https://juejin.cn/post/6953804914715803678#heading-4)
 - [前端面试题集—Vue/React/Angular](https://www.yuque.com/u549385/nci0cc/zdk7yr?language=zh-cn)
+- [React Lazy 的实现原理](https://thoamsy.github.io/blogs/react-lazy/)
+- [揭密React setState](https://juejin.cn/post/6844903667426918408#heading-4)
