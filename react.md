@@ -295,7 +295,12 @@ FancyInput = forwardRef(FancyInput);
 ### useLayoutEffect
 
 函数签名与useEffect相同, 会在DOM更新后同步触发, 会阻塞浏览器的重绘。
-## 😊 useReducer比redux好在哪里？
+## 😊 useReducer和redux比较
+
+1. useReducer没有办法结合中间间，redux有中间件可以选择
+2. useReducer基于单个组件内部的状态，redux是全局的状态
+3. useReducer可以有多个store，redux只能有一个store
+4. 如果想要完全实现redux的功能。还需要结合useContext
 
 ## 😊 如何使用useReducer替代redux?
 ## 😊 useLayoutEffect与useEffect的区别
