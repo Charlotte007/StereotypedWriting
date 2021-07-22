@@ -488,14 +488,17 @@ useEffect(() => {
   return () => {}
 }, [])
 ```
-## 虚拟DOM
-
+## 😊 虚拟DOM
 ### 什么是虚拟DOM
-### 虚拟DOM相比原生DOM的优劣
-## 😊 函数组件和class组件的区别
 
-## 😊 setState到底是异步还是同步
-## 😊 setState如何获取更新后的值
+虚拟DOM就是JS对象。每一个DOM节点对应了不同的JS对象。对象上有props，type，children等属性。
+### 虚拟DOM一定比真实DOM快？
+
+VirtualDOM的优势不在于单次的操作，而是在大量、频繁的数据更新下，能够对视图进行合理、高效的更新（保证了性能的下限）。首次渲染大量DOM时，由于多了一层虚拟DOM的计算，会比innerHTML慢因此并不能说虚拟DOM一定比真实DOM操作快。vscode为了极致的优化使用的就是操作真实的DOM。
+## 函数组件和class组件的区别
+
+## setState到底是异步还是同步
+## setState如何获取更新后的值
 
 ## setState的原理
 
