@@ -495,9 +495,16 @@ useEffect(() => {
 ### 虚拟DOM一定比真实DOM快？
 
 VirtualDOM的优势不在于单次的操作，而是在大量、频繁的数据更新下，能够对视图进行合理、高效的更新（保证了性能的下限）。首次渲染大量DOM时，由于多了一层虚拟DOM的计算，会比innerHTML慢因此并不能说虚拟DOM一定比真实DOM操作快。vscode为了极致的优化使用的就是操作真实的DOM。
-## 函数组件和class组件的区别
 
-## setState到底是异步还是同步
+## 😊 setState到底是异步还是同步
+
+- react合成事件的处理函数中，setState是异步的
+- setTimeout，Promise等异步回调中是同步的
+- 原生事件的处理函数中是同步的
+
+React内部会判断isBatchingUpdates，判断是否合并setState的操作。Dan说过未来React的目标是实现全部都是异步，而不存在同步的情况。
+
+
 ## setState如何获取更新后的值
 
 ## setState的原理
