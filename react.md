@@ -302,7 +302,28 @@ FancyInput = forwardRef(FancyInput);
 3. useReducer可以有多个store，redux只能有一个store
 4. 如果想要完全实现redux的功能。还需要结合useContext
 
-## 😊 如何使用useReducer替代redux?
+### 如何使用useReducer替代redux?
+
+使用useReducer + useContext可以实现redux大部分功能, 下面是一个简单的例
+
+```js
+// 外层的组件
+const Context = createContext({});
+function Provider (props) {
+  const [state, dispatch] = useReducer(reducer, {})
+  return (
+    <Context.Provider value={{state, dispatch}}>
+      {props.children}
+    </Context.Provider>
+  )
+}
+
+// 子组件
+const Buttons = props => {
+  const { dispatch, state } = useContext(Context)
+  // 可以使用dispatch，state
+}
+```
 ## 😊 useLayoutEffect与useEffect的区别
 
 ![useLayoutEffect.png](https://i.loli.net/2021/07/22/gHnrC58lLt3dvWE.png)
@@ -422,7 +443,7 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 
 
 ## 说一说React Diff
-## 了解React Scheduler吗？
+## 😊 了解React Scheduler吗？
 
 ## 说一说对Time Slice的理解?
 
