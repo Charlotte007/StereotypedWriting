@@ -380,7 +380,7 @@ SSR渲染过程:
 
 - 调用`hydrate`, 如果已经具有此服务器渲染标记的节点(`renderToStaticMarkup`返回的不具有标记)，React将保留它并仅附加事件处理程序。如果是不具有标记的会重新覆盖。
 - 当首次调用`render`时，容器节点里的所有`DOM`元素都会被替换。后续的调用则会使用`diff`算法进行高效的更新。使用`render`方法对服务端渲染容器进行水合操作的方式已经被废弃。
-## react的优化的方法
+## 😊 react的优化的方法
 
 1. 颗粒化可控组件。例如，一个表单的`state`由一个庞大父组件的`state`控制，表单的更新可能会导致其他子组件不必要的更新。将表单单独抽象为一个组件，做到`state`隔离。同理接口请求也是，可以将请求隔离到单独的组件里。
 2. 使用`React.PureComponent`, `React.memo`, `shouldComponentUpdate`
@@ -472,12 +472,26 @@ class Index extends React.Component<any,any>{
 }
 ```
 
-## useEffect对应的生命周期
+## 😊 useEffect对应的生命周期
 
-- componentDidMount
-- componentDidUpdate
-- componentWillUnmount
+```js
+// componentDidMount
+useEffect(() => {
+}, [])
 
+// componentDidUpdate
+useEffect(() => {
+}, [deps])
+
+// componentWillUnmount
+useEffect(() => {
+  return () => {}
+}, [])
+```
+## 虚拟DOM
+
+### 什么是虚拟DOM
+### 虚拟DOM相比原生DOM的优劣
 ## 😊 函数组件和class组件的区别
 
 ## 😊 setState到底是异步还是同步
@@ -560,10 +574,6 @@ const scheduler = {
 
 ## Component 和 PureComponent 的区别
 
-## 虚拟DOM
-
-### 什么是虚拟DOM
-### 虚拟DOM相比原生DOM的优劣
 
 ## React组件如何通信
 
@@ -600,7 +610,7 @@ const scheduler = {
 ## 😊 Class组件中请求可以在componentWillMount中发起吗？为什么？
 
 不可以。由于Fiber的引入componentWillMount，可能会被调用多次。
-## 😊 React中高阶函数和自定义Hook的优缺点？
+## React中高阶函数和自定义Hook的优缺点？
 
 ## 简要说明ReactHook中useState和useEffect的运行原理？
 
