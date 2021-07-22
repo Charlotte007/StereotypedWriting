@@ -517,12 +517,26 @@ this.setState((state, props) => {
 });
 ```
 
-## setState的原理
+## 😊 setState的原理
+
+> 😂 其实这个回答，我由于没看过React的源码，所以看的有些云里雾里的。preact中很简单，单纯的开启了一个微任务Promise.resolve进行等待，微任务执行之前的setState都会被合并，微任务执行的时候才是真正进行更新的时候。
+
+每个类组建都有一个`updater`对象用于管理`state`的变化，
+
+1. 调用setState传入partialState时，会将partialState存入updater中的pendingState中，
+2. updater会调用emitUpdate来决定当前是否立即更新，判断条件简单来说是否有nextProps，或者updateQueue的isPending是否开启。(updateQueue用于批量管理updater)
+3. 如果updatequeue的isPendiing为true，那么就将当前update直接加入updateQueue的队列中。
+4. 开启isPending的方式可以是自定义方法和生命周期函数等。
+5. 当这些方法执行完毕更新update，调用update的componentUpdate，判断组件的shouldComponentUpdate决定是否调用forceUpdate进行更新。
 
 ## React.lazy的原理
 
 ## React的最新特性
 
+## 😊 React单项数据流的好处
+
+1. 数据流方向可跟踪，追查问题快捷。
+2. view发出action不修改原有的state而是返回一个新的数据，可以保存state的历史记录。
 ## 说一说React Fiber
 
 `React Fiber`架构主要有两个阶段, `reconciliation(协调)`和`commit(提交)`, 在协调阶段会发生: 更新state和props, 调用生命周期, diff, 更新DOM的操作。如果`React`同步遍历整个组件树，可能会造成页面卡顿。所以`React`需要一种可以随时中断，随时恢复遍历的数据结构。`React Fiber`本质是一个链表树，每一个`Fiber`节点上包含了`stateNode`, `type`, `alternate`, `nextEffect`, `child`, `sibling`, `return`等属性。`React`的`nextUnitOfWork`变量会保留对当前`Fiber`节点的引用。以便随时恢复遍历。
