@@ -504,8 +504,18 @@ VirtualDOM的优势不在于单次的操作，而是在大量、频繁的数据�
 
 React内部会判断isBatchingUpdates，判断是否合并setState的操作。Dan说过未来React的目标是实现全部都是异步，而不存在同步的情况。
 
+### setState如何获取更新后的值
 
-## setState如何获取更新后的值
+可以使用setState的第二个参数
+
+```js
+this.setState((state, props) => {
+  // state, props都是最新的
+  return {counter: state.counter + props.step};
+}, () => {
+  // 将在setState完成合并并重新渲染组件后执行
+});
+```
 
 ## setState的原理
 
