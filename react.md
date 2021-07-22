@@ -331,7 +331,7 @@ const Buttons = props => {
 - useEffect，使用useEffect不会阻塞浏览器的重绘。会在会址了DOM的更改后触发。
 - useLayoutEffect, 会在DOM更新后同步触发。使用useLayoutEffect，会阻塞浏览器的重绘。如果你需要手动的修改Dom，推荐使用useLayoutEffect。因为如果在useEffect中更新Dom，useEffect不会阻塞重绘，用户可能会看到因为更新导致的闪烁，
 
-## 😊 ssr和后端模版性能的差异？
+## ssr和后端模版性能的差异？
 ## 😊 说一说react ssr (顺便介绍了SSR)
 
 ### 说一说ssr和csr的区别
@@ -445,9 +445,46 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 ## 说一说React Diff
 ## 😊 了解React Scheduler吗？
 
-## 说一说对Time Slice的理解?
+什么是`React Scheduler`? 由于引入了Fiber的概念，使React可以中断渲染，避免阻塞浏览器。所以React需要在浏览器空闲时，执行渲染。requestIdleCallback由于兼容性的问题，以及执行频率不足以流畅的呈现UI。所以React团队实现了自己的版本。这个自己的版本的就是Scheduler。
 
-## useState缓存的原理
+如果只考虑 React和Scheduler的交互，则组件更新的流程如下：
+
+1. React组件状态更新，向Scheduler 中存入一个任务，该任务为React更新算法。（Scheduler.pushTask, 添加任务）
+2. Scheduler调度该任务，执行React更新算法。（Scheduler.scheduleTask, 调度任务）
+3. React在调和阶段更新一个Fiber之后，会询问Scheduler是否需要暂停。如果不需要暂停，则重复步骤 3，继续更新下一个 Fiber。（Scheduler.shouldYield, 是否暂停任务）
+4. 如果 Scheduler 表示需要暂停，则 React 将返回一个函数，该函数用于告诉 Scheduler 任务还没有完成。Scheduler 将在未来某时刻调度该任务。
+
+Scheduler基于MessageChannel实现。为什么是MessageChannel？Scheduler.shouldYield返回true，我们需要：
+
+1. 暂停Fiber更新，将主线程还给浏览器，让浏览器有机会更新页面
+2. 在未来某个时刻继续调度任务，执行上次还没有完成的任务
+
+满足这两点就需要调度一个宏任务，因为宏任务是在下次事件循环中执行，不会阻塞本次页面更新
+
+```js
+const channel = new MessageChannel()
+const port = channel.port2
+
+// 每次 port.postMessage() 调用就会添加一个宏任务
+// 该宏任务为调用 scheduler.scheduleTask 方法
+channel.port1.onmessage = scheduler.scheduleTask
+
+const scheduler = {
+  scheduleTask() {
+    // 调度任务
+    // 如果当前任务未完成，则在下个宏任务继续执行
+    if (continuousTask) {
+      // 执行主线程
+      // 调用宏任务，下一次宏任务继续Fiber更新
+      port.postMessage(null)
+    }
+  },
+}
+```
+
+为什么不使用setTimeout？setTimeout最小间隔是4ms，不满足需求。
+
+## 说一说对Time Slice的理解?
 
 ## react生命周期
 
@@ -484,6 +521,8 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 ## React Context
 
 ## React页面如何优先渲染某一部分?
+
+## useState缓存的原理
 
 ## Redux
 
