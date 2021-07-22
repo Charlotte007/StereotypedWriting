@@ -331,8 +331,7 @@ const Buttons = props => {
 - useEffect，使用useEffect不会阻塞浏览器的重绘。会在会址了DOM的更改后触发。
 - useLayoutEffect, 会在DOM更新后同步触发。使用useLayoutEffect，会阻塞浏览器的重绘。如果你需要手动的修改Dom，推荐使用useLayoutEffect。因为如果在useEffect中更新Dom，useEffect不会阻塞重绘，用户可能会看到因为更新导致的闪烁，
 
-## ssr和后端模版性能的差异？
-## 😊 说一说react ssr (顺便介绍了SSR)
+## 😊 说一说react ssr (顺便介绍了SSR优点和缺点)
 
 ### 说一说ssr和csr的区别
 
@@ -363,6 +362,8 @@ SSR渲染过程:
 
 ### react ssr的具体流程梳理
 
+![ssr](https://i.loli.net/2021/07/22/f6HdX3Nzmw7vjO2.png)
+
 1. `node`服务器监听任意`url`的请求。使用`react-router-config`的`matchRoutes`方法对`url`进行匹配。
 2. `matchRoutes`方法会以数组的形式返回匹配的组件。我们需要遍历匹配的组件，并调用它们暴露的初始化页面数据的方法，数据会存储到`redux`的`store`中。需要注意的是，`node`服务器是一个长期运行的进程，为了避免多个请求共享同一个`store`, 我们需要为每一次的请求生成一个`store`。
 3. 如果`url`地址不被匹配或者需要重定向，我们需要使用`node`服务器**显示**的发送重定向到客户端。
@@ -370,7 +371,6 @@ SSR渲染过程:
 5. `html`返回浏览器后，`js`文件加载后，会对页面进行水合，绑定事件。以及数据脱水将之前`window`上挂载的数据同步到客户端的`store`中。
 6. 对于`css`我们使用`isomorphic-style-loader`插件处理，将首屏的`css`注入到`html`模版中。这样首屏的html包含了css文件，如果单纯的由客户端添加会产生样式的闪烁。
 
-## render 和 renderToString 的底层实现上的区别？
 ## 😊 renderToString, renderToStaticMarkup的区别
 
 - `renderToString`, 将`React Component`转化为`HTML`字符串，生成的`HTML`的`DOM`会带有额外属性：各个 DOM会有`data-react-id`属性，第一个`DOM`会有`data-checksum`属性。
@@ -380,7 +380,7 @@ SSR渲染过程:
 
 - 调用`hydrate`, 如果已经具有此服务器渲染标记的节点(`renderToStaticMarkup`返回的不具有标记)，React将保留它并仅附加事件处理程序。
 - 当首次调用`render`时，容器节点里的所有`DOM`元素都会被替换。后续的调用则会使用`diff`算法进行高效的更新。使用`render`方法对服务端渲染容器进行水合操作的方式已经被废弃。
-## 😊 react的优化的方法
+## react的优化的方法
 
 1. 颗粒化可控组件。例如，一个表单的`state`由一个庞大父组件的`state`控制，表单的更新可能会导致其他子组件不必要的更新。将表单单独抽象为一个组件，做到`state`隔离。
 2. 使用`React.PureComponent`, `React.memo`, `shouldComponentUpdate`
@@ -405,7 +405,7 @@ import { useState, useEffect } from 'react';
 // 在class组件中使用React.memo隔离
 ```
 
-## 😊 useEffect对应的生命周期
+## useEffect对应的生命周期
 
 - componentDidMount
 - componentDidUpdate
@@ -422,7 +422,7 @@ import { useState, useEffect } from 'react';
 
 ## React的最新特性
 
-## 😊 说一说React Fiber
+## 说一说React Fiber
 
 `React Fiber`架构主要有两个阶段, `reconciliation(协调)`和`commit(提交)`, 在协调阶段会发生: 更新state和props, 调用生命周期, diff, 更新DOM的操作。如果`React`同步遍历整个组件树，可能会造成页面卡顿。所以`React`需要一种可以随时中断，随时恢复遍历的数据结构。`React Fiber`本质是一个链表树，每一个`Fiber`节点上包含了`stateNode`, `type`, `alternate`, `nextEffect`, `child`, `sibling`, `return`等属性。`React`的`nextUnitOfWork`变量会保留对当前`Fiber`节点的引用。以便随时恢复遍历。
 ## 😊 说一说React事件机制
@@ -440,7 +440,6 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 ### 😊 React事件与原生事件执行顺序
 
 先执行原生事件，然后处理React合成事件。
-
 
 ## 说一说React Diff
 ## 😊 了解React Scheduler吗？
@@ -482,7 +481,7 @@ const scheduler = {
 }
 ```
 
-为什么不使用setTimeout？setTimeout最小间隔是4ms，不满足需求。
+为什么不使用setTimeout？setTimeout也是宏任务，因为setTimeout最小间隔是4ms，不满足需求。
 
 ## 说一说对Time Slice的理解?
 
@@ -530,14 +529,10 @@ const scheduler = {
 
 ### Redux异步插件
 
-
 ## 😊 react和react-dom的区别是什么？
 ## 😊 Class组件中请求可以在componentWillMount中发起吗？为什么？
 
 不可以。由于Fiber的引入componentWillMount，可能会被调用多次。
-
-## 😊 Class组件和Hook组件的区别有哪些？
-
 ## 😊 React中高阶函数和自定义Hook的优缺点？
 
 ## 😊 简要说明ReactHook中useState和useEffect的运行原理？
@@ -566,9 +561,9 @@ const scheduler = {
 
 > 我这个回答是我自己总结的，从preact源码的角度进行解释，准确的回答还请大家自己查找。
 
-## useReducer 比 redux 好在哪里？
+## React Key做什么的？
 
-## ReactKey做什么的？
+## ssr和后端模版性能的差异？
 
 ## React 和 Vue 的区别？
 ## React部分组件的核心逻辑
