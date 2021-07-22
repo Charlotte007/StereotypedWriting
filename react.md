@@ -226,14 +226,9 @@ ReactDOM.createPortal(child, container)
 // dom, 挂载组件的dom元素
 ReactDOM.unmountComponentAtNode(dom);
 ```
-
-### findDOMNode
-### cloneElement
-
-### isValidElement
 ### forceUpdate
 
-### renderProps
+强制让组件重新渲染。调用forceUpdate()将致使组件调用render()方法，此操作会跳过该组件的 shouldComponentUpdate()。但其子组件会触发正常的生命周期方法，包括shouldComponentUpdate()方法。
 
 ## 😊 ReactHook基础回顾
 
