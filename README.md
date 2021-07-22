@@ -83,3 +83,6 @@
 - [解决浏览器保存密码自动填充问题](https://segmentfault.com/a/1190000022270190)
 - [手写React路由懒加载](https://www.cnblogs.com/ximenchuifa/p/13855358.html)
 - [Why is it recommended to do Ajax in componentDidMount instead of componentWillMount?](https://blog.jakoblind.no/ajax-componentdidmount-vs-componentwillmount/)
+- [When to use native React.useReducer Hook and how it differentiate from Redux](https://stackoverflow.com/questions/54576865/when-to-use-native-react-usereducer-hook-and-how-it-differentiate-from-redux)
+- [Preventing rerenders with React.memo and useContext hook.](https://github.com/facebook/react/issues/15156#issuecomment-474590693)
+- [React Scheduler 为什么使用 MessageChannel 实现](https://juejin.cn/post/6953804914715803678#heading-4)

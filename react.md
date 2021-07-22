@@ -1,4 +1,4 @@
-## 😊 React基础回顾
+## 😊 React API回顾
 
 > 回顾一些不常用的API的使用方式
 ### React.lazy & Suspense
@@ -234,9 +234,78 @@ ReactDOM.unmountComponentAtNode(dom);
 
 > 回顾一些不常用的Hooks的使用方式
 
+### useState
 
+useState可以接收一个函数作为参数，函数的返回值作为初始化的值
+### useContext
+
+接收一个Context对象并返回该Context的当前值。和class组件中的contextType类似。调用了 useContext 的组件总会在 context 值变化时重新渲染。如果重渲染组件的开销较大，你可以 通过使用useMemo来优化，避免重复的渲染。
+### useReducer
+
+useReducer接收第三个值可以是一个函数，init(initialArg)将作为初始值
+
+```js
+const initialState = {count: 0};
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return {count: state.count + 1};
+    case 'decrement':
+      return {count: state.count - 1};
+    default:
+      throw new Error();
+  }
+}
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return (
+    <>
+      Count: {state.count}
+      <button onClick={() => dispatch({type: 'decrement'})}>-</button>
+      <button onClick={() => dispatch({type: 'increment'})}>+</button>
+    </>
+  );
+}
+```
+
+### useCallback && useMemo
+
+`useCallback(fn, deps)`相当于`useMemo(() => fn, deps)`
+### useRef
+
+useRef会在每次渲染时返回同一个ref对象, useRef可以避免闭包的问题。变更ref.current属性不会引发组件重新渲染。
+### useImperativeHandle
+
+自定义暴露给父组件的实例值
+
+```ts
+function FancyInput(props, ref) {
+  const inputRef = useRef();
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputRef.current.focus();
+    }
+  }));
+  return <input ref={inputRef} ... />;
+}
+FancyInput = forwardRef(FancyInput);
+
+// 父组件可以调用 inputRef.current.focus()
+```
+### useLayoutEffect
+
+函数签名与useEffect相同, 会在DOM更新后同步触发, 会阻塞浏览器的重绘。
+## 😊 useReducer比redux好在哪里？
+
+## 😊 如何使用useReducer替代redux?
 ## 😊 useLayoutEffect与useEffect的区别
 
+![useLayoutEffect.png](https://i.loli.net/2021/07/22/gHnrC58lLt3dvWE.png)
+
+- useEffect，使用useEffect不会阻塞浏览器的重绘。会在会址了DOM的更改后触发。
+- useLayoutEffect, 会在DOM更新后同步触发。使用useLayoutEffect，会阻塞浏览器的重绘。如果你需要手动的修改Dom，推荐使用useLayoutEffect。因为如果在useEffect中更新Dom，useEffect不会阻塞重绘，用户可能会看到因为更新导致的闪烁，
+
+## 😊 ssr和后端模版性能的差异？
 ## 😊 说一说react ssr (顺便介绍了SSR)
 
 ### 说一说ssr和csr的区别
@@ -357,8 +426,6 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 ## react生命周期
 
 ## useState的闭包问题
-
-## useReducer比redux好在哪里？
 
 ## React Route的原理（前端路由的原理）
 
