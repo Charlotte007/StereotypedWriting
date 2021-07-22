@@ -1,6 +1,6 @@
 ## 😊 React基础回顾
 
-> 回顾一些API的使用方式
+> 回顾一些不常用的API的使用方式
 ### React.lazy & Suspense
 
 React.lazy可以用来动态加载组件，可以减小包的体积。但是React.lazy上层必须配合Suspense组件的使用。但是React.lazy与Suspense目前不支持SSR，需要使用`react-loadable`库。
@@ -164,12 +164,68 @@ class ErrorBoundary extends React.Component {
 }
 ```
 
-### Ref
-### 高阶组件
+### Refs
 
+Refs提供了一种方式，允许我们访问DOM节点或在render方法中创建的React元素。
+
+```js
+const FancyButton = React.forwardRef((props, ref) => (
+  <button ref={ref} className="FancyButton">
+    {props.children}
+  </button>
+));
+
+const ref = React.createRef();
+<FancyButton ref={ref}>Click me!</FancyButton>;
+
+// 也可以通过useImperativeHandle 自定义暴露给父组件的实例值
+function FancyInput(props, ref) {
+  const inputRef = useRef();
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputRef.current.focus();
+    }
+  }));
+  return <input ref={inputRef} ... />;
+}
+FancyInput = forwardRef(FancyInput);
+
+// 父组件
+<FancyInput ref={inputRef} />
+inputRef.current.focus()
+```
+
+```js
+// 在hoc中转发Ref
+function logProps(Component) {
+  class LogProps extends React.Component {
+    render() {
+      const {forwardedRef, ...rest} = this.props;
+      return <Component ref={forwardedRef} {...rest} />;
+    }
+  }
+  return React.forwardRef((props, ref) => {
+    return <LogProps {...props} forwardedRef={ref} />;
+  });
+}
+```
 ### Portals
 
+Portal提供了一种将子节点渲染到存在于父组件以外的DOM节点的优秀的方案。
+
+```js
+// 第一个参数（child）是任何可渲染的 React 子元素
+// 第二个参数（container）是一个 DOM 元素。
+ReactDOM.createPortal(child, container)
+```
 ### unmountComponentAtNode
+
+手动从DOM中卸载组件
+
+```js
+// dom, 挂载组件的dom元素
+ReactDOM.unmountComponentAtNode(dom);
+```
 
 ### findDOMNode
 ### cloneElement
@@ -179,10 +235,12 @@ class ErrorBoundary extends React.Component {
 
 ### renderProps
 
-## 😊 React Hooks回顾
+## 😊 ReactHook基础回顾
+
+> 回顾一些不常用的Hooks的使用方式
 
 
-### useLayoutEffect与useEffect的区别
+## 😊 useLayoutEffect与useEffect的区别
 
 ## 😊 说一说react ssr (顺便介绍了SSR)
 
@@ -263,10 +321,10 @@ import { useState, useEffect } from 'react';
 - componentDidUpdate
 - componentWillUnmount
 
-## 函数组件和class组件的区别
+## 😊 函数组件和class组件的区别
 
 ## 😊 setState到底是异步还是同步
-## setState如何获取更新后的值
+## 😊 setState如何获取更新后的值
 
 ## setState的原理
 
@@ -289,7 +347,7 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 
 为了更好的实现跨平台。`React v17`版本不在将事件绑定在`document`上。而绑定在了`React.render`的目标节点上。
 
-### React事件与原生事件执行顺序
+### 😊 React事件与原生事件执行顺序
 
 先执行原生事件，然后处理React合成事件。
 
@@ -308,6 +366,8 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 ## useReducer比redux好在哪里？
 
 ## React Route的原理（前端路由的原理）
+
+## Component 和 PureComponent 的区别
 
 ## 虚拟DOM
 
@@ -380,6 +440,10 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 > 我这个回答是我自己总结的，从preact源码的角度进行解释，准确的回答还请大家自己查找。
 
 ## useReducer 比 redux 好在哪里？
+
+## ReactKey做什么的？
+
+## React 和 Vue 的区别？
 ## React部分组件的核心逻辑
 
 > 回顾一下之前写的组件库的原理，面试的时候方便回答
