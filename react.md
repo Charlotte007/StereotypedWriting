@@ -708,6 +708,10 @@ const scheduler = {
 - static getDerivedStateFromError(error)，此生命周期会在后代组件抛出错误后被调用。 它将抛出的错误作为参数，并返回一个值以更新 state
 - componentDidCatch(error)，此生命周期在后代组件抛出错误后被调用
 
+### React为什么要删除那几个旧的生命周期？
+
+在Fiber架构中，它们可能会执行多次
+
 ## 😊 Component和PureComponent的区别
 
 React.PureComponent 与 React.Component 几乎完全相同，但 React.PureComponent 通过props和state的浅对比来实现 shouldComponentUpate()
@@ -717,6 +721,8 @@ React.PureComponent 与 React.Component 几乎完全相同，但 React.PureCompo
 - react-dom, 用来粘合react到浏览器的dom中
 
 ## 😊 React中Hoc和自定义Hook的优缺点？
+
+
 
 ## 😊 React的useEffect是如何监听数组依赖项的变化的？
 
