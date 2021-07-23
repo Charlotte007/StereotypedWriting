@@ -683,6 +683,16 @@ const scheduler = {
 
 1. 使用useRef。useRef可以拿到最新的值。
 2. 在useEffect，useState中如果使用了state，需要把state添加到依赖的数组中。
+
+## React的useEffect是如何监听数组依赖项的变化的？
+
+> 我这个回答是我自己总结的，从preact源码的角度进行解释，准确的回答还请大家自己查找。
+
+## 为什么useRef可以获取最新的值？
+
+> 我这个回答是我自己总结的，从preact源码的角度进行解释，准确的回答还请大家自己查找。
+
+
 ## 😊 react生命周期
 
 ![lifeCycle.png](https://i.loli.net/2021/07/23/oQGBbhK7Icm6aDs.png)
@@ -747,18 +757,13 @@ React.PureComponent 与 React.Component 几乎完全相同，但 React.PureCompo
 
 1. 存在闭包的问题
 2. 不能渲染组件
-## 😊 React的useEffect是如何监听数组依赖项的变化的？
 
-## 😊 为什么useRef可以获取最新的值？
-
-> 我这个回答是我自己总结的，从preact源码的角度进行解释，准确的回答还请大家自己查找。
-
-## 😊 ReactContext
+## ReactContext
+## Redux
 
 ## 😊 ReactKey做什么的？
 
-## 😊 Redux
-
+在Diff算法比对列表中的虚拟DOM的时候，添加合适的key，可以更方便复用DOM，而不是重新创建DOM。在preact中会判断key是否相等，，以及虚拟dom的type是否相等，如果相等会复用这个节点。
 ## 说一说React Diff
 
 ## React Route的原理（前端路由的原理）
