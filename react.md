@@ -560,9 +560,34 @@ React18将会带来的新特性：
 
 1. 数据流方向可跟踪，追查问题快捷。
 2. view发出action不修改原有的state而是返回一个新的数据，可以保存state的历史记录。
-## 说一说React Fiber
+## 😊 说一说React Fiber
 
-`React Fiber`架构主要有两个阶段, `reconciliation(协调)`和`commit(提交)`, 在协调阶段会发生: 更新state和props, 调用生命周期, diff, 更新DOM的操作。如果`React`同步遍历整个组件树，可能会造成页面卡顿。所以`React`需要一种可以随时中断，随时恢复遍历的数据结构。`React Fiber`本质是一个链表树，每一个`Fiber`节点上包含了`stateNode`, `type`, `alternate`, `nextEffect`, `child`, `sibling`, `return`等属性。`React`的`nextUnitOfWork`变量会保留对当前`Fiber`节点的引用。以便随时恢复遍历。
+首先为什么需要Fiber?在之前版本的`React`中，如果需要`render`一整个庞大的节点树，可能会造成页面卡顿。所以`React`需要一种可以随时中断，随时恢复遍历的数据结构。
+
+Fiber架构就是为了解决这个痛点。每一个React元素都对应一个`Fiber`节点, 可以将Fiber节点看作一种数据解构，每一个Fiber节点表示一个work单元，work就是Fiber需要做的工作，不同的React元素对应着不同的Fiber节点，不同的Fiber节点对应着不同的工作（work）。`Fiber`节点组成了`Fiber`树。Fiber树的本质是一个链表树。
+
+Fiber节点的`child`属性，指向了第一个子Fiber节点。`sibling`属性，指向第一个同级的Fiber节点。`return`属性，指向父级的Fiber节点。通过这些属性连接起了各个Fiber节点，形成了一个链表树。
+
+React在遍历Fiber树是可以被打断的，因为React其中有一个变量`nextUnitOfWork`。`nextUnitOfWork`变量会保留对当前`Fiber`节点的引用。以便中断后可以随时恢复遍历。
+
+同时Fiber树，还会把所有包含副作用的节点，构建为线性列表，以方便在commit阶段快速迭代
+
+![Fiber.png](https://i.loli.net/2021/07/23/GeD8ZaURonlxYwV.png)
+
+Fiber节点上还有一些其他属性:
+
+- stateNode, 保留了class组件实例的引用。
+- type，定义与此Fiber节点相关联的函数或者类。对于class组件，type属性指向构造函数。对于DOM元素，type属性指向HTML标记
+- updateQueue, state更新和回调，DOM更新的队列。
+- effectTag, 节点的副作用（数据获取、订阅或者手动修改过DOM都是副作用）。
+
+等等...
+
+React将分为两个阶段执行work
+
+1. 协调阶段，协调阶段的工作是可以异步执行的，React根据可用时间处理一个或者多个Fiber节点。当发生一些更重要的事情时，React会停止并保存已完成的工作。等重要的事情处理完成后，React从中断处继续完成工作。但是有时可能会放弃已经完成的工作，从顶层重新开始。此阶段执行的工作是对用户是不可见的，因此可以实现暂停。协调阶段主要做了调用前置突变生命周期方法，更新state，定义相关effects
+2. 提交阶段, 始终是同步的它会产生用户可见的变化，不可以把打断。提交阶段更新DOM, 以及调用生命周期方法的地方
+
 ## 说一说React事件机制
 
 React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发事件，会冒泡到`document`对象后，处理`React`合成事件。合成事件不能像原生事件一样使用`return flase`的形式阻止默认行为，必须使用`e.preventDefault`方法。
@@ -625,12 +650,6 @@ const scheduler = {
 
 ## React Route的原理（前端路由的原理）
 
-## Component 和 PureComponent 的区别
-
-## 说一说对Time Slice的理解?
-
-## useState的闭包问题
-
 
 ## React组件如何通信
 
@@ -650,6 +669,12 @@ const scheduler = {
 - EventBus（发布订阅）
 - 状态提升
 - 状态管理工具
+
+## Component和PureComponent 的区别
+
+## 说一说对Time Slice的理解?
+
+## useState的闭包问题
 
 ## React Context
 
