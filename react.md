@@ -695,26 +695,42 @@ const scheduler = {
 - componentDidMount() 在组件挂载后（插入DO树中）立即调用。依赖于DOM节点的初始化应该放在这里。如需通过网络请求获取数据，此处是实例化请求的好地方。只会调用一次
 ### 更新阶段
 
+- UNSAFE_componentWillReceiveProps(nextProps)，接收到新的props时调用，可以对比this.props和nextProps，然后在方法中调用this.setState更新state。
 - static getDerivedStateFromProps(nextProps, prevState)
+- shouldComponentUpdate(nextProps, nextState)，根据shouldComponentUpdate()的返回值，判断是否需要重新渲染。PureComponent和shouldComponentUpdate类似，进行浅层的比较。返回false告知React可以跳过更新。请注意，返回false并不会阻止子组件在state更改时重新渲染。返回false，不会调用UNSAFE_componentWillUpdate()，render()，componentDidUpdate()。后续版本React版本返回false时，仍可能导致组件重新渲染。
+- UNSAFE_componentWillUpdate(nextProps, nextState)，不能此方法中调用this.setState()
+- render()
+- getSnapshotBeforeUpdate(prevProps, prevState)，在最近一次渲染输出（提交到 DOM 节点）之前调用。它使得组件能在发生更改之前从 DOM 中捕获一些信息（例如，滚动位置）。此生命周期方法的任何返回值将作为参数传递给 componentDidUpdate()。
+- componentDidUpdate(prevProps, prevState, snapshot)，会在更新后会被立即调用。首次渲染不会执行此方法。当组件更新后，可以在此处对 DOM 进行操作。如果你对更新前后的 props 进行了比较，也可以选择在此处进行网络请求。（例如，当props未发生变化时，则不会执行网络请求）。你也可以在componentDidUpdate()中直接调用 setState()，但请注意它必须被包裹在一个条件语句里，正如上述的例子那样进行处理，否则会导致死循环。
+### 其他
 
-## Component和PureComponent的区别
+- componentWillUnmount()，会在组件卸载及销毁之前直接调用。
+- static getDerivedStateFromError(error)，此生命周期会在后代组件抛出错误后被调用。 它将抛出的错误作为参数，并返回一个值以更新 state
+- componentDidCatch(error)，此生命周期在后代组件抛出错误后被调用
 
-## react和react-dom的区别是什么？
+## 😊 Component和PureComponent的区别
 
-## React中高阶函数和自定义Hook的优缺点？
+React.PureComponent 与 React.Component 几乎完全相同，但 React.PureComponent 通过props和state的浅对比来实现 shouldComponentUpate()
+## 😊 react和react-dom的区别是什么？
 
-## React的useEffect是如何监听数组依赖项的变化的？
+- react, 构建用户界面
+- react-dom, 用来粘合react到浏览器的dom中
 
-## 为什么useRef可以获取最新的值？
+## 😊 React中Hoc和自定义Hook的优缺点？
+
+## 😊 React的useEffect是如何监听数组依赖项的变化的？
+
+## 😊 为什么useRef可以获取最新的值？
 
 > 我这个回答是我自己总结的，从preact源码的角度进行解释，准确的回答还请大家自己查找。
 
+## 😊 ReactContext
+
+## 😊 ReactKey做什么的？
+
 ## 说一说React Diff
 ## React Route的原理（前端路由的原理）
-
 ## 说一说对Time Slice的理解?
-
-## React Context
 
 ## React页面如何优先渲染某一部分?
 ## Redux
@@ -722,10 +738,6 @@ const scheduler = {
 > 好久没有使用过Redux了
 
 ### Redux异步插件
-
-## React中useState是如何做数据初始化的？
-
-## React Key做什么的？
 
 ## ssr和后端模版性能的差异？
 
