@@ -587,10 +587,9 @@ React将分为两个阶段执行work
 
 1. 协调阶段，协调阶段的工作是可以异步执行的，React根据可用时间处理一个或者多个Fiber节点。当发生一些更重要的事情时，React会停止并保存已完成的工作。等重要的事情处理完成后，React从中断处继续完成工作。但是有时可能会放弃已经完成的工作，从顶层重新开始。此阶段执行的工作是对用户是不可见的，因此可以实现暂停。协调阶段主要做了调用前置突变生命周期方法，更新state，定义相关effects
 2. 提交阶段, 始终是同步的它会产生用户可见的变化，不可以把打断。提交阶段更新DOM, 以及调用生命周期方法的地方
+## 😊 说一说React事件机制
 
-## 说一说React事件机制
-
-React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发事件，会冒泡到`document`对象后，处理`React`合成事件。合成事件不能像原生事件一样使用`return flase`的形式阻止默认行为，必须使用`e.preventDefault`方法。
+React的合成事件都挂载在`document`对象上（React17做出了更改）。利用了事件委托，当真实`DOM`元素触发事件，会冒泡到`document`对象后，处理`React`合成事件。合成事件不能像原生事件一样使用`return flase`的形式阻止默认行为，必须使用`e.preventDefault`方法。
 
 合成事件的机制的优势：
 
@@ -604,7 +603,6 @@ React的合成事件都挂载在`document`对象上。当真实`DOM`元素触发
 
 先执行原生事件，然后处理React合成事件。
 
-## 说一说React Diff
 ## 😊 了解React Scheduler吗？
 
 什么是`React Scheduler`? 由于引入了Fiber的概念，使React可以中断渲染，避免阻塞浏览器。所以React需要在浏览器空闲时，执行渲染。requestIdleCallback由于兼容性的问题，以及执行频率不足以流畅的呈现UI。所以React团队实现了自己的版本。这个自己的版本的就是Scheduler。
@@ -646,6 +644,7 @@ const scheduler = {
 
 为什么不使用setTimeout？setTimeout也是宏任务，因为setTimeout最小间隔是4ms，不满足需求。
 
+## 说一说React Diff
 ## react生命周期
 
 ## React Route的原理（前端路由的原理）
