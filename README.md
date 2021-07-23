@@ -91,3 +91,4 @@
 - [揭密React setState](https://juejin.cn/post/6844903667426918408#heading-4)
 - [React 中 setState 什么时候是同步的，什么时候是异步的？](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/17)
 - [React vs ReactDOM?](https://stackoverflow.com/questions/34114350/react-vs-reactdom)
+- [When and how to choose between React Hooks and old HOC props passing?](https://stackoverflow.com/questions/53387613/when-and-how-to-choose-between-react-hooks-and-old-hoc-props-passing)

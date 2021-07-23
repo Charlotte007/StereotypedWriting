@@ -722,8 +722,31 @@ React.PureComponent 与 React.Component 几乎完全相同，但 React.PureCompo
 
 ## 😊 React中Hoc和自定义Hook的优缺点？
 
+### Hoc
 
+优点：
 
+1. 高阶组件是一个纯函数，各个高阶组件不会互相依赖耦合。
+2. 提高在组件渲染前进行操作的机会。
+
+缺点：
+
+1. 嵌套地狱
+2. 可读性差
+3. 使用多个HOC时，可能会有props命名的冲突。并且容易混淆无法确定子组件的props是哪个HOC负责传递的。
+4. 可能存在性能问题，每一个props的变化都会导致重新渲染。
+### hook
+
+优点：
+
+1. 避免地狱式嵌套
+2. 可读性好
+3. 逻辑更容易复用
+
+缺点：
+
+1. 存在闭包的问题
+2. 不能渲染组件
 ## 😊 React的useEffect是如何监听数组依赖项的变化的？
 
 ## 😊 为什么useRef可以获取最新的值？
@@ -734,16 +757,14 @@ React.PureComponent 与 React.Component 几乎完全相同，但 React.PureCompo
 
 ## 😊 ReactKey做什么的？
 
+## 😊 Redux
+
 ## 说一说React Diff
+
 ## React Route的原理（前端路由的原理）
 ## 说一说对Time Slice的理解?
 
 ## React页面如何优先渲染某一部分?
-## Redux
-
-> 好久没有使用过Redux了
-
-### Redux异步插件
 
 ## ssr和后端模版性能的差异？
 
