@@ -496,7 +496,7 @@ useEffect(() => {
 
 VirtualDOM的优势不在于单次的操作，而是在大量、频繁的数据更新下，能够对视图进行合理、高效的更新（保证了性能的下限）。首次渲染大量DOM时，由于多了一层虚拟DOM的计算，会比innerHTML慢因此并不能说虚拟DOM一定比真实DOM操作快。vscode为了极致的优化使用的就是操作真实的DOM。
 
-## 😊 setState到底是异步还是同步
+## 😊 setState到底是异步还是同步(指调用setState之后this.state能否立即更新)
 
 - react合成事件的处理函数中，setState是异步的
 - setTimeout，Promise等异步回调中是同步的
@@ -516,10 +516,13 @@ this.setState((state, props) => {
   // 将在setState完成合并并重新渲染组件后执行
 });
 ```
+### 为什么setState会有同步或者在异步的区分？
 
-## setState的原理
+调用setState，会将参数包装`update`对象，并添加到`updateQueue`队列之中。而`updateQueue`队列合并state是同步或者异步取决于`ExecutionContext`(React内部自己实现的执行上下文)，当`ExecutionContext`为0时，表示当前没有正在进行的其他任务，setState合并state是同步的。
 
-> 😂 其实这个回答，我由于没看过React的源码，所以看的有些云里雾里的。preact中很简单，单纯的开启了一个微任务Promise.resolve进行等待，微任务执行之前的setState都会被合并，微任务执行的时候才是真正进行更新的时候。
+`ExecutionContext`是react内部控制的属性, 当初次`render`, 合成事件触发时都会改变`executionContext`的值。只要绕开react内部触发更改`ExecutionContext`的逻辑, 就能保证`ExecutionContext`为空, 进而实现`setState`为同步。
+
+未来React使用`concurrent`模式，setState都是异步的。
 
 ## React.lazy的原理
 
