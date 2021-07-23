@@ -524,9 +524,37 @@ this.setState((state, props) => {
 
 未来React使用`concurrent`模式，setState都是异步的。
 
-## React.lazy的原理
 
-## React的最新特性
+## 😊 react.lazy和Suspense的原理
+
+react.lazy内部维护的是一个对象。对象有四种状态，通过枚举表示。分别是：-1（默认），0（Pending），1（Resolved），2（Rejected）。React内部会对react.lazy返回的对象做处理，默认状态是-1，React会调用对象的then方法，then内部会异步加载组件。异步请求完成后，会根据异步请求的结果。throw对应的错误，Suspense会捕获这些错误。Suspense根据错误的类型，要么显示最终结果，要么显示fallback，要么继续抛出错误。
+
+```js
+// lazy的实现，lazy返回一个
+function lazy<T, R>(ctor: () => Thenable<T, R>) {
+  let thenable = null;
+  return {
+    then(resolve, reject) {
+      if (thenable === null) {
+        thenable = ctor();
+        ctor = null;
+      }
+      return thenable.then(resolve, reject);
+    },
+    _reactStatus: -1, // 默认状态为-1
+    _reactResult: null,
+  };
+}
+```
+
+React会对LazyComponent
+## 😊 React的最新特性
+
+React18将会带来的新特性：
+
+1. Concurrent Mode，并发模式，render阶段可中断，打破CPU的瓶颈限制。
+2. Automatic batching，自动批处理，React18版本之前在异步回调中不会批处理，需要手动使用`unstable_batchedupdates`方法。18版本后，加入了自动批处理，不会对`ExecutionContext`(执行上下文)进行判断。setState都会是异步的。
+3. startTransition，让用户自己选择那些是高优先级的任务，那些是低优先级的任务。
 
 ## 😊 React单项数据流的好处
 
@@ -593,15 +621,15 @@ const scheduler = {
 
 为什么不使用setTimeout？setTimeout也是宏任务，因为setTimeout最小间隔是4ms，不满足需求。
 
-## 说一说对Time Slice的理解?
-
 ## react生命周期
-
-## useState的闭包问题
 
 ## React Route的原理（前端路由的原理）
 
 ## Component 和 PureComponent 的区别
+
+## 说一说对Time Slice的理解?
+
+## useState的闭包问题
 
 
 ## React组件如何通信
