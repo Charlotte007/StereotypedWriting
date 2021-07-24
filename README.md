@@ -93,3 +93,5 @@
 - [React vs ReactDOM?](https://stackoverflow.com/questions/34114350/react-vs-reactdom)
 - [When and how to choose between React Hooks and old HOC props passing?](https://stackoverflow.com/questions/53387613/when-and-how-to-choose-between-react-hooks-and-old-hoc-props-passing)
 - [Difference between const and readonly in typescript](https://stackoverflow.com/questions/46561155/difference-between-const-and-readonly-in-typescript)
+- [TypeScript 3.7](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html)
+- [Tech: Cool TypeScript Operators You Might Not Know](https://medium.com/swlh/tech-cool-typescript-operators-you-might-not-know-312c0d0abc9c)
