@@ -798,11 +798,84 @@ popstate事件只会在浏览器某些行为下触发, 比如点击后退、前�
 
 在Diff算法比对列表中的虚拟DOM的时候，添加合适的key，可以更方便复用DOM，而不是重新创建DOM。在preact中会判断key是否相等，，以及虚拟dom的type是否相等，如果相等会复用这个节点。
 
-## redux
-
 ## 说一说React diff
-## ssr和后端模版性能的差异？
+## 😊 redux
 
+### redux工作流程
+
+通过reducer，初始数据，创建store
+
+```js
+const reducer = combineReducers({
+  home: homeReducer,
+  more: moreReducer,
+});
+
+const store = () => {
+  return createStore(reducer, initState, applyMiddleware(thunk));
+};
+
+export default store;
+```
+
+使用react-redux的Provider挂载store，并包裹`<App/>`
+
+```js
+ReactDOM.render(
+  <Provider store={createStore()}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
+  document.getElementById('root')
+);
+```
+
+connect通过context获取Provider中的store, 组件内部可以获取state
+
+```js
+const Home = (props) => {
+  return (
+    <>
+      <Link to="/more">more</Link>
+      <h1 className="title">Home</h1>
+    </>
+  );
+};
+
+const mapStateToProps = (state) => ({
+  list: state.home.list
+});
+
+export default compose(connect(mapStateToProps, null), withStyles(styles))(Home);
+```
+
+通过dispatch发送action，改变应用状态或 view 的更新
+
+### 为什么reducer是纯函数？
+
+reducer 用于返回新的 state，redux 针对新老 state 使用 ===比较，如果 state 有变化，直接返回新的 state（配合 Object.assign）表示需要重新 render 组件。否则直接返回默认 state。
+
+### redux不直接操作store而是返回新的state？
+
+1. 若不创建副本,redux 的所有操作都将指向内存中的同一个 state,我们将无从获取每一次操作前后,state 的具体状态与改变
+2. state 所有的修改都被集中化处理，且严格按照一个接一个的顺序执行，因此不用担心竞态条件（race condition）的出现。
+### Redux三大原则
+
+1. 单一数据源。整个应用的 state 被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 store 中。
+2. State是只读的。唯一改变 state 的方法就是触发 action，action 是一个用于描述已发生事件的普通对象。
+3. 使用纯函数来执行修改。为了描述 action 如何改变 state tree ，你需要编写 reducers。
+### redux connect 作用？ Provider 作用？
+
+connect 函数就是一个高阶组件，将以下的参数传入函数，通过props的形式传递state的方法和值，返回一个新的组件
+
+```
+return connect(mapStateToProps, mapDispatchToProps)(Component);
+```
+
+Provider 组件用来挂载 redux 返回的 store 对象，同时将整个应用作为Provider的子组件。 只有当 Provider 的 value 值发生变化时，它内部的所有消费组件都会重新渲染。
+
+## ssr和后端模版性能的差异？
 ## React部分组件的核心逻辑
 
 > 回顾一下之前写的组件库的原理，面试的时候方便回答
