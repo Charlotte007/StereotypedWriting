@@ -45,7 +45,17 @@ const witchers: Witcher[] = [Witcher.Ciri, Witcher.Geralt]
 
 ## ts中的this和js中的this有什么差异？
 
-## ts中如何联合枚举类型的key?
+## 😊 ts中如何枚举联合类型的key?
+
+```ts
+type Name = { name: string }
+type Age = { age: number }
+type Union = Name | Age
+
+type UnionKey<P> = P extends infer P ? keyof P : never
+
+type T = UnionKey<Union>
+```
 
 ## ts中 ?.、??、!.、_、** 等符号的含义？
 
