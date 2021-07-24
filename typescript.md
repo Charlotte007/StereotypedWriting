@@ -41,11 +41,50 @@ const witchers: Witcher[] = [Witcher.Ciri, Witcher.Geralt]
 // const witchers = ['Queen', 'Geralt of Rivia'
 ```
 
-## ts中interface可以给Function/Array/Class做声明吗？
+## 😊 ts中interface可以给Function/Array/Class做声明吗？
+
+```ts
+// 函数类型
+interface SearchFunc {
+  (source: string, subString: string): boolean;
+}
+let mySearch: SearchFunc;
+mySearch = function(source: string, subString: string) {
+  let result = source.search(subString);
+  return result > -1;
+}
+```
+
+```ts
+// Array
+interface StringArray {
+  [index: number]: string;
+}
+
+let myArray: StringArray;
+myArray = ["Bob", "Fred"];
+```
+
+```ts
+// Class, constructor存在于类的静态部分，所以不会检查
+interface ClockInterface {
+    currentTime: Date;
+    setTime(d: Date);
+}
+
+class Clock implements ClockInterface {
+    currentTime: Date;
+    setTime(d: Date) {
+        this.currentTime = d;
+    }
+    constructor(h: number, m: number) { }
+}
+```
 
 ## ts中的this和js中的this有什么差异？
 
 不了解
+
 ## 😊 ts中如何枚举联合类型的key?
 
 ```ts
