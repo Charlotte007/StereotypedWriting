@@ -1,18 +1,32 @@
 ## TS基础知识复习
 
 https://juejin.cn/post/6844903981227966471#heading-79
+## TS中的访问修饰符
 
-## 简单介绍一下 TypeScript 模块的加载机制？
-## TypeScript 中 const 和 readonly 的区别？
+## const和readonly的区别
 
-## TypeScript 中 ?.、??、!.、_、** 等符号的含义？
+## 枚举和常量枚举的区别
 
-## TypeScript 中 any 类型的作用是什么？
+## ts中interface可以给Function/Array/Class（Indexable做声明吗？
+
+## ts中的this和js中的this有什么差异？
+
+## ts中如何联合枚举类型的key?
+
+## ts中 ?.、??、!.、_、** 等符号的含义？
+
+## 什么是抗变、双变、协变和逆变？
+
+## ts中同名的interface或者同名的interface和class可以合并吗？
+
+## 如何使ts项目引入并识别编译为js的npm库包？
+
+## ts如何自动生成库包的声明文件？
 
 ## 😊 什么是泛型
 
 泛型用来来创建可重用的组件，一个组件可以支持多种类型的数据。这样用户就可以以自己的数据类型来使用组件。**简单的说，“泛型就是把类型当成参数”。**
-## 😊 -?，-readonly
+## 😊 -?，-readonly 是什么含义
 
 用于删除修饰符
 
@@ -38,7 +52,7 @@ type E = {
     -readonly [K in keyof A]: A[K]
 }
 ```
-## 😊 结构类型兼容
+## 😊 TS是基于结构类型兼容
 
 typescript的类型兼容是基于结构的，不是基于名义的。下面的代码在ts中是完全可以的，但在java等基于名义的语言则会抛错。
 
@@ -51,7 +65,6 @@ let p: Named
 // ok
 p = new Person()
 ```
-
 ## 😊 const断言
 
 const断言，typescript会为变量添加一个自身的字面量类型
@@ -101,7 +114,7 @@ declare global {
   }
 }
 ```
-## 😊 unknown 类型
+## unknown, any的区别
 
 unknown类型和any类型类似。与any类型不同的是。unknown类型可以接受任意类型赋值，但是unknown类型赋值给其他类型前，必须被断言
 ## 复杂的类型推导题目 
@@ -743,83 +756,6 @@ type FindIndex<T extends any[], E, A extends any[] = []> =
         : 
         never
 ```
-
-### 😭 implement Equal<A, B>
-
-> 不太对
-
-```ts
-type IsAny<T> = 0 extends (T & 1) ? true : false;
-type IsNever<T> = [T] extends [never] ? true : false;
-type IsString<T> = T extends string ? true : false;
-type IsNumber<T> = T extends number ? true : false;
-type IsBoolean<T> = T extends boolean ? true : false;
-type IsObject<T> = T extends object ? true : false;
-
-type EqualAny<A, B> = IsAny<A> extends IsAny<B> ? IsAny<A> : false;
-type EqualNever<A, B> = IsNever<A> extends IsNever<B> ? IsNever<A> : false;
-type EqualString<A, B> = IsString<A> extends true ?
-    IsString<B> extends true ?
-        A extends B ?
-            B extends A ? true : false
-            :
-            false
-        :
-        false
-    :
-    false;
-type EqualNumber<A, B> = IsNumber<A> extends true ?
-    IsNumber<B> extends true ?
-        A extends B ?
-            B extends A ? true : false
-            :
-            false
-        :
-        false
-    :
-    false;
-type EqualBoolean<A, B> = IsBoolean<A> extends true ?
-    IsBoolean<B> extends true ?
-        A extends B ?
-            B extends A ? true : false
-            :
-            false
-        :
-        false
-    :
-    false;
-type EqualObject<A, B> = IsObject<A> extends true ?
-    IsObject<B> extends true ?
-        A extends B ?
-            B extends A ? true : false
-            :
-            false
-        :
-        false
-    :
-    false;
-
-type Equal<A, B> = EqualAny<A, B> extends true ?
-    true
-    :
-    EqualNever<A, B> extends true ?
-        true
-        :
-        EqualString<A, B> extends true ?
-            true
-            :
-            EqualNumber<A, B> extends true ?
-                true
-                :
-                EqualBoolean<A, B> extends true ?
-                    true
-                    :
-                    EqualObject<A, B> extends true ?
-                        true
-                        :
-                        false;
-```
-
 ### implement Trim<T>
 
 ```ts
