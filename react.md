@@ -684,10 +684,16 @@ const scheduler = {
 1. 使用useRef。useRef可以拿到最新的值。
 2. 在useEffect，useState中如果使用了state，需要把state添加到依赖的数组中。
 
-## React的useEffect是如何监听数组依赖项的变化的？
+## 😊 React页面如何优先渲染某一部分?
+
+- 使用setTimeout和额外的变量进行延迟加载
+- React18，使用startTransition指定优先级
+
+## 😊 React的useEffect是如何监听数组依赖项的变化的？
 
 > 我这个回答是我自己总结的，从preact源码的角度进行解释，准确的回答还请大家自己查找。
 
+我没有看过React的源码，我从Preact的源码的角度出发，说一下。preact中会把useEffect的callback，以及依赖项作为状态。保存到组件实例的`__hooks`属性中的`_list`数组中。组件更新的时候，会遍历当前的依赖项，和之前保存在组件实例上的依赖项，做浅比较。
 ## 为什么useRef可以获取最新的值？
 
 > 我这个回答是我自己总结的，从preact源码的角度进行解释，准确的回答还请大家自己查找。
@@ -758,18 +764,13 @@ React.PureComponent 与 React.Component 几乎完全相同，但 React.PureCompo
 1. 存在闭包的问题
 2. 不能渲染组件
 
-## ReactContext
 ## Redux
-
 ## 😊 ReactKey做什么的？
 
 在Diff算法比对列表中的虚拟DOM的时候，添加合适的key，可以更方便复用DOM，而不是重新创建DOM。在preact中会判断key是否相等，，以及虚拟dom的type是否相等，如果相等会复用这个节点。
 ## 说一说React Diff
 
 ## React Route的原理（前端路由的原理）
-## 说一说对Time Slice的理解?
-
-## React页面如何优先渲染某一部分?
 
 ## ssr和后端模版性能的差异？
 
