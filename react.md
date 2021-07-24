@@ -699,6 +699,7 @@ const scheduler = {
 > 我这个回答是我自己总结的，从preact源码的角度进行解释，准确的回答还请大家自己查找。
 
 我没有看过React的源码，我从Preact的源码的角度出发，说一下。因为useRef的值，是直接挂载到组件实例上的，而组件实例不会随着每一次的渲染重新创建，每一次获取是直接从组件实例上获取。而修改useRef的值，相当于直接在组件实例上修改。所以不存在闭包的问题，所以可以一直拿到最新的值。
+
 ## 😊 react生命周期
 
 ![lifeCycle.png](https://i.loli.net/2021/07/23/oQGBbhK7Icm6aDs.png)
@@ -765,19 +766,43 @@ React.PureComponent 与 React.Component 几乎完全相同，但 React.PureCompo
 2. 不能渲染组件
 
 
+
+
+## 😊 React Route的原理（前端路由的原理）
+
+VueRouter和ReactRoute的核心原理应该是一致。我之前看过VueRouter的源码，所以这里简单说一下VueRoute的原理。
+
+Vue.util.defineReactive将实例的_route属性设置为响应式的属性。前端路由主要分为了`hash`和`histroy`。
+### hash
+
+hash(跟在＃符号后面的URL部分，包括＃符号)路由发生变化时，会触发`onhashchange`事件。`onhashchange`事件的处理函数会更新
+_route，会触发RoterView的重新渲染。
+### histroy
+
+pushState，添加新的历史记录。replaceState，修改了当前的历史记录。但是他们两个都不会popstate事件，所以在pushState，replaceState中，我们需要手动更新实例的_route属性。
+
+popstate事件只会在浏览器某些行为下触发, 比如点击后退、前进按钮(或者在js中调用history.back()、history.forward()、history.go()方法)。我们还需要监听popstate事件，在popstate事件的处理函数中更新_route，触发RoterView的重新渲染。
+
+## 😊 React 和 Vue 的区别？
+
+1. 数据流：
+  - vue双向数据绑定
+  - react提倡单向数据流
+2. 模板 vs JSX
+  - vue是vue模版
+  - react是jsx
+3. 数据变化监听
+  - vue是Object.defineproperty或者Proxy实现数据的响应处理。
+  - React默认通过比较引用的方式比较，强调数据的不可变。
 ## 😊 ReactKey做什么的？
 
 在Diff算法比对列表中的虚拟DOM的时候，添加合适的key，可以更方便复用DOM，而不是重新创建DOM。在preact中会判断key是否相等，，以及虚拟dom的type是否相等，如果相等会复用这个节点。
-## 说一说React Diff
 
-## React Route的原理（前端路由的原理）
+## redux
 
-
-## Redux
-
+## 说一说React diff
 ## ssr和后端模版性能的差异？
 
-## React 和 Vue 的区别？
 ## React部分组件的核心逻辑
 
 > 回顾一下之前写的组件库的原理，面试的时候方便回答
