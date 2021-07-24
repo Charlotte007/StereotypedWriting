@@ -694,11 +694,11 @@ const scheduler = {
 > 我这个回答是我自己总结的，从preact源码的角度进行解释，准确的回答还请大家自己查找。
 
 我没有看过React的源码，我从Preact的源码的角度出发，说一下。preact中会把useEffect的callback，以及依赖项作为状态。保存到组件实例的`__hooks`属性中的`_list`数组中。组件更新的时候，会遍历当前的依赖项，和之前保存在组件实例上的依赖项，做浅比较。
-## 为什么useRef可以获取最新的值？
+## 😊 为什么useRef可以获取最新的值？
 
 > 我这个回答是我自己总结的，从preact源码的角度进行解释，准确的回答还请大家自己查找。
 
-
+我没有看过React的源码，我从Preact的源码的角度出发，说一下。因为useRef的值，是直接挂载到组件实例上的，而组件实例不会随着每一次的渲染重新创建，每一次获取是直接从组件实例上获取。而修改useRef的值，相当于直接在组件实例上修改。所以不存在闭包的问题，所以可以一直拿到最新的值。
 ## 😊 react生命周期
 
 ![lifeCycle.png](https://i.loli.net/2021/07/23/oQGBbhK7Icm6aDs.png)
@@ -764,13 +764,16 @@ React.PureComponent 与 React.Component 几乎完全相同，但 React.PureCompo
 1. 存在闭包的问题
 2. 不能渲染组件
 
-## Redux
+
 ## 😊 ReactKey做什么的？
 
 在Diff算法比对列表中的虚拟DOM的时候，添加合适的key，可以更方便复用DOM，而不是重新创建DOM。在preact中会判断key是否相等，，以及虚拟dom的type是否相等，如果相等会复用这个节点。
 ## 说一说React Diff
 
 ## React Route的原理（前端路由的原理）
+
+
+## Redux
 
 ## ssr和后端模版性能的差异？
 
