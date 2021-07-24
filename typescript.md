@@ -45,6 +45,7 @@ const witchers: Witcher[] = [Witcher.Ciri, Witcher.Geralt]
 
 ## ts中的this和js中的this有什么差异？
 
+不了解
 ## 😊 ts中如何枚举联合类型的key?
 
 ```ts
@@ -64,6 +65,7 @@ type T = UnionKey<Union>
 - !.  在变量名后添加!，可以断言排除undefined和null类型
 - _ , 声明该函数将被传递一个参数，但您并不关心它
 - ** 求幂
+- !:，待会分配这个变量，ts不要担心
 
 ```ts
 // ??
@@ -77,9 +79,15 @@ a.length // error
 a!.length // ok
 ```
 
-## 什么是抗变、双变、协变和逆变？
+## 😊 什么是抗变、双变、协变和逆变？
 
-## ts中同名的interface或者同名的interface和class可以合并吗？
+- Covariant 协变，TS对象兼容性是协变，父类 <= 子类，是可以的。子类 <= 父类，错误。
+- Contravariant 逆变，禁用`strictFunctionTypes`编译，函数参数类型是逆变的，父类 <= 子类，是错误。子类 <= 父类，是可以的。
+- Bivariant 双向协变，函数参数的类型默认是双向协变的。父类 <= 子类，是可以的。子类 <= 父类，是可以的。
+## 😊 ts中同名的interface或者同名的interface和class可以合并吗？
+
+1. interface会合并
+2. class不可以合并
 
 ## 😊 如何使ts项目引入并识别编译为js的npm库包？
 
