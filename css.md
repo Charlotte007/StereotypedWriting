@@ -65,10 +65,11 @@ flex-basis的权重要大于width
 层叠等级的比较只有在当前层叠上下文元素中才有意义。不同层叠上下文中比较层叠等级是没有意义的。（但是可以比较不同层叠上下文自身的等级，不同层叠上下文内部的内容互相比较是没有意义的）
 ### 如何产生层叠上下文？
 
-1. HTML中的根元素`<html></html>`本身j就具有层叠上下文，称为“根层叠上下文”。(没有设置特殊的css属性时，元素都存在在根层叠上下文中)
+1. HTML中的根元素`<html></html>`本身j就具有层叠上下文，称为“根层叠上下文”。
 2. 普通元素设置position属性为非static值, 并设置z-index属性为具体数值(auto不可以)，产生层叠上下文。
 3. CSS3中的新属性也可以产生层叠上下文。（元素的transform不为none；元素的opacity属性值不是1；父元素的display属性值为flex|inline-flex，子元素z-index属性值不为auto的时候，子元素为层叠上下文元素；等等。。。）
 
+一旦普通元素具有了层叠上下文，其层叠顺序就会改变。
 ### 什么是层叠顺序?
 
 ![层叠顺序.png](https://i.loli.net/2021/07/25/L1O649MCWXSmyJu.png)
@@ -76,7 +77,6 @@ flex-basis的权重要大于width
 > background/border"指的是层叠上下文元素的背景和边框。
 
 “层叠顺序”(stacking order)表示元素发生层叠时按照特定的顺序规则在Z轴上垂直显示。由此可见，前面所说的“层叠上下文”和“层叠等级”是一种概念，而这里的“层叠顺序”是一种规则。当元素发生层叠时，层叠上下文的层叠顺讯遵循上图中的规则。当层叠上下文的层叠等级，相同的时，这种情况下，在DOM结构中后面的覆盖前面的。
-
 ### 🌰例子
 
 parent在上面还是child在上面？
@@ -113,7 +113,7 @@ parent在上面还是child在上面？
 
 ![image.png](https://i.loli.net/2021/07/25/wO1u65hd7b8THAU.png)
 
-parent在上面，虽然.parent设置了z-index属性值，但是没有设置position属性，z-index无效，所以没有产生新的层叠上下文，parent还是普通的块级元素。此时，在层叠顺序规则中，z-index值小于0的.child会被普通的block块级元素.parent覆盖。
+parent在上面，虽然.parent设置了z-index属性值，但是没有设置position属性，z-index无效，所以parent没有产生层叠上下文，parent还是普通的块级元素。此时，在层叠顺序规则中，z-index值小于0的.child会被普通的block块级元素.parent覆盖。
 
 
 ```html
@@ -152,26 +152,44 @@ parent在上面，虽然.parent设置了z-index属性值，但是没有设置pos
 child在上面。由于父级添加了`display: flex`, parent产生了新的层叠上下文。根据层叠顺序的规则。层叠上下文元素的background/border的层叠等级小于z-index值小于0的元素的层叠等级，所以z-index值为-1的.child在.parent上面。(只是background,border在下面，但是parent的内容还是在child的上面)
 ## 😊 清除浮动的几种方式
 
-## z-index: auto 和 z-index: 0 的区别？
+1. 浮动的父级元素添加clearfix
 
-## 如何水平垂直居中？
+```css
+/* 浮动的父级元素添加clearfix */
+.clearfix:after {
+  content: '.';
+  height: 0;
+  display: block;
+  clear: both;
+}
+```
+
+2. 父级设置overflow: hidden
+## 😊 z-index: auto 和 z-index: 0 的区别？
+
+z-index:0实际上和z-index:auto单纯从层叠水平上看，是可以看成是一样的。注意这里的措辞——“单纯从层叠水平上看”，实际上，两者在层叠上下文领域有着根本性的差异。
+
+比如当父元素设置`display: flex`时，如果`z-index: auto`不会产生层叠上下文，设置`z-index: 0`才会产生层叠上下文。
+
+比如position属性为非static值, 并设置z-index属性为具体数值，产生层叠上下文。但是设置auto不可以
+## 😊 如何水平垂直居中？
 
 ### 为什么要使用transform而不是margin-left,right
 
-## CSS预处理带来的好处？
+## 😊 CSS预处理带来的好处？
 
 ### less有那些优点？
 
-## CSS选择器有那些？
+## 😊 CSS选择器有那些？
 
-## CSS选择器权重
+## 😊 CSS选择器权重
 
-## inline 的元素能设置宽高、margin 属性吗
+## 😊 inline 的元素能设置宽高、margin 属性吗
 
-## CSS3的特性
+## 😊 CSS3的特性
 
-## CSS3性能优化
-## 如何实现宽度不固定的正方形？
+## 😊 CSS3性能优化
+## 😊 如何实现宽度不固定的正方形？
 
 ## 如何让 CSS 元素左侧自动溢出（... 溢出在左侧）？
 
@@ -179,9 +197,9 @@ child在上面。由于父级添加了`display: flex`, parent产生了新的层�
 
 ## 如何判断一个元素 CSS 样式溢出，从而可以选择性的加 title 或者 Tooltip?
 
-## 移动端1px边框如何处理？
+## 😊 移动端1px边框如何处理？
 
-## 通过link引入的css会阻塞页面渲染吗？
+## 😊 通过link引入的css会阻塞页面渲染吗？
 
 ## 多行文本显示省略号？
 
