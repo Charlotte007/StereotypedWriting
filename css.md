@@ -20,14 +20,24 @@
 1. box-sizing: border-box; IE盒模型; width = padding + border + 内容的宽度
 2. box-sizing: content-box; 标准盒模型; width = 内容的宽度
  
-## flex: 0 0 100px 是什么意思
+## 😊 `flex: 0 0 100px` 是什么意思
+
+`flex: 0 0 100px`是`flex-grow`, `flex-shrink`, `flex-basis` 三个属性的简写
+
+### flex-grow
+
+![image.png](https://i.loli.net/2021/07/25/GtNyiBH2FToSaCX.png)
+
+flex-grow，默认值为0, 即如果存在剩余空间，也不放大。如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。**注意，即便设置了固定宽度，也会放大**
+
+### flex-shrink
+
+### flex-basis
+## position有哪些值，作用分别是什么
 
 ## 为什么要使用 transform 而不是 margin-left,right
 
 ## 清除浮动的几种方式
-
-## position有哪些值，作用分别是什么
-
 
 ## CSS选择器有哪些
 
