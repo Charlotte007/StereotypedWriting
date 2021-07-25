@@ -174,7 +174,12 @@ z-index:0实际上和z-index:auto单纯从层叠水平上看，是可以看成�
 比如position属性为非static值, 并设置z-index属性为具体数值，产生层叠上下文。但是设置auto不可以
 ## 😊 如何水平垂直居中？
 
-### 为什么要使用transform而不是margin-left,right
+1. absolute（left: 50%, top: 50%） + margin-left(-width / 2) + margin-left(-height / 2)
+2. display: flex + justify-content: center + align-items: center
+3. absolute（left: 50%, top: 50%） + transform: translate(-50%, -50%);
+4. line-height: 父级的高度 + margin: 0 auto;
+
+### 为什么推荐transform而不是margin-left,right
 
 ## 😊 CSS预处理带来的好处？
 
