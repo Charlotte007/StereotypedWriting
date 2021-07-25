@@ -113,7 +113,7 @@ parent在上面还是child在上面？
 
 ![image.png](https://i.loli.net/2021/07/25/wO1u65hd7b8THAU.png)
 
-parent在上面，虽然.parent设置了z-index属性值，但是没有设置position属性，z-index无效，所以没有产生层叠上下文，.parent还是普通的块级元素。此时，在层叠顺序规则中，z-index值小于0的.child会被普通的block块级元素.parent覆盖。
+parent在上面，虽然.parent设置了z-index属性值，但是没有设置position属性，z-index无效，所以没有产生新的层叠上下文，.parent还是普通的块级元素。此时，在层叠顺序规则中，z-index值小于0的.child会被普通的block块级元素.parent覆盖。
 
 
 ```html
