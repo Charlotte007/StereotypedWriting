@@ -26,13 +26,26 @@
 
 ### flex-grow
 
-![image.png](https://i.loli.net/2021/07/25/GtNyiBH2FToSaCX.png)
+![flex-grow.png](https://i.loli.net/2021/07/25/GtNyiBH2FToSaCX.png)
 
-flex-grow，默认值为0, 即如果存在剩余空间，也不放大。如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。**注意，即便设置了固定宽度，也会放大**
+flex-grow，默认值为0, 即如果存在剩余空间，也不放大。如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话，如果以及填满了是不会放大的）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。**注意，即便设置了固定宽度，也会放大**
 
 ### flex-shrink
 
+![flex-shrink.png](https://i.loli.net/2021/07/25/Ri7QkcMgTvUYprF.png)
+
+flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足（有剩余空间则不会，或者空间刚刚好也不会），该项目将缩小。如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。
+
 ### flex-basis
+
+flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
+
+flex-basis的权重要大于width
+
+### flex: 0 0 100px
+
+`flex: 0 0 100px`表示项目无论有多大空间，不放大，不缩小，始终保持 100px
+
 ## position有哪些值，作用分别是什么
 
 ## 为什么要使用 transform 而不是 margin-left,right
