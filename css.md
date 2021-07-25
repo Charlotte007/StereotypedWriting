@@ -15,8 +15,11 @@
 
 1. margin重叠
 2. 清浮动
-## CSS 盒模型
+## 😊 CSS盒模型
 
+1. box-sizing: border-box; IE盒模型; width = padding + border + 内容的宽度
+2. box-sizing: content-box; 标准盒模型; width = 内容的宽度
+ 
 ## flex: 0 0 100px 是什么意思
 
 ## 为什么要使用 transform 而不是 margin-left,right
