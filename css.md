@@ -73,6 +73,8 @@ flex-basis的权重要大于width
 
 ![层叠顺序.png](https://i.loli.net/2021/07/25/L1O649MCWXSmyJu.png)
 
+> background/border"指的是层叠上下文元素的背景和边框。
+
 “层叠顺序”(stacking order)表示元素发生层叠时按照特定的顺序规则在Z轴上垂直显示。由此可见，前面所说的“层叠上下文”和“层叠等级”是一种概念，而这里的“层叠顺序”是一种规则。当元素发生层叠时，层叠上下文的层叠顺讯遵循上图中的规则。当层叠上下文的层叠等级，相同的时，这种情况下，在DOM结构中后面的覆盖前面的。
 
 ### 🌰例子
@@ -147,7 +149,7 @@ parent在上面，虽然.parent设置了z-index属性值，但是没有设置pos
 
 ![image.png](https://i.loli.net/2021/07/25/BMke9Ob3v5mH8As.png)
 
-child在上面。由于父级添加了`display: flex`, parent产生了层叠上下文。根据层叠顺序的规则。层叠上下文元素的background/border的层叠等级小于z-index值小于0的元素的层叠等级，所以z-index值为-1的.child在.parent上面。
+child在上面。由于父级添加了`display: flex`, parent产生了新的层叠上下文。根据层叠顺序的规则。层叠上下文元素的background/border的层叠等级小于z-index值小于0的元素的层叠等级，所以z-index值为-1的.child在.parent上面。
 ## 😊 清除浮动的几种方式
 
 ## z-index: auto 和 z-index: 0 的区别？
