@@ -54,14 +54,110 @@ flex-basis的权重要大于width
 - fixed，元素会被移出正常文档流，并不为元素预留空间，而是通过指定元素相对于屏幕视口（viewport）的位置来指定元素位置。元素的位置在屏幕滚动时不会改变。fixed 属性会创建新的层叠上下文。当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器定位由视口改为该祖先。
 - sticky, 元素根据正常文档流进行定位，然后相对它的最近滚动祖先进行偏移。偏移值不会影响任何其他元素的位置。(适合做滚动到顶部然后固定的效果)
 
-## 什么是层叠上下文？
-## 清除浮动的几种方式
+## 😊 什么是层叠上下文？
 
-## rem, em
+层叠上下文(stacking context)，是HTML中一个三维的概念。在CSS2.1规范中，每个盒模型的位置是三维的，分别是平面画布上的X轴，Y轴以及表示层叠的Z轴。一般情况下，元素在页面上沿X轴Y轴平铺，我们察觉不到它们在Z轴上的层叠关系。而一旦元素发生堆叠，这时就能发现某个元素可能覆盖了另一个元素或者被另一个元素覆盖。
+
+### 什么是层叠等级?
+
+层叠等级(stacking level，叫“层叠级别”/“层叠水平”也行)。在同一个层叠上下文中，它描述定义的是该层叠上下文中的层叠上下文元素在Z轴上的上下顺序。
+
+层叠等级的比较只有在当前层叠上下文元素中才有意义。不同层叠上下文中比较层叠等级是没有意义的。（但是可以比较不同层叠上下文自身的等级，不同层叠上下文内部的内容互相比较是没有意义的）
+### 如何产生层叠上下文？
+
+1. HTML中的根元素`<html></html>`本身j就具有层叠上下文，称为“根层叠上下文”。(没有设置特殊的css属性时，元素都存在在根层叠上下文中)
+2. 普通元素设置position属性为非static值, 并设置z-index属性为具体数值(auto不可以)，产生层叠上下文。
+3. CSS3中的新属性也可以产生层叠上下文。（元素的transform不为none；元素的opacity属性值不是1；父元素的display属性值为flex|inline-flex，子元素z-index属性值不为auto的时候，子元素为层叠上下文元素；等等。。。）
+
+### 什么是层叠顺序?
+
+![层叠顺序.png](https://i.loli.net/2021/07/25/L1O649MCWXSmyJu.png)
+
+“层叠顺序”(stacking order)表示元素发生层叠时按照特定的顺序规则在Z轴上垂直显示。由此可见，前面所说的“层叠上下文”和“层叠等级”是一种概念，而这里的“层叠顺序”是一种规则。当元素发生层叠时，层叠上下文的层叠顺讯遵循上图中的规则。当层叠上下文的层叠等级，相同的时，这种情况下，在DOM结构中后面的覆盖前面的。
+
+### 🌰例子
+
+parent在上面还是child在上面？
+
+```html
+<style>
+  .box {
+  }
+  .parent {
+    width: 200px;
+    height: 100px;
+    background: #168bf5;
+    z-index: 1;
+  }
+  .child {
+    width: 100px;
+    height: 200px;
+    background: #32d19c;
+    position: relative;
+    z-index: -1;
+  }
+</style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="parent">
+      parent
+      <div class="child">child</div>
+    </div>
+  </div>
+</body>
+```
+
+![image.png](https://i.loli.net/2021/07/25/wO1u65hd7b8THAU.png)
+
+parent在上面，因为parent，child都是同一个根层叠上下文中，z-index大的在上面。
+
+```html
+<style>
+  .box {
+    display: flex;
+  }
+  .parent {
+    width: 200px;
+    height: 100px;
+    background: #168bf5;
+    z-index: 1;
+  }
+  .child {
+    width: 100px;
+    height: 200px;
+    background: #32d19c;
+    position: relative;
+    z-index: -1;
+  }
+</style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="parent">
+      parent
+      <div class="child">child</div>
+    </div>
+  </div>
+</body>
+```
+
+![image.png](https://i.loli.net/2021/07/25/BMke9Ob3v5mH8As.png)
+
+child在上面。由于父级添加了`display: flex`, child, parent是不同的层叠上下文。根据层叠顺序的规则。层叠上下文元素的background/border的层叠等级小于z-index值小于0的元素的层叠等级，所以z-index值为-1的.child在.parent上面。
+## 😊 清除浮动的几种方式
+
+## z-index: auto 和 z-index: 0 的区别？
+
+## 如何水平垂直居中？
+
+### 为什么要使用transform而不是margin-left,right
 
 ## CSS预处理带来的好处？
 
-
+### less有那些优点？
 
 ## CSS选择器有那些？
 
@@ -72,13 +168,6 @@ flex-basis的权重要大于width
 ## CSS3的特性
 
 ## CSS3性能优化
-
-## 层叠上下文
-
-## 如何水平垂直居中？
-
-### 为什么要使用transform而不是margin-left,right
-
 ## 如何实现宽度不固定的正方形？
 
 ## 如何让 CSS 元素左侧自动溢出（... 溢出在左侧）？
@@ -95,5 +184,6 @@ flex-basis的权重要大于width
 
 ## css modoules原理？
 
+## rem, em
 
 ## 移动端的布局（移动端的自适应方案）有那些？如何做？
