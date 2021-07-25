@@ -67,7 +67,7 @@ flex-basis的权重要大于width
 
 1. HTML中的根元素`<html></html>`本身j就具有层叠上下文，称为“根层叠上下文”。
 2. 普通元素设置position属性为非static值, 并设置z-index属性为具体数值(auto不可以)，产生层叠上下文。
-3. CSS3中的新属性也可以产生层叠上下文。（元素的transform不为none；元素的opacity属性值不是1；父元素的display属性值为flex|inline-flex，子元素z-index属性值不为auto的时候，子元素为层叠上下文元素；等等。。。）
+3. CSS3中的新属性也可以产生层叠上下文。（元素的transform不为none；元素的opacity属性值不是1；父元素的display属性值为flex|inline-flex，子元素z-index属性值不为auto的时候，子元素为层叠上下文元素；元素的transform属性值不是none；等等。。。）
 
 一旦普通元素具有了层叠上下文，其层叠顺序就会改变。
 ### 什么是层叠顺序?
@@ -180,6 +180,8 @@ z-index:0实际上和z-index:auto单纯从层叠水平上看，是可以看成�
 4. line-height: 父级的高度 + margin: 0 auto;
 
 ### 为什么推荐transform而不是margin-left,right
+
+transform是创建了新的层叠上下文，margin 则会导致重绘回流。
 
 ## 😊 CSS预处理带来的好处？
 
