@@ -10,15 +10,55 @@
 - `webpack.DefinePlugin`, 创建全局变量
 - `image-minimizer-webpack-plugin`, 优化图像
 
-## 说一说webpack到底做了什么?
-## 说一说webpack打包的流程（构建的原理）
+## 😊 用过那些loader?
+
+- babel-loader, 用于编译JS代码
+- css-loader, 用来处理导入的css模块
+- less-loader, 处理导入的less文件
+- style-loader, 用来创建style标签，插入由css-loader处理的样式
+- postcss-loader, postcss-loader有很多插件，可以实现自动添加前缀，px->rem, px->vw
+- ts-loader, 编译ts文件
+- url-loader，处理非js文件，比如图片，音频，字体
+
+## 😊 说一说css-loader与style-loader的区别？
+
+- css-loader, 用来处理导入的css模块
+- style-loader, 用来创建style标签，插入由css-loader处理的样式
+
+## 😊 webpack中loader调用的顺序?
+
+- 从右向左
+- 从下向上
+
+```js
+// less-loader -> postcss-loader -> css-loader -> MiniCssExtractPlugin.loader
+{
+  test: /\.less$/,
+  use: [
+    {
+      loader: MiniCssExtractPlugin.loader
+    },
+    {
+      loader: 'css-loader'
+    },
+    {
+      loader: 'postcss-loader'
+    },
+    {
+      loader: 'less-loader'
+    },
+  ],
+},
+```
+
+
 
 ## 说说webpack配置项
 
-## webpack与rollup的区别
+## 说一说webpack到底做了什么?
+## 说一说webpack打包的流程（构建的原理）
 
-## webpack中loader调用的顺序?
-## 用过那些loader?
+## webpack与rollup的区别
 
 ## 说一说Loader和Plugin的区别?
 
@@ -273,10 +313,7 @@ if(module.hot) {
 
 ## 说一说webpack如何做拆包?说一说为什么做拆包？
 
-## 说一说css-loader与style-loader的区别？
 
-- css-loader, 用来处理导入的css模块
-- style-loader, 用来创建style标签，插入由css-loader处理的样式
 
 ## 说一说什么是bundle, chunk, module的区别?
 
