@@ -67,7 +67,9 @@
 - watch: 监听任何已解析文件的更改（--watch可以配置，webpack-dev-server 和 webpack-dev-middleware 里 Watch 模式默认开启。）
 - performance: 性能。例如，如果一个资源超过 250kb，webpack 会对此输出一个警告来通知你。
 
-## 说一说webpack到底做了什么?
+## 😊 说一说webpack到底做了什么?
+
+webpack只是模块打包器。可以将不同模块的文件打包整合在一起，并且保证它们之间的引用正确。需要借助不同的loader以及plugin, 实现能力的扩展，编译js文件，css文件等功能。
 ## 说一说webpack打包的流程（构建的原理）
 
 ## webpack与rollup的区别
