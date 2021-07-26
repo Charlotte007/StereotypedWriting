@@ -27,8 +27,7 @@
 
 ## 😊 webpack中loader调用的顺序?
 
-- 从右向左
-- 从下向上
+从右向左, 从下向上
 
 ```js
 // less-loader -> postcss-loader -> css-loader -> MiniCssExtractPlugin.loader
@@ -53,7 +52,20 @@
 
 
 
-## 说说webpack配置项
+## 😊 说说webpack配置项
+
+- entry: 入口起点配置
+- output: 输出文件配置
+- module: 配置loader的位置 `module: {rules: []}`
+- mode: mode 环境
+- resolve: 模块解析配置(常用的就是配置alias别名的)
+- optimization: 配置优化代码的，压缩，拆包的
+- plugins: 插件配置
+- devServer: 开发服务器
+- devtool: 配置source map
+- target: 构建目标
+- watch: 监听任何已解析文件的更改（--watch可以配置，webpack-dev-server 和 webpack-dev-middleware 里 Watch 模式默认开启。）
+- performance: 性能。例如，如果一个资源超过 250kb，webpack 会对此输出一个警告来通知你。
 
 ## 说一说webpack到底做了什么?
 ## 说一说webpack打包的流程（构建的原理）
