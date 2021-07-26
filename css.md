@@ -384,11 +384,14 @@ div {
 1. rem: 根元素的字体大小(html的字体大小)
 2. em: 相对于父元素
 
-## 移动端的布局（移动端的自适应方案）有那些？如何做？
+## 😊 移动端的布局（移动端的自适应方案）有那些？如何做？
 
-### rem, em适配
+### rem适配
 
+安装postcss，配置`postcss-pxtorem`(自动将px转rem)，amfe-flexible（是配置可伸缩布局方案，主要是将1rem设为viewWidth/10，自动根据屏幕大小转换html的font-size的值）
 ### vw适配
+
+按照postcss，配置`postcss-px-to-viewport`插件
 
 ## 如何让 CSS 元素左侧自动溢出（... 溢出在左侧）？
 
