@@ -3,7 +3,7 @@
 - `html-webpack-plugin`, 创建HTML文件，并将打包的JS导入HTML中
 - `mini-css-extract-plugin`, 可以单独提取CSS文件。它为每个包含CSS的JS文件创建一个CSS文件。
 - `clean-webpack-plugin`, 用于清除之前打包的目录
-- `optimize-css-assets-webpack-plugin`，用于最小化css文件
+- `optimize-css-assets-webpack-plugin`，用于最小化css文件(webpack5使用css-minimizer-webpack-plugin)
 - `terser-webpack-plugin`, 用于最小化js文件
 - `webpack-bundle-analyzer`, 可视化打包的结果
 - `webpack.DllPlugin`,  把复用性较高的第三方模块打包到动态链接库中(比如不经常升级的React, Vue之类的库)
@@ -98,16 +98,22 @@ webpack只是模块打包器。可以将不同模块的文件打包整合在一�
 2. webpack目前无法打包es模块的代码（组件库使用gulp），rollup可以打包出es模块的代码
 3. webpack可以实现代码的拆分，rollup一次性加载全部资源
 
-## 说一说Loader和Plugin的区别?
+## 😊 说一说Loader和Plugin的区别?
 
 ![image.png](https://i.loli.net/2021/03/30/PkRF3SUhJ5EcjWY.png)
 ### Loader
 
-`Loader本质是一个函数。`Loader的职责是单一的，只需要关心输入和输出。`Loader`在生成`bundle`的期间和之前工作，在单个文件的级别上工作。一个文件可以链式的，经过多个`Loader`转换。`Loader`不依赖与事件。`Loader`在`module.rules`中配置。
-
+- `Loader本质是一个函数。`Loader的职责是单一的，只需要关心输入和输出。
+- `Loader`在生成`bundle`的期间和之前工作，在单个文件的级别上工作。
+- 一个文件可以链式的，经过多个`Loader`转换。
+- `Loader`不依赖与事件。
+- `Loader`在`module.rules`中配置。
 ### Plugin
 
-`Plugin`在`bundle`和`chunk`级别上工作，通常在`bundle`生成的末尾工作。`Plugin`比`Loader`具有更强大的控制能力。`Plugin`依赖事件，`Plugin`会在特定的时刻（监听特定的事件）加入打包的过程，改变输出的结果。`Plugin`在`plugins`中配置。
+- `Plugin`是一个类
+- 通常在`bundle`生成的末尾工作。`Plugin`比`Loader`具有更强大的控制能力。
+- `Plugin`依赖事件机制，`Plugin`会在特定的时刻（监听特定的事件）加入打包的过程，改变输出的结果。
+- `Plugin`在`plugins`中配置。
 
 ## 说一说webpack打包的流程（构建的原理）
 
