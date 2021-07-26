@@ -1,14 +1,23 @@
+## 😊 用过哪些plugin?
+
+- `html-webpack-plugin`, 创建HTML文件，并将打包的JS导入HTML中
+- `mini-css-extract-plugin`, 可以单独提取CSS文件。它为每个包含CSS的JS文件创建一个CSS文件。
+- `clean-webpack-plugin`, 用于清除之前打包的目录
+- `optimize-css-assets-webpack-plugin`，用于最小化css文件
+- `terser-webpack-plugin`, 用于最小化js文件
+- `webpack-bundle-analyzer`, 可视化打包的结果
+- `webpack.DllPlugin`,  把复用性较高的第三方模块打包到动态链接库中(比如不经常升级的React, Vue之类的库)
+- `webpack.DefinePlugin`, 创建全局变量
+- `image-minimizer-webpack-plugin`, 优化图像
+
 ## 说一说webpack到底做了什么?
 ## 说一说webpack打包的流程（构建的原理）
 
-## 说说webpack配置
+## 说说webpack配置项
 
 ## webpack与rollup的区别
 
 ## webpack中loader调用的顺序?
-
-
-## 用过哪些plugin?
 ## 用过那些loader?
 
 ## 说一说Loader和Plugin的区别?
