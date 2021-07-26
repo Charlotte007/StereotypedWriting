@@ -419,3 +419,44 @@ div {
 通过判断元素的scrollWidth，和clientWidth，如果scrollWidth > clientWidth 说明溢出了
 
 ## 😊 如何实现横向自适应滚动？
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>横向滚动条</title>
+    <style>
+        html,body{
+            height: 100%;
+            margin: 0 0;
+            padding: 0 0;
+        }
+        .container{
+            width:100%;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            white-space:nowrap;
+        }
+        .container img{
+            width: 300px;
+            margin: 10px 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <img src="http://lixuanqi.com/public/meizi/9d52c073gw1ea5gzohndtj20g40ndaf4.jpg" alt="">
+    <img src="http://lixuanqi.com/public/meizi/9d52c073gw1ea5gzohndtj20g40ndaf4.jpg" alt="">
+    <img src="http://lixuanqi.com/public/meizi/9d52c073gw1ea5gzohndtj20g40ndaf4.jpg" alt="">
+    <img src="http://lixuanqi.com/public/meizi/9d52c073gw1ea5gzohndtj20g40ndaf4.jpg" alt="">
+    <img src="http://lixuanqi.com/public/meizi/9d52c073gw1ea5gzohndtj20g40ndaf4.jpg" alt="">
+    <img src="http://lixuanqi.com/public/meizi/9d52c073gw1ea5gzohndtj20g40ndaf4.jpg" alt="">
+    <img src="http://lixuanqi.com/public/meizi/9d52c073gw1ea5gzohndtj20g40ndaf4.jpg" alt="">
+    <img src="http://lixuanqi.com/public/meizi/9d52c073gw1ea5gzohndtj20g40ndaf4.jpg" alt="">
+    <img src="http://lixuanqi.com/public/meizi/9d52c073gw1ea5gzohndtj20g40ndaf4.jpg" alt="">
+    <img src="http://lixuanqi.com/public/meizi/9d52c073gw1ea5gzohndtj20g40ndaf4.jpg" alt="">
+</div>
+</body>
+</html>
+```
