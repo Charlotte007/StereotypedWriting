@@ -28,7 +28,7 @@
 
 ![flex-grow.png](https://i.loli.net/2021/07/25/GtNyiBH2FToSaCX.png)
 
-flex-grow，默认值为0, 即如果存在剩余空间，也不放大。如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话，如果以及填满了是不会放大的）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。**注意，即便设置了固定宽度，也会放大**
+flex-grow，默认值为0, 即如果存在剩余空间，也不放大。如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话，如果已经填满了是不会放大的）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。**注意，即便设置了固定宽度，也会放大**
 
 ### flex-shrink
 
@@ -393,8 +393,29 @@ div {
 
 按照postcss，配置`postcss-px-to-viewport`插件
 
-## 如何让 CSS 元素左侧自动溢出（... 溢出在左侧）？
+## 😊 如何让 CSS 元素左侧自动溢出（... 溢出在左侧）？
 
-## 如何实现一个上中下三行布局，顶部和底部最小高度是 100px，中间自适应?
+添加`direction: rtl;` 和 `unicode-bidi: bidi-override;`
 
-## 如何判断一个元素 CSS 样式溢出，从而可以选择性的加 title 或者 Tooltip?
+```css
+.div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 300px;
+  text-align: right;
+  direction: rtl;
+  unicode-bidi: bidi-override;
+}
+```
+## 😊 如何实现一个上中下三行布局，顶部和底部最小高度是 100px，中间自适应?
+
+- 顶部: flex: 0 0 100px;
+- 中间: flex: 1;
+- 底部: flex: 0 0 100px;
+
+## 😊 如何判断一个元素 CSS 样式溢出，从而可以选择性的加 title 或者 Tooltip?
+
+通过判断元素的scrollWidth，和clientWidth，如果scrollWidth > clientWidth 说明溢出了
+
+## 😊 如何实现横向自适应滚动？
