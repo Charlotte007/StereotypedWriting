@@ -101,3 +101,5 @@
 - [深入理解CSS中的层叠上下文和层叠顺序](https://www.zhangxinxu.com/wordpress/2016/01/understand-css-stacking-context-order-z-index/)
 - [Difference between auto, 0, and no z-index?](https://stackoverflow.com/questions/14109862/difference-between-auto-0-and-no-z-index)
 - [CSS性能优化的8个技巧](https://juejin.cn/post/6844903649605320711)
+- [What is the purpose of webpack [hash] and [chunkhash]?](https://stackoverflow.com/questions/35176489/what-is-the-purpose-of-webpack-hash-and-chunkhash)
+- [What are the differences between html preload and prefetch?](https://stackoverflow.com/questions/52764401/what-are-the-differences-between-html-preload-and-prefetch#:~:text=preload%20is%20a%20declarative%20fetch,or%20not%20to%20the%20browser.)
