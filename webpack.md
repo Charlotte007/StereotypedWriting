@@ -1,13 +1,17 @@
 ## 说一说webpack到底做了什么?
-## 说一说webpack打包的流程
+## 说一说webpack打包的流程（构建的原理）
+
+## 说说webpack配置
+
+## webpack与rollup的区别
+
+## webpack中loader调用的顺序?
 
 
-## 😊 用过哪些plugin?
+## 用过哪些plugin?
+## 用过那些loader?
 
-
-## 😊 用过那些loader?
-
-## 😊 说一说Loader和Plugin的区别?
+## 说一说Loader和Plugin的区别?
 
 ![image.png](https://i.loli.net/2021/03/30/PkRF3SUhJ5EcjWY.png)
 ### Loader
@@ -18,7 +22,7 @@
 
 `Plugin`在`bundle`和`chunk`级别上工作，通常在`bundle`生成的末尾工作。`Plugin`比`Loader`具有更强大的控制能力。`Plugin`依赖事件，`Plugin`会在特定的时刻（监听特定的事件）加入打包的过程，改变输出的结果。`Plugin`在`plugins`中配置。
 
-## 😊 什么是sourceMap? 如何配置sourceMap? sourceMap文件的格式你了解吗?
+## 什么是sourceMap? 如何配置sourceMap? sourceMap文件的格式你了解吗?
 
 ### 什么是sourceMap?
 
@@ -53,7 +57,7 @@
 
 对于压缩后源代码，需要在末尾添加`//# sourceURL=/path/to/file.js.map`注释后，浏览器就会通过`sourceURL`去查找对应的`sourceMap`文件，通过解释器解析后，实现源码和混淆代码之间的映射。因此`sourceMap`其实也是一项需要浏览器支持的技术。
 
-## 😊 如何编写Loader吗?编写过Loader吗?
+## 如何编写Loader吗?编写过Loader吗?
 
 一个`Loader`的职责是单一的，只需要完成一种转换。 如果一个源文件需要经历多步转换才能正常使用，就通过多个 `Loader`去转换。 在调用多个`Loader`去转换一个文件时，每个`Loader`会链式的顺序执行， 第一个`Loader`将会拿到需处理的原内容，上一个`Loader`处理后的结果会传给下一个接着处理，最后的`Loader`将处理后的最终结果返回给`Webpack`。
 
@@ -108,7 +112,7 @@ module.exports = function(source) {
     });
 };
 ```
-## 😊 如何编写Plugin吗?编写过Plugin吗?
+## 如何编写Plugin吗?编写过Plugin吗?
 
 `Webpack`基于发布订阅模式，和`Node.js`中的`EventEmitter`相似。`Webpack`在运行过程中会广播事件，插件通过监听这些事件，就可以在特定的阶段执行自己的插件任务，从而实现自己想要的功能。`Compiler`和`Compilation`是`Webpack`两个非常核心的对象，其中`Compiler`暴露了和`Webpack`整个生命周期相关的钩子（compiler-hooks），而`Compilation`则暴露了与模块和依赖有关的粒度更小的事件钩子（Compilation Hooks）。
 
@@ -146,15 +150,15 @@ compiler.plugin('event-name',function(params) {});
 - 插件必须是一个函数或者是一个包含`apply`方法的对象，这样才能访问`Compiler`实例。
 - 传给每个插件的`Compiler`和`Compilation`对象都是同一个引用，若在一个插件中修改了它们身上的属性，会影响后面的插件;
 - 异步的事件需要在插件处理完任务时调用回调函数(异步的事件会附带两个参数，第二个参数为回调函数，在插件处理完任务时需要调用回调函数)通知`Webpack`进入下一个流程，不然会卡住。
-## 😊 说一说Compile对象
+## 说一说Compile对象
 
 `Compiler`对象包含了`Webpack`环境所有的的配置信息，包含`options`，`loaders`，`plugins`这些信息，这个对象在`Webpack`启动时候被实例化，它是全局唯一的，可以简单地把它理解为`Webpack`实例。
-## 😊 说一说Compilation对象
+## 说一说Compilation对象
 
 `Compilation`对象包含了当前的模块资源、编译生成资源、变化的文件等。当`Webpack`以开发模式运行时，每当检测到一个文件变化，一次新的`Compilation`将被创建。`Compilation`对象也提供了很多事件回调供插件做扩展。通过`Compilation`也能读取到`Compiler`对象。
 
 `Compiler`和`Compilation`的区别在于：`Compiler`代表了整个`Webpack`从启动到关闭的生命周期，而 `Compilation`只是代表了一次新的编译。
-## 😊 了解Tree-shaking吗?Tree-shaking的原理说一说?
+## 了解Tree-shaking吗?Tree-shaking的原理说一说?
 
 `JavaScript`绝大多数情况需要通过网络进行加载，然后执行，加载的文件大小越小，整体执行时间更短，所以通过`Tree-shaking`将没有使用的模块删除, 去除无用代码以减少文件体积，对`JavaScript`来说很有意义。
 ### Tree-shaking的原理
@@ -164,7 +168,7 @@ compiler.plugin('event-name',function(params) {});
 1. 对于`Dead Code`，`Tree-shaking`会基于AST分析，以删除无用的代码。
 2. 对于无用的模块代码。`Tree-shaking`**依赖于ES6的模块特性**。由于ES6模块依赖关系是确定的，和运行时的状态无关，可以进行可靠的静态分析，这是`Tree-shaking`的基础。所以必须使用ES6模块的语法才能进行对无用模块代码的`Tree-shaking`。
 
-## 😊 说一说热更新的原理?
+## 说一说热更新的原理?
 
 ![image.png](https://i.loli.net/2021/03/31/QVpyIaE1PioUOXA.png)
 
@@ -247,10 +251,10 @@ if(module.hot) {
   module.hot.accept()
 }
 ```
-## 😊 说一说如何配置长效缓存?
+## 说一说如何配置长效缓存?
 
 将`optimization`的`runtimeChunk`配置项设置为`true`, 会额外添加一个只含有`runtime`的额外`chunk`。这个`chunk`中包含了`chunk`的映射关系的列表。如果不额外提取出来，其他的模块的改动都会导致`app.js`的hash的改变。从而导致缓存失效。另外我们可以将这个额外的`chunk`的内容，使用`InlineSourcePlugin`插件直接添加到`html`中，减少了额外的`http`请求。
-## 😊 说一说如何优化webpack构建速度?
+## 说一说如何优化webpack构建速度?
 
 1. 使用`DllPlugin`将更改不频繁的代码进行单独编译。这将改善引用程序的编译速度，但是它增加了构建过程的复杂性。
 2. 将`loaders`应用于最少数的必要模块中。（比如跳过`node_module`中的文件）。
@@ -258,16 +262,14 @@ if(module.hot) {
 4. 使用`cache-loader`,  启用持久化缓存。
 5. 在`production`模式下, 如无必要可以关闭`Source Maps`。
 
-## 😊 说一说webpack如何做拆包?说一说为什么做拆包？
+## 说一说webpack如何做拆包?说一说为什么做拆包？
 
-## 😊 说一说css-loader与style-loader的区别？
+## 说一说css-loader与style-loader的区别？
 
 - css-loader, 用来处理导入的css模块
 - style-loader, 用来创建style标签，插入由css-loader处理的样式
 
-## 😊 webpack中loader调用的顺序?
-
-## 😊 说一说什么是bundle, chunk, module的区别?
+## 说一说什么是bundle, chunk, module的区别?
 
 ![image.png](https://i.loli.net/2021/05/07/RXic8pqhtP6uoJj.png)
 
@@ -277,13 +279,13 @@ if(module.hot) {
 
 一般来说一个chunk对应一个bundle。module，chunk 和bundle其实就是同一份逻辑代码在不同转换场景下的取了三个名字。
 
-## 😊 说一说hash、chunkhash、contenthash的区别？
+## 说一说hash、chunkhash、contenthash的区别？
 
 - hash，hash和项目的构建相关，文件名的hash和项目的构建hash一样。只要项目中有一个文件更改，构建的hash就会更改，
 - chunkhash，chunkhash和webpack打包时产生的hash内容相关
 - contenthash，contenthash和module内容相关，如果文件内容发生变化contenthash才会发生变化
 
-## 😊 说一说filename和chunkFilename的区别？
+## 说一说filename和chunkFilename的区别？
 
 - filename，打包后输出的文件的名称。列在程序入口的文件。
 - chunkFilename，未列在程序入口的文件，但又需要打包的文件。一般指需要懒加载的文件名称

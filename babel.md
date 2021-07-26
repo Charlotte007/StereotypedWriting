@@ -1,6 +1,6 @@
 ## 说一说Babel的原理
 
-## 简单描述一下 Babel 的编译过程？
+## 简单描述一下Babel的编译过程？
 
 ## 喜马拉雅面试题: webpack可以打包es模块吗？
 
@@ -27,3 +27,5 @@
 ## babel-polyfill
 
 ## Babel 对于 TypeScript 的支持有哪些限制？
+
+## babel插件顺序
