@@ -315,15 +315,29 @@ document.head.insertBefore( myCSS, document.head.childNodes[ document.head.child
   background: yellow;
 }
 ```
-
-## 如何让 CSS 元素左侧自动溢出（... 溢出在左侧）？
-
-## 如何实现一个上中下三行布局，顶部和底部最小高度是 100px，中间自适应?
-
-## 如何判断一个元素 CSS 样式溢出，从而可以选择性的加 title 或者 Tooltip?
-
 ## 😊 移动端1px边框如何处理？
+### 伪元素 + transform
 
+> 如果需要四条边框都是1px时，需要额外套一层。因为一层只能有两个伪元素，before和after
+
+```js
+@media (-webkit-min-device-pixel-ratio:2),(min-device-pixel-ratio:2){
+  .border-bt-1px{
+    position: relative;
+    /* 底部的1px边框 */
+    :before{
+      content: '';
+      position: absolute;
+      left:0;           
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: #ee2c2c;
+      transform: scaleY(0.5);
+    }
+  }
+}
+```
 ## 😊 通过link引入的css会阻塞页面渲染吗？
 
 css是不是阻塞资源？css是阻塞渲染的资源。css的下载解析会导致浏览器将不会渲染任何已处理的内容，直至cssom构建完毕。但是css是不会阻塞html的解析（会阻塞渲染）。因为渲染需要DOM树和CSSOM树合并后形成渲染树。其实html也是阻塞渲染的资源，但是没有html我们也没有需要渲染的内容了。
@@ -349,12 +363,35 @@ div {
 }
 ```
 
-## css modoules原理？
 
-## rem, em
+## 😊 样式隔离有什么办法？
+
+1. 添加前缀
+2. 使用css模块化，将样式名替换为hash值
+3. vue中scoped中添加额外的[data-v-469af010]标记。
+
+```html
+<div class="example" data-v-4728474d8b>hi</div>
+```
+
+```css
+.example[data-v-4728474d8b] {
+ color: blue;
+}
+```
+## 😊 rem, em
+
+1. rem: 根元素的字体大小(html的字体大小)
+2. em: 相对于父元素
 
 ## 移动端的布局（移动端的自适应方案）有那些？如何做？
 
-### rem, em
+### rem, em适配
 
-### vw
+### vw适配
+
+## 如何让 CSS 元素左侧自动溢出（... 溢出在左侧）？
+
+## 如何实现一个上中下三行布局，顶部和底部最小高度是 100px，中间自适应?
+
+## 如何判断一个元素 CSS 样式溢出，从而可以选择性的加 title 或者 Tooltip?
