@@ -70,9 +70,33 @@
 ## 😊 说一说webpack到底做了什么?
 
 webpack只是模块打包器。可以将不同模块的文件打包整合在一起，并且保证它们之间的引用正确。需要借助不同的loader以及plugin, 实现能力的扩展，编译js文件，css文件等功能。
-## 说一说webpack打包的流程（构建的原理）
 
-## webpack与rollup的区别
+## 😊 说一说什么是bundle, chunk, module的区别?
+
+![image.png](https://i.loli.net/2021/05/07/RXic8pqhtP6uoJj.png)
+
+- 我们写的代码模块被称为module
+- webpack内部打包时根据引用关系生成chunk文件
+- webpack会把chunk输出为bundle文件，bundle中包含源代码和编译的代码。
+
+一般来说一个chunk对应一个bundle。module，chunk 和bundle其实就是同一份逻辑代码在不同转换场景下的取了三个名字。
+
+## 😊 说一说hash、chunkhash、contenthash的区别？
+
+- hash，hash和项目的构建相关，文件名的hash和项目的构建hash一样。只要项目中有一个文件更改，构建的hash就会更改。（无论任何文件修改，所有hash都会, hash与整个项目有关）
+- chunkhash，根据不同的入口文件(进行依赖文件解析, 构建对应的 chunk，对应生成对应的哈希值。（计算与同一chunk内容相关）
+- contenthash，contenthash和module内容相关，如果文件内容发生变化contenthash才会发生变化
+## 😊 说一说filename和chunkFilename的区别？
+
+- filename，打包后输出的文件的名称。列在程序入口的文件。
+- chunkFilename，未列在程序入口的文件，但又需要打包的文件。一般指需要懒加载的文件名称
+## 😊 webpack与rollup的区别
+
+> 我自己没有使用过rollup
+
+1. 一般应用（业务代码）使用webpack，对于类库使用 rollup
+2. webpack目前无法打包es模块的代码（组件库使用gulp），rollup可以打包出es模块的代码
+3. webpack可以实现代码的拆分，rollup一次性加载全部资源
 
 ## 说一说Loader和Plugin的区别?
 
@@ -84,6 +108,8 @@ webpack只是模块打包器。可以将不同模块的文件打包整合在一�
 ### Plugin
 
 `Plugin`在`bundle`和`chunk`级别上工作，通常在`bundle`生成的末尾工作。`Plugin`比`Loader`具有更强大的控制能力。`Plugin`依赖事件，`Plugin`会在特定的时刻（监听特定的事件）加入打包的过程，改变输出的结果。`Plugin`在`plugins`中配置。
+
+## 说一说webpack打包的流程（构建的原理）
 
 ## 什么是sourceMap? 如何配置sourceMap? sourceMap文件的格式你了解吗?
 
@@ -327,26 +353,4 @@ if(module.hot) {
 
 ## 说一说webpack如何做拆包?说一说为什么做拆包？
 
-
-
-## 说一说什么是bundle, chunk, module的区别?
-
-![image.png](https://i.loli.net/2021/05/07/RXic8pqhtP6uoJj.png)
-
-- 我们写的代码模块被称为module
-- webpack内部打包时根据引用关系生成chunk文件
-- webpack会把chunk输出为bundle文件，bundle中包含源代码和编译的代码。
-
-一般来说一个chunk对应一个bundle。module，chunk 和bundle其实就是同一份逻辑代码在不同转换场景下的取了三个名字。
-
-## 说一说hash、chunkhash、contenthash的区别？
-
-- hash，hash和项目的构建相关，文件名的hash和项目的构建hash一样。只要项目中有一个文件更改，构建的hash就会更改，
-- chunkhash，chunkhash和webpack打包时产生的hash内容相关
-- contenthash，contenthash和module内容相关，如果文件内容发生变化contenthash才会发生变化
-
-## 说一说filename和chunkFilename的区别？
-
-- filename，打包后输出的文件的名称。列在程序入口的文件。
-- chunkFilename，未列在程序入口的文件，但又需要打包的文件。一般指需要懒加载的文件名称
 ## 说一说Webpack5的新特性?
