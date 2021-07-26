@@ -185,18 +185,136 @@ transform是创建了新的层叠上下文，margin 则会导致重绘回流。
 
 ## 😊 CSS预处理带来的好处？
 
+1. 语法强大，可以实现变量，嵌套，循环。
+2. 可以将部分常用的less代码封装成Mixins进行复用。
+3. 可以将常用样式的值设置为变量，规范化项目的样式
+4. less内置了封装的函数，if(), saturate()等
+5. 可以使用less循环自动生成一些类
 ### less有那些优点？
+
+```less
+// 声明变量
+@link-color: #428bca; // sea blue
+
+// Mixins
+.ellipsis() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+// 使用Mixins
+.div {
+  .ellipsis()
+}
+
+// Mixins也可以使用参数
+.border-radius(@radius: 5px) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+          border-radius: @radius;
+}
+```
+
+```less
+.xkd(@n, @i: 1) when (@i =< @n) {
+  .grid@{i} {
+    width: (@i * 100% / @n);
+  }
+  /* 递归调用 */
+  .xkd(@n, (@i + 1));
+}
+
+.xkd(5);
+
+
+.grid1 {
+  width: 20%;
+}
+.grid2 {
+  width: 40%;
+}
+.grid3 {
+  width: 60%;
+}
+.grid4 {
+  width: 80%;
+}
+.grid5 {
+  width: 100%;
+}
+```
 
 ## 😊 CSS选择器有那些？
 
+- div p : 所有div 下的所有的 p 标签
+- div > p : 所有 div 下第一层所有的 p 标签
+- div + p : 所有 div 的兄弟 p 标签 (必须位于 div 同级别的后方)
+- div ~ p: : 所有 div 的兄弟 p 标签 (必须位于 div 同级别的前方)
+- [title~=flower] : 选择 html的title 属性包含单词 "flower" 的所有元素。必须是字符快
+  - title="tulip flower ab" 里面的三个都行，但是 lower 就不行
+- [lang|=en] : 选择 lang 属性值以 "en" 开头的所有元素。
+- a[href^="https"] : 选择 href 属性值以 "https" 开头的所有 a 元素。
+- a[href$=".pdf"] : 选择 href 属性值以 "pdf" 结尾的所有 a 元素。
+- a[href*="abc"]: 选择其 href 属性值中包含 "abc" 子串的每个 a 元素。
+- .a.b: 同时包含a类和b类的元素
+- .a .b: a类元素内部的b类元素
+- :nth-child(n), 匹配其父元素的第n个子元素，第一个编号为1
+- :nth-last-child(n), 匹配其父元素的倒数第n个子元素，第一个编号为1
+- :nth-of-type(n), 与:nth-child()作用类似，但是仅匹配使用同种标签的元素
+- :nth-last-of-type(n), 与:nth-last-child() 作用类似，但是仅匹配使用同种标签的元素
+- :last-child, 匹配父元素的最后一个子元素，等同于:nth-last-child(1)
+- :first-child，匹配父元素的第一个子元素
+
+```css
+// 奇数
+p:nth-child(odd) { color:#f00; }
+// 偶数
+p:nth-child(even) { color:#f00; }
+```
+
 ## 😊 CSS选择器权重
+
+- 行内样式 +1000
+- id 选择器 +100
+- 属性选择器、class 或者伪类 +10
+- 元素选择器，或者伪元素 +1
+- 通配符 +0
 
 ## 😊 inline 的元素能设置宽高、margin 属性吗
 
-## 😊 CSS3的特性
-
+`inline`元素不能设置宽高，外边距(margin)只能设置左,右，不能设置上下。
 ## 😊 CSS3性能优化
+
+1. 内联首屏关键CSS（Critical CSS）
+2. CSS会阻塞渲染，在CSS文件请求、下载、解析完成之前，浏览器将不会渲染任何已处理的内容, 所以在已经内联首屏css的情况下，可以异步加载非首屏的CSS
+3. CSS压缩
+4. 正确的使用选择器
+  - 不要使用嵌套过多过于复杂的选择器
+  - 通配符和属性选择器效率最低，需要匹配的元素最多，尽量避免使用
+5. 优化重排与重绘(更多细节查看浏览器章节)
+6. 使用transform时，开启硬件加速
+
+```js
+// 异步加载CSS
+// 创建link标签
+const myCSS = document.createElement( "link" );
+myCSS.rel = "stylesheet";
+myCSS.href = "mystyles.css";
+// 插入到header的最后位置
+document.head.insertBefore( myCSS, document.head.childNodes[ document.head.childNodes.length - 1 ].nextSibling );
+```
 ## 😊 如何实现宽度不固定的正方形？
+
+当padding的值为百分比时，是按照widht百分比的
+
+```less
+.square {
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
+  background: yellow;
+}
+```
 
 ## 如何让 CSS 元素左侧自动溢出（... 溢出在左侧）？
 
@@ -208,10 +326,35 @@ transform是创建了新的层叠上下文，margin 则会导致重绘回流。
 
 ## 😊 通过link引入的css会阻塞页面渲染吗？
 
-## 多行文本显示省略号？
+css是不是阻塞资源？css是阻塞渲染的资源。css的下载解析会导致浏览器将不会渲染任何已处理的内容，直至cssom构建完毕。但是css是不会阻塞html的解析（会阻塞渲染）。因为渲染需要DOM树和CSSOM树合并后形成渲染树。其实html也是阻塞渲染的资源，但是没有html我们也没有需要渲染的内容了。
+
+css文件也是并行下载的，按声明顺序解析的。
+
+## 😊 多行文本显示省略号？
+
+```less
+/* 单行文本 */
+div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 多行文本 */
+div {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+}
+```
 
 ## css modoules原理？
 
 ## rem, em
 
 ## 移动端的布局（移动端的自适应方案）有那些？如何做？
+
+### rem, em
+
+### vw
