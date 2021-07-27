@@ -436,6 +436,16 @@ module.exports = {
 
 ## 说一说热更新的原理?
 
+> 面试时回答的简易版本👇
+
+1. wepback检测到变化，重新打包。打包完成后将打包后内容保存到内存中
+2. devServer会建立WebSocket，将打包的状态发送给浏览器。打包完成后，将新模块的hash发送给客户端。
+3. 客户端当接收到`ok`消息后, 进行`reload`操作。如果配置了模块热更新，将最新`hash`值发送给`webpack`，然后将控制权交给`webpack`客户端代码。如果没有配置模块热更新，就直接调用`location.reload`方法刷新页面。
+4. webpack客户端接收到消息后，会检查是否有更新的文件。如果有更新。并返回新的模块代码。（请求的连接，会拼接上上一次的hash，下一次就会使用这次客户端发送的hash，下一次同理）
+5. 替换过期的模块代码。如果遇到错误回退到刷新浏览器。
+6. 调用`HMR`的`accept`方法。
+
+
 ![image.png](https://i.loli.net/2021/03/31/QVpyIaE1PioUOXA.png)
 
 `Webpack`的热更新又称热替换（Hot Module Replacement），缩写为`HMR`。 这个机制可以做到不用刷新浏览器而将新变更的模块替换掉旧的模块。
@@ -519,4 +529,6 @@ if(module.hot) {
 ```
 
 ## 说一说webpack如何做拆包?说一说为什么做拆包？
+
+使用splitChunk
 
