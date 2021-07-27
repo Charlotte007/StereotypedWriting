@@ -56,8 +56,11 @@ regenerator-runtime是generator以及async/await的运行时依赖
 
 ## 什么是@babel/preset-env？
 
-## 什么是babel-runtime？
+## 😊 什么是babel-runtime？
 
+@babel/runtime是一个包含"Babel modular runtime helpers"(babel运行时助手)和regenerator-runtime的库。
+
+假设一个App多个文件使用了class这个es6特性。那么每个文件打包的module，都将包含_classCallCheck这个垫片。为了减少打包体积，应该从同一个地方引用，而不是自己维护一份。@babel-runtime就是作为集中被引用的地方集合。
 ## 😊 @babel/runtime与@babel/plugin-transform-runtime之间的关系
 
 - @babel/plugin-transform-runtime, 作为开发时的依赖。用来转换代码。
@@ -75,14 +78,17 @@ regenerator-runtime是generator以及async/await的运行时依赖
 - corejs: 2, 对应@babel/runtime-corejs2
 - corejs: 3, 对应@babel/runtime-corejs3
 
-
-## Babel对于typescript的支持有哪些限制？
-
 ## babel插件加载的顺序
 
-## useBuiltIns与@babel/runtime的最佳实践
+## @babel/preset-env与@babel/runtime的最佳实践
 
 > https://stackoverflow.com/questions/63231564/what-is-best-practice-for-babel-preset-env-usebuiltins-babel-runtime
+### 对于应用程序
 
+使用`@babel/preset-env` + `@babel/runtime`
+### 对于库
 
+只使用`@babel/runtime`
 ## 在使用webpack打包js库时，webpack的配置和babel的配置冲突时js到底会打包成什么模块？
+
+## babel对于typescript的支持有哪些限制？
