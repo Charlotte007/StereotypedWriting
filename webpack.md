@@ -414,7 +414,13 @@ module.exports = {
 <script nomodule src="main.es5.js"></script>
 ```
 
-## uglify 压缩代码的原理？
+## 😊 uglify 压缩代码的原理？
+
+![uglify.png](https://i.loli.net/2021/07/27/ZDq4cGAJhvunUX9.png)
+
+将code转换成AST。将AST进行优化，生成一个更小的AST（按照一定的压缩规则，比如去除空格）。将新生成的AST再转化成code。ya
+
+uglifyd
 ## 说一说热更新的原理?
 
 ![image.png](https://i.loli.net/2021/03/31/QVpyIaE1PioUOXA.png)
@@ -498,8 +504,6 @@ if(module.hot) {
   module.hot.accept()
 }
 ```
-
-
 
 ## 说一说webpack如何做拆包?说一说为什么做拆包？
 ## 说一说Webpack5的新特性?
