@@ -106,3 +106,4 @@
 - [What is best practice for `@babel/preset-env` + `useBuiltIns` + `@babel/runtime` + `browserslistrc`](https://stackoverflow.com/questions/63231564/what-is-best-practice-for-babel-preset-env-usebuiltins-babel-runtime)
 - [从一个误写的逗号谈开去——JS代码是如何被压缩的](https://www.h5w3.com/19480.html)
 - [精读《Webpack5 新特性 - 模块联邦》](https://zhuanlan.zhihu.com/p/115403616)
+- [解剖Babel —— 向前端架构师迈出一小步](https://mp.weixin.qq.com/s?__biz=MzkzMjIxNTcyMA==&mid=2247485330&idx=1&sn=20c78998e66b1507d2f9576c786f29d2&source=41#wechat_redirect)
