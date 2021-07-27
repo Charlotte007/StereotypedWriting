@@ -127,7 +127,7 @@ webpack只是模块打包器。可以将不同模块的文件打包整合在一�
 2. 开始编译：使用得到的参数初始化Compiler对象，加载所有配置的插件；执行Compiler对象的run方法开始执行编译；
 3. 编译模块：从entry出发，调用所有配置的Loader对模块进行编译（对进行递归，编译模块依赖的模块）
 4. 完成默认编译：得到了每个模块被编译后的最终内容以及它们之间的依赖关系；
-5. 输出资源：根据入口和模块之间的依赖关系，组装成多个包含多个模块的Chunk，再把每个Chunk转换成一个单独的文件加入到输出列表。
+5. 输出资源：根据入口和模块之间的依赖关系，组装成多个包含多个模块的Chunk，再把每个Chunk转换成一个单独的文件加入到输出列表。(这步是可以修改输出内容的最后机会)
 6. 输出完成: 根据配置，把文件内容写入到文件系统。
 
 ## 😊 什么是sourceMap? 如何配置sourceMap? sourceMap文件的格式你了解吗?
@@ -167,7 +167,9 @@ webpack只是模块打包器。可以将不同模块的文件打包整合在一�
 
 对于压缩后源代码，需要在末尾添加`//# sourceURL=/path/to/file.js.map`注释后，浏览器就会通过`sourceURL`去查找对应的`sourceMap`文件，通过解释器解析后，实现源码和混淆代码之间的映射。因此`sourceMap`其实也是一项需要浏览器支持的技术。
 
-## 如何编写Loader吗?编写过Loader吗?
+## 😊 如何编写Loader吗?编写过Loader吗?
+
+> 我没有编写过loader😭。Loader简单的说，就是一个输入和输出，如果还需要返回其他内容需要使用`this.callback`的API。如果使用`this.callback`返回编译后的内容，需要返回undefined。Loader可以实现异步转换，而不许需要同步的等待。
 
 一个`Loader`的职责是单一的，只需要完成一种转换。 如果一个源文件需要经历多步转换才能正常使用，就通过多个 `Loader`去转换。 在调用多个`Loader`去转换一个文件时，每个`Loader`会链式的顺序执行， 第一个`Loader`将会拿到需处理的原内容，上一个`Loader`处理后的结果会传给下一个接着处理，最后的`Loader`将处理后的最终结果返回给`Webpack`。
 
@@ -183,6 +185,8 @@ module.exports = function(source) {
 };
 ```
 
+有些场景下还需要返回除了内容之外的东西。this.callback是Webpack给Loader注入的API。当使用this.callback返回内容时，该 Loader必须返回undefined。
+
 `Loader`中的`this`上下文由`Webpack`提供，可以通过`this`对象提供的相关属性，获取当前`Loader`需要的各种信息数据。
 
 ```js
@@ -193,15 +197,18 @@ module.exports = function(source) {
     const options = this.query;
     
     /*
-     * this.callback 参数：
+     * this.callback 参数列表:
      * error：Error | null，当无法转换原内容时，给 Webpack 返回一个 Error
      * content：String | Buffer，原内容转换后的内容
      * sourceMap：用于把转换后的内容得出原内容的 Source Map，方便调试
      * abstractSyntaxTree: 如果本次转换为原内容生成了 AST 语法树，可以把这个 AST 返回, 以方便之后需要 AST 的 Loader 复用该 AST，以避免重复生成 AST，提升性能
      */
     this.callback(null, content);
+    return
 }
 ```
+
+this上的其他内容：
 
 - this.query, 可以获取`Loader`的`options`对象。
 - this.callback, 可以返回除了内容之外的东西。
@@ -222,7 +229,9 @@ module.exports = function(source) {
     });
 };
 ```
-## 如何编写Plugin吗?编写过Plugin吗?
+## 😊 如何编写Plugin吗?编写过Plugin吗?
+
+> 我没有编写过plugin😂。插件是一个类。插件的机制是发布订阅模式。插件类必须需要实现`apply`方法。apply方法会传入Compiler对象可以通过Compiler对象, 监听广播，发布广播📢。也可以实现异步的插件，异步的插件在处理完任务时需要调用回调函数。
 
 `Webpack`基于发布订阅模式，和`Node.js`中的`EventEmitter`相似。`Webpack`在运行过程中会广播事件，插件通过监听这些事件，就可以在特定的阶段执行自己的插件任务，从而实现自己想要的功能。`Compiler`和`Compilation`是`Webpack`两个非常核心的对象，其中`Compiler`暴露了和`Webpack`整个生命周期相关的钩子（compiler-hooks），而`Compilation`则暴露了与模块和依赖有关的粒度更小的事件钩子（Compilation Hooks）。
 
@@ -236,6 +245,7 @@ class BasicPlugin{
 
   // Webpack 会调用 BasicPlugin 实例的 apply 方法给插件实例传入 compiler 对象
   apply(compiler){
+    // 传入了compilation对象
     compiler.plugin('compilation',function(compilation) {
     })
   }
@@ -260,6 +270,19 @@ compiler.plugin('event-name',function(params) {});
 - 插件必须是一个函数或者是一个包含`apply`方法的对象，这样才能访问`Compiler`实例。
 - 传给每个插件的`Compiler`和`Compilation`对象都是同一个引用，若在一个插件中修改了它们身上的属性，会影响后面的插件;
 - 异步的事件需要在插件处理完任务时调用回调函数(异步的事件会附带两个参数，第二个参数为回调函数，在插件处理完任务时需要调用回调函数)通知`Webpack`进入下一个流程，不然会卡住。
+
+```js
+apply () {
+  // 异步的插件
+  compiler.plugin('emit',function(compilation, callback) {
+    // 支持处理逻辑
+
+    // 处理完毕后执行 callback 以通知 Webpack 
+    // 如果不执行 callback，运行流程将会一直卡在这不往下执行 
+    callback();
+  });
+}
+```
 ## 说一说Compile对象
 
 `Compiler`对象包含了`Webpack`环境所有的的配置信息，包含`options`，`loaders`，`plugins`这些信息，这个对象在`Webpack`启动时候被实例化，它是全局唯一的，可以简单地把它理解为`Webpack`实例。
@@ -277,7 +300,6 @@ compiler.plugin('event-name',function(params) {});
 
 1. 对于`Dead Code`，`Tree-shaking`会基于AST分析，以删除无用的代码。
 2. 对于无用的模块代码。`Tree-shaking`**依赖于ES6的模块特性**。由于ES6模块依赖关系是确定的，和运行时的状态无关，可以进行可靠的静态分析，这是`Tree-shaking`的基础。所以必须使用ES6模块的语法才能进行对无用模块代码的`Tree-shaking`。
-
 ## 说一说热更新的原理?
 
 ![image.png](https://i.loli.net/2021/03/31/QVpyIaE1PioUOXA.png)
@@ -372,6 +394,6 @@ if(module.hot) {
 4. 使用`cache-loader`,  启用持久化缓存。
 5. 在`production`模式下, 如无必要可以关闭`Source Maps`。
 
+## uglify 压缩代码的原理？
 ## 说一说webpack如何做拆包?说一说为什么做拆包？
-
 ## 说一说Webpack5的新特性?

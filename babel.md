@@ -1,4 +1,4 @@
-## 说一说Babel的原理
+## 说一说babell s的原理
 
 ## 简单描述一下Babel的编译过程？
 
@@ -28,4 +28,4 @@
 
 ## Babel 对于 TypeScript 的支持有哪些限制？
 
-## babel插件顺序
+## babel插件加载的顺序
