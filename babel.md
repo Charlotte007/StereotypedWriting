@@ -1,6 +1,6 @@
 ## 😊 babel是什么？
 
-Babel是一个js编译器。babel接收输入的js代码，经过内部处理流程，最终输出修改后的js代码。
+Babel是一个js编译器。babel接收输入的js代码，经过内部处理流程，最终输出修改后的js代码。babel没有任何额外能力。通过plugin对外提供介入babel-core的能力。多个plugin组合在一起形成的集合，被称为preset。
 
 ![babel.png](https://i.loli.net/2021/07/27/b2c8OGtKA4FpjPM.png)
 
