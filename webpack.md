@@ -367,6 +367,15 @@ module.exports = {
   ]
 }
 ```
+
+
+## 😊 webpack文件监听原理呢？
+
+> aggregateTimeout,监听到变化发生后会等300ms再去执行，默认300ms
+
+配置`watch`参数，或者使用配置`--watch`命令。
+
+轮询判断文件的最后编辑时间是否变化，如果某个文件发生了变化，并不会立刻告诉监听者，而是先缓存起来，等aggregateTimeout后再执行。
 ## 说一说热更新的原理?
 
 ![image.png](https://i.loli.net/2021/03/31/QVpyIaE1PioUOXA.png)
