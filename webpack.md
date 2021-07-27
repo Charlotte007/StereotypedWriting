@@ -530,5 +530,21 @@ if(module.hot) {
 
 ## 说一说webpack如何做拆包?说一说为什么做拆包？
 
-使用splitChunk
+> 这块没有细写
 
+目的：查找不同chunk之间的共享chunk，将它们拆分为单独的chunk, 减少重复的代码。
+
+```js
+// 先不写了这块
+splitChunks: {
+  minChunks: 1,
+  minSize: 10,
+  cacheGroups: {
+    ui: {
+      test: /[\\/]node_modules[\\/](react-ui-components-library)[\\/]/,
+      name: 'ui',
+      chunks: 'all',
+    }
+  }
+}
+```
