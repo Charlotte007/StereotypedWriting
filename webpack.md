@@ -396,7 +396,25 @@ module.exports = {
 };
 ```
 
-## 说一说如何优化webpack构建文件大小?
+## 😊 说一说如何优化webpack构建文件大小?
+
+1. 将`mode`设置为`production`开启`tree shacking`
+2. js，css文件压缩
+3. 按需加载（减小首屏的js大小）
+4. 分包splitChunck(并发请求js)
+5. 优化静态资源（图片压缩）
+6. 对于组件库，可以使用`babel-plugin-import`按需引入，减少不必要的代码
+7. 使用nomodule优化，比如新的浏览器支持es模块，直接加载es模块的代码。老版本的浏览器加载es5的代码。打包两份js文件，实现不同版本的浏览器加载不同的代码。需要配合`webpack-module-nomodule-plugin`插件
+8. `babel/prest-env`设置为`useBuiltIns：usage`按需引入垫片
+
+```html
+<!-- 直接加载es模块 -->
+<script type="module" src="main.mjs"></script>
+<!-- 老版本浏览器加载es5模块 -->
+<script nomodule src="main.es5.js"></script>
+```
+
+## uglify 压缩代码的原理？
 ## 说一说热更新的原理?
 
 ![image.png](https://i.loli.net/2021/03/31/QVpyIaE1PioUOXA.png)
@@ -482,6 +500,6 @@ if(module.hot) {
 ```
 
 
-## uglify 压缩代码的原理？
+
 ## 说一说webpack如何做拆包?说一说为什么做拆包？
 ## 说一说Webpack5的新特性?

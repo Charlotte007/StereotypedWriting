@@ -29,3 +29,7 @@
 ## Babel 对于 TypeScript 的支持有哪些限制？
 
 ## babel插件加载的顺序
+
+## useBuiltIns @babel/runtime的最佳实践
+
+> https://stackoverflow.com/questions/63231564/what-is-best-practice-for-babel-preset-env-usebuiltins-babel-runtime
