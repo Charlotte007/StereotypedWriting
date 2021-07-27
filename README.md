@@ -108,3 +108,4 @@
 - [精读《Webpack5 新特性 - 模块联邦》](https://zhuanlan.zhihu.com/p/115403616)
 - [解剖Babel —— 向前端架构师迈出一小步](https://mp.weixin.qq.com/s?__biz=MzkzMjIxNTcyMA==&mid=2247485330&idx=1&sn=20c78998e66b1507d2f9576c786f29d2&source=41#wechat_redirect)
 - [「Tips」关于Webpack和babel的一些问题(1)](https://github.com/peoplesing1832/blog/issues/37)
+- [Babel 插件手册](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-babel-types)
