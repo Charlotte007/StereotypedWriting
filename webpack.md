@@ -418,9 +418,22 @@ module.exports = {
 
 ![uglify.png](https://i.loli.net/2021/07/27/ZDq4cGAJhvunUX9.png)
 
-将code转换成AST。将AST进行优化，生成一个更小的AST（按照一定的压缩规则，比如去除空格）。将新生成的AST再转化成code。ya
+将code转换成AST。将AST进行优化，生成一个更小的AST（按照一定的压缩规则，比如去除空格）。将新生成的AST再转化成code。
 
-uglifyd
+## 😊 说一说Webpack5的新特性?
+
+> 目前没有使用过webpack5, 没有时间去看
+
+### module-federation（联邦模块）
+
+![npm.png](https://i.loli.net/2021/07/27/e7DsLm4Hiog8TwM.png)
+
+之前的痛点, 两个不同项目共享模块，将其抽成通用依赖并分别安装在各自项目中。需要重复的编译。
+
+![module-federation.png](https://i.loli.net/2021/07/27/xFCuK3qvbE5T8f2.png)
+
+将一个应用的包应用于另一个应用，同时具备整体应用一起打包的公共依赖抽取能力。联邦模块，开辟了一种新的应用形态，即 “中心应用”，这个中心应用用于在线动态分发Runtime子模块，并不直接提供给用户使用。
+
 ## 说一说热更新的原理?
 
 ![image.png](https://i.loli.net/2021/03/31/QVpyIaE1PioUOXA.png)
@@ -506,4 +519,4 @@ if(module.hot) {
 ```
 
 ## 说一说webpack如何做拆包?说一说为什么做拆包？
-## 说一说Webpack5的新特性?
+

@@ -105,3 +105,4 @@
 - [What are the differences between html preload and prefetch?](https://stackoverflow.com/questions/52764401/what-are-the-differences-between-html-preload-and-prefetch#:~:text=preload%20is%20a%20declarative%20fetch,or%20not%20to%20the%20browser.)
 - [What is best practice for `@babel/preset-env` + `useBuiltIns` + `@babel/runtime` + `browserslistrc`](https://stackoverflow.com/questions/63231564/what-is-best-practice-for-babel-preset-env-usebuiltins-babel-runtime)
 - [从一个误写的逗号谈开去——JS代码是如何被压缩的](https://www.h5w3.com/19480.html)
+- [精读《Webpack5 新特性 - 模块联邦》](https://zhuanlan.zhihu.com/p/115403616)
