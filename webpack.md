@@ -376,6 +376,27 @@ module.exports = {
 配置`watch`参数，或者使用配置`--watch`命令。
 
 轮询判断文件的最后编辑时间是否变化，如果某个文件发生了变化，并不会立刻告诉监听者，而是先缓存起来，等aggregateTimeout后再执行。
+
+## 说一说如何优化webpack构建速度?
+
+1. 使用`DllPlugin`将更改不频繁的代码进行单独编译。这将改善引用程序的编译速度，但是它增加了构建过程的复杂性。
+2. 将`loaders`应用于最少数的必要模块中。（比如跳过`node_module`中的文件）。
+3. 多线程，`thread-loader`可以将非常消耗资源的`loaders`转存到`worker pool`中。（haappypack不维护了）
+4. 使用`cache-loader`,  启用持久化缓存。(webpack5中可以直接开启缓存)
+5. 使用`terser-webpack-plugin`时, 开启`paraller`(多进程)以及`catch`(缓存)
+6. 使用`babel-loader`时，开启`cacheDirectory`(缓存)
+7. 在`production`模式下, 如无必要可以关闭`Source Maps`。
+8. 配置`noParse`针对独立库不解析依赖关系，减少耗时。（比如，引用jquery）。对类似jq这类依赖库，一般会认为不会引用其他的包(自行判断)。所以，对于这类不引用其他的包的库，我们在打包的时候就没有必要去解析，这样能够增加打包速率。
+
+```js
+// webpack5中取代了
+module.exports = {
+  //...
+  cache: false,
+};
+```
+
+## 说一说如何优化webpack构建文件大小?
 ## 说一说热更新的原理?
 
 ![image.png](https://i.loli.net/2021/03/31/QVpyIaE1PioUOXA.png)
@@ -459,13 +480,7 @@ if(module.hot) {
   module.hot.accept()
 }
 ```
-## 说一说如何优化webpack构建速度?
 
-1. 使用`DllPlugin`将更改不频繁的代码进行单独编译。这将改善引用程序的编译速度，但是它增加了构建过程的复杂性。
-2. 将`loaders`应用于最少数的必要模块中。（比如跳过`node_module`中的文件）。
-3. 多线程，`thread-loader`可以将非常消耗资源的`loaders`转存到`worker pool`中。
-4. 使用`cache-loader`,  启用持久化缓存。
-5. 在`production`模式下, 如无必要可以关闭`Source Maps`。
 
 ## uglify 压缩代码的原理？
 ## 说一说webpack如何做拆包?说一说为什么做拆包？
