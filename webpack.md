@@ -283,18 +283,22 @@ apply () {
   });
 }
 ```
-## 说一说Compile对象
+## 😊 说一说Compile对象
 
 `Compiler`对象包含了`Webpack`环境所有的的配置信息，包含`options`，`loaders`，`plugins`这些信息，这个对象在`Webpack`启动时候被实例化，它是全局唯一的，可以简单地把它理解为`Webpack`实例。
-## 说一说Compilation对象
+## 😊 说一说Compilation对象
 
 `Compilation`对象包含了当前的模块资源、编译生成资源、变化的文件等。当`Webpack`以开发模式运行时，每当检测到一个文件变化，一次新的`Compilation`将被创建。`Compilation`对象也提供了很多事件回调供插件做扩展。通过`Compilation`也能读取到`Compiler`对象。
 
 `Compiler`和`Compilation`的区别在于：`Compiler`代表了整个`Webpack`从启动到关闭的生命周期，而 `Compilation`只是代表了一次新的编译。
-## 了解Tree-shaking吗?Tree-shaking的原理说一说?
+## 😊 了解Tree-shaking吗?Tree-shaking的原理说一说?
+
+### 什么是Tree-shaking？
 
 `JavaScript`绝大多数情况需要通过网络进行加载，然后执行，加载的文件大小越小，整体执行时间更短，所以通过`Tree-shaking`将没有使用的模块删除, 去除无用代码以减少文件体积，对`JavaScript`来说很有意义。
 ### Tree-shaking的原理
+
+> 对于`Dead Code`的代码，`Tree-shaking`会基于AST进行分析。对于无用的模块代码，依赖于静态的模块分析（必须使用静态模块，，比如ES6模块才能实现`Tree-shaking`）。
 
 首先了解下`Dead Code`的概念。`Dead Code`指那些代码不会被执行，不可到达；代码执行的结果不会被用到；代码只会影响死变量（只写不读）的代码。
 
