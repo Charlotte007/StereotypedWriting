@@ -45,10 +45,14 @@ core-js是一套模块化的js标准库，包括：
 - ES提案中的特性实现
 - 跨平台的WHATWG / W3C特性，比如URL
 
-## 什么是@babel/polyfill？
-## 什么是regenerator-runtime？
+## 😊 什么是regenerator-runtime？
 
-## @babel/polyfill与core-js关系
+regenerator-runtime是generator以及async/await的运行时依赖
+## 😊 @babel/polyfill与core-js关系
+
+> 从babelv7.4.0开始，@babel/polyfill被废弃了，可以直接引用core-js与regenerator-runtime替代
+
+@babel/polyfill可以看作是，core-js和regenerator-runtime的集合。单独使用@babel/polyfill会将core-js全量导入，造成项目打包体积过大。
 
 ## 什么是babel-runtime？
 
