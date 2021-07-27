@@ -304,6 +304,69 @@ apply () {
 
 1. 对于`Dead Code`，`Tree-shaking`会基于AST分析，以删除无用的代码。
 2. 对于无用的模块代码。`Tree-shaking`**依赖于ES6的模块特性**。由于ES6模块依赖关系是确定的，和运行时的状态无关，可以进行可靠的静态分析，这是`Tree-shaking`的基础。所以必须使用ES6模块的语法才能进行对无用模块代码的`Tree-shaking`。
+
+## 😊 说一说如何配置长效缓存?
+
+> runtimeChunk设置为true，会在入口文件生成一个只包含`chunk`的映射关系的文件。
+
+将`optimization`的`runtimeChunk`配置项设置为`true`, 会额外添加一个只含有`runtime`的额外`chunk`。这个`chunk`中包含了`chunk`的映射关系的列表。
+
+如果不额外提取出来，其他的模块的改动都会导致`app.js`的hash的改变。从而导致缓存失效（app.js缓存失效）。如果额外的提取出来其他模块的改动，将不会影响到`app.js`的hash的变化。（但是runtime.js本身的hash值会发生变化）
+
+由于runtime.js本身大小不大。我们可以将这个额外的`chunk`的内容，使用`InlineSourcePlugin`插件直接添加到`html`中，减少了额外的`http`请求。也避免了runtime.js缓存失效的问题
+
+```js
+const { resolve } = require('path');
+const InlineChunkHtmlPlugin = require('inline-chunk-html-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpack = require('clean-webpack-plugin').CleanWebpackPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+module.exports = {
+  entry: './src/index.js',
+
+  mode: 'production',
+
+  output: {
+    path: resolve(__dirname, 'dist'),
+    filename: '[name].[chunkhash:8].js',
+  },
+
+  optimization: {
+    // 配置runtimeChunk，生成的list文件名称runtime.js
+    runtimeChunk: {
+      name: 'runtime'
+    },
+    splitChunks: {
+      minChunks: 1,
+      minSize: 1,
+      chunks: 'all',
+      maxInitialRequests: 6,
+      cacheGroups: {
+        module1: {
+          test: resolve(__dirname, 'src/module-1'),
+        },
+        module2: {
+          test: resolve(__dirname, 'src/module-2'),
+        },
+        common: {
+          test: resolve(__dirname, 'src/common'),
+        },
+      },
+    },
+  },
+
+  plugins: [
+    new CleanWebpack(),
+    new HtmlWebpackPlugin({
+      template: resolve(__dirname, './public/index.html'),
+    }),
+    // 将runtime内容插入到html中
+    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime/]),
+    new BundleAnalyzerPlugin(),
+  ]
+}
+```
 ## 说一说热更新的原理?
 
 ![image.png](https://i.loli.net/2021/03/31/QVpyIaE1PioUOXA.png)
@@ -387,9 +450,6 @@ if(module.hot) {
   module.hot.accept()
 }
 ```
-## 说一说如何配置长效缓存?
-
-将`optimization`的`runtimeChunk`配置项设置为`true`, 会额外添加一个只含有`runtime`的额外`chunk`。这个`chunk`中包含了`chunk`的映射关系的列表。如果不额外提取出来，其他的模块的改动都会导致`app.js`的hash的改变。从而导致缓存失效。另外我们可以将这个额外的`chunk`的内容，使用`InlineSourcePlugin`插件直接添加到`html`中，减少了额外的`http`请求。
 ## 说一说如何优化webpack构建速度?
 
 1. 使用`DllPlugin`将更改不频繁的代码进行单独编译。这将改善引用程序的编译速度，但是它增加了构建过程的复杂性。
