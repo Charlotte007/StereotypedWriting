@@ -56,6 +56,8 @@ regenerator-runtime是generator以及async/await的运行时依赖
 
 ## 😊 什么是@babel/preset-env？
 
+> [babel-preset-env useBuiltins: 'usage' fails to polyfill all usages for given target](https://github.com/babel/babel/issues/9625)
+
 @babel/preset-env，可以按需（指定core-js的版本或者指定浏览器的版本）将core-js中的特性打包（之前@babel/polyfill是全量引入的），这样可以显著减少最终打包的体积。
 
 useBuiltIns配置了@babel/preset-env如何处理polyfill。
@@ -63,7 +65,7 @@ useBuiltIns配置了@babel/preset-env如何处理polyfill。
 useBuiltIns的配置分为3个选项false（不使用垫片），entry，usage
 
 - entry，设置entry时，需要在代码的入口文件处手动引入"core-js"和"regenerator-runtime/runtime", 根据不同环境（browsers声明的需要兼容的浏览器，如果是只需要支持最新的浏览器将不会进行转换），babel会将core-js转换不同的内容。
-- usage，在每一个文件使用到垫片时，都会自动进行导入垫片的操作，只打包我们使用过的特性。
+- usage，在每一个文件使用到垫片时，都会自动进行导入垫片的操作，只打包我们使用过的特性。（**但是如果babel-loader你设置了不处理node_modules中内容同时useBuiltIns设置为usage，可能会出现问题，node_modules中内容无法被转译**，所以对于应用程序应该使用`entry`避免这种问题）。
 
 @babel/preset-env可以指定corejs的版本，较老的版本可能不包含最新功能的polyfill。
 
@@ -89,17 +91,40 @@ useBuiltIns的配置分为3个选项false（不使用垫片），entry，usage
 - corejs: 2, 对应@babel/runtime-corejs2
 - corejs: 3, 对应@babel/runtime-corejs3
 
-## babel插件加载的顺序
+## 😊 @babel/preset-env与@babel/runtime的最佳实践
 
-## @babel/preset-env与@babel/runtime的最佳实践
+> [What is best practice for `@babel/preset-env` + `useBuiltIns` + `@babel/runtime` + `browserslistrc`](https://stackoverflow.com/questions/63231564/what-is-best-practice-for-babel-preset-env-usebuiltins-babel-runtime)
+### 对于应用程序的最佳实践
 
-> https://stackoverflow.com/questions/63231564/what-is-best-practice-for-babel-preset-env-usebuiltins-babel-runtime
-### 对于应用程序
+> 应该使用`@babel/preset-env` + `@babel/runtime`的组合
 
-应该使用`@babel/preset-env` + `@babel/runtime`
+`@babel/preset-env`的useBuiltIns设置为entry，入口文件的顶部添加` import 'core-js'`。并且引入@babel/plugin-transform-runtime和@babel/runtime。因为useBuiltIns设置为entry, 所以babel-loader不需要处理node_modules也是ok的。
 ### 对于库
 
-只使用`@babel/runtime`
-## 在使用webpack打包js库时，webpack的配置和babel的配置冲突时js到底会打包成什么模块？
+> 只使用`@babel/runtime`
+
+只使用@babel/plugin-transform-runtime和@babel/runtime。并将@babel/preset-env的useBuiltIns设置为false。@babel/runtime不会污染全局环境。
+## 😊 在使用webpack打包js库时，webpack的配置和babel的配置冲突时js到底会打包成什么模块？
+
+```js
+// webpack的配置，打包目标是umd模块
+output: {
+    path: resolve(__dirname, '../dist'),
+    filename: '[name].js',
+    library: 'library',
+    libraryTarget: 'umd',
+ }
+
+// babel的配置
+[
+  "@babel/preset-env",
+  {
+    modules: 'cjs'
+  }
+]   
+```
+
+经过测试，如果使用webpack打包会无视@babel/preset-env的modules配置。会打包成umd模块
+## babel插件加载的顺序
 
 ## babel对于typescript的支持有哪些限制？
