@@ -854,6 +854,8 @@ export default compose(connect(mapStateToProps, null), withStyles(styles))(Home)
 
 ### 为什么reducer是纯函数？
 
+> 我觉得应该是符合React的设计语言，数据不可变
+
 reducer 用于返回新的 state，redux 针对新老 state 使用 ===比较，如果 state 有变化，直接返回新的 state（配合 Object.assign）表示需要重新 render 组件。否则直接返回默认 state。
 
 ### redux不直接操作store而是返回新的state？
