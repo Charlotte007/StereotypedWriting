@@ -125,6 +125,31 @@ output: {
 ```
 
 经过测试，如果使用webpack打包会无视@babel/preset-env的modules配置。会打包成umd模块
-## babel插件加载的顺序
+## 😊 babel插件加载的顺序
+
+- plugins：从头到尾的顺序运行
+- presets：从尾到头的逆序运行
+- plugins先，presets后
+
+```js
+return {
+    presets: [
+      "@babel/preset-env",
+      [
+        "@babel/preset-react",
+        {
+          development: isDevelopment
+        }
+      ]
+    ],
+    plugins: [
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-export-default-from",
+      "@babel/plugin-proposal-export-namespace-from",
+      "@babel/plugin-proposal-optional-chaining",
+      "@babel/plugin-transform-runtime"
+    ],
+}
+```
 
 ## babel对于typescript的支持有哪些限制？
