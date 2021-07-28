@@ -54,13 +54,24 @@ regenerator-runtime是generator以及async/await的运行时依赖
 
 @babel/polyfill可以看作是，core-js和regenerator-runtime的集合。单独使用@babel/polyfill会将core-js全量导入，造成项目打包体积过大。
 
-## 什么是@babel/preset-env？
+## 😊 什么是@babel/preset-env？
+
+@babel/preset-env，可以按需（指定core-js的版本或者指定浏览器的版本）将core-js中的特性打包（之前@babel/polyfill是全量引入的），这样可以显著减少最终打包的体积。
+
+useBuiltIns配置了@babel/preset-env如何处理polyfill。
+
+useBuiltIns的配置分为3个选项false（不使用垫片），entry，usage
+
+- entry，设置entry时，需要在代码的入口文件处手动引入"core-js"和"regenerator-runtime/runtime", 根据不同环境（browsers声明的需要兼容的浏览器，如果是只需要支持最新的浏览器将不会进行转换），babel会将core-js转换不同的内容。
+- usage，在每一个文件使用到垫片时，都会自动进行导入垫片的操作，只打包我们使用过的特性。
+
+@babel/preset-env可以指定corejs的版本，较老的版本可能不包含最新功能的polyfill。
 
 ## 😊 什么是babel-runtime？
 
 @babel/runtime是一个包含"Babel modular runtime helpers"(babel运行时助手)和regenerator-runtime的库。
 
-假设一个App多个文件使用了class这个es6特性。那么每个文件打包的module，都将包含_classCallCheck这个垫片。为了减少打包体积，应该从同一个地方引用，而不是自己维护一份。@babel-runtime就是作为集中被引用的地方集合。
+假设一个App多个文件使用了class这个es6特性。那么每个文件打包后的module，都将包含_classCallCheck这个垫片。为了减少打包体积，应该从同一个地方引用，而不是自己维护一份。@babel-runtime目的就是让这些默认从同一个地方引用。
 ## 😊 @babel/runtime与@babel/plugin-transform-runtime之间的关系
 
 - @babel/plugin-transform-runtime, 作为开发时的依赖。用来转换代码。
@@ -85,7 +96,7 @@ regenerator-runtime是generator以及async/await的运行时依赖
 > https://stackoverflow.com/questions/63231564/what-is-best-practice-for-babel-preset-env-usebuiltins-babel-runtime
 ### 对于应用程序
 
-使用`@babel/preset-env` + `@babel/runtime`
+应该使用`@babel/preset-env` + `@babel/runtime`
 ### 对于库
 
 只使用`@babel/runtime`
