@@ -4,7 +4,7 @@
 
 > 虽然八股文需要背诵，但是算法相关的内容我还是建议大家，自己思考一下然后敲出来。算法题如果去背，真的很难。
 
-浏览器，网络，测试题，node, 工程化
+（浏览器, 网络，更新简历），项目，测试题，node
 ### 参考资料
 
 > 😯, 表示我自己的博客文章
@@ -113,3 +113,13 @@
 - [Babel 插件手册](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-babel-types)
 - [浏览器的工作原理：新式网络浏览器幕后揭秘](https://www.html5rocks.com/zh/tutorials/internals/howbrowserswork/)
 - [前端性能优化之白屏时间](https://cloud.tencent.com/developer/article/1508941)
+- [一文带你了解如何排查内存泄漏导致的页面卡顿现象](https://juejin.cn/post/6947841638118998029#heading-3)
+- [从一道面试题简单谈谈发布订阅和观察者模式](https://juejin.cn/post/6844904018964119566#heading-6)
+- [前端60s 一分钟了解编程范式](https://juejin.cn/post/6976553960526053406)
+- [深入浅出JSBridge：从原理到使用](https://juejin.cn/post/6936814903021797389#heading-7)
+- [在Javascript中进行面向切面编程](https://zhuanlan.zhihu.com/p/63917897)
+- [前端模块化详解(完整版)](https://segmentfault.com/a/1190000017466120)
+- [浏览器渲染流程&Composite（渲染层合并）简单总结](https://segmentfault.com/a/1190000014520786)
+- [Chrome 浏览器架构](https://xie.infoq.cn/article/5d36d123bfd1c56688e125ad3)
+- [前端浏览器动画性能优化](https://www.jianshu.com/p/d24a891d4de6)
+- [浏览器缓存 from memory cache与from disk cache详解](https://blog.csdn.net/adley_app/article/details/102950695)
