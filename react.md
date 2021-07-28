@@ -371,6 +371,10 @@ SSR渲染过程:
 5. `html`返回浏览器后，`js`文件加载后，会对页面进行水合，绑定事件。以及数据脱水将之前`window`上挂载的数据同步到客户端的`store`中。
 6. 对于`css`我们使用`isomorphic-style-loader`插件处理，将首屏的`css`注入到`html`模版中。这样首屏的html包含了css文件，如果单纯的由客户端添加会产生样式的闪烁。
 
+### ⚙️ ssr流式渲染
+
+https://zhuanlan.zhihu.com/p/364991981
+
 ## 😊 renderToString, renderToStaticMarkup的区别
 
 - `renderToString`, 将`React Component`转化为`HTML`字符串，生成的`HTML`的`DOM`会带有额外属性：各个 DOM会有`data-react-id`属性，第一个`DOM`会有`data-checksum`属性。

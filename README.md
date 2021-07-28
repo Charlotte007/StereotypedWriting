@@ -123,3 +123,5 @@
 - [Chrome 浏览器架构](https://xie.infoq.cn/article/5d36d123bfd1c56688e125ad3)
 - [前端浏览器动画性能优化](https://www.jianshu.com/p/d24a891d4de6)
 - [浏览器缓存 from memory cache与from disk cache详解](https://blog.csdn.net/adley_app/article/details/102950695)
+- [浏览器工作原理：从 URL 输入到页面展现到底发生了什么？](https://www.jianshu.com/p/d616d887953a)
+- [如何监控网页崩溃？](https://zhuanlan.zhihu.com/p/40273861)
