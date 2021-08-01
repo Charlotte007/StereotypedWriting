@@ -882,6 +882,8 @@ return connect(mapStateToProps, mapDispatchToProps)(Component);
 Provider 组件用来挂载 redux 返回的 store 对象，同时将整个应用作为Provider的子组件。 只有当 Provider 的 value 值发生变化时，它内部的所有消费组件都会重新渲染。
 
 ## ssr和后端模版性能的差异？
+
+## ⚙️ Redux的原理
 ## ⚙️ React部分组件的核心逻辑
 
 > 回顾一下之前写的组件库的原理，面试的时候方便回答
