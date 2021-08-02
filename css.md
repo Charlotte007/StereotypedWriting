@@ -388,10 +388,16 @@ div {
 
 ### rem适配
 
-安装postcss，配置`postcss-pxtorem`(自动将px转rem)，amfe-flexible（是配置可伸缩布局方案，主要是将1rem设为viewWidth/10，自动根据屏幕大小转换html的font-size的值）
+> 缺点，与js耦合，在响应式布局中，必须通过js来动态控制根元素font-size的大小。
+
+安装postcss，配置`postcss-pxtorem`(自动将px转rem)，amfe-flexible（是配置可伸缩布局方案，主要是将1rem设为viewWidth/10，就是将html的font-size设置为viewWidth/10，自动根据屏幕大小转换html的font-size的值）
 ### vw适配
 
 按照postcss，配置`postcss-px-to-viewport`插件
+
+
+
+## ⚙️ 栅格布局的原理
 
 ## 😊 如何让 CSS 元素左侧自动溢出（... 溢出在左侧）？
 
