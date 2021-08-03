@@ -130,6 +130,46 @@ setTimeout(() => {
     console.log(6)
   })
 }, 0)
+
+
+// 1, 2, 3, Hello, 4, 5, 6, 7, 8
+
+setTimeout(() => {
+  console.log(1)
+  new Promise((resolve) => {
+    resolve()
+  }).then(() => {
+    console.log(2)
+    new Promise((resolve) => {
+      resolve()
+    }).then(() => {
+      console.log(3)
+    })
+    new Promise((resolve) => {
+      resolve()
+    }).then(() => {
+      console.log('Hello')
+    })
+  }).then(() => {
+    console.log(4)
+  })
+}, 0)
+
+setTimeout(() => {
+  console.log(5)
+  new Promise((resolve) => {
+    resolve()
+  }).then(() => {
+    console.log(6)
+    new Promise((resolve) => {
+      resolve()
+    }).then(() => {
+      console.log(7)
+    })
+  }).then(() => {
+    console.log(8)
+  })
+}, 0)
 ```
 
 ## 😊 说一说原型链
