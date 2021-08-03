@@ -34,6 +34,8 @@
 
 定时器指定了一个阀值，阀值到了之后，会执行定时器的回调。但是node可能不是特别准确，只能说定时器回调，将在指定的时间过后尽可能早地运行。
 
+timers阶段有几个setTimeout/setInterval都会依次执行。并不像浏览器端，每执行一个宏任务后就去执行一个微任务。
+
 ```js
 // 打印的顺序是不一定的
 setTimeout(() => {
@@ -46,6 +48,20 @@ setImmediate(() => {
 ```
 
 但是如果将他们两个放到IO的回调之中，setImmediate先执行，因为`check`阶段在`timers`阶段的前面
+
+```js
+// setImmediate先执行
+const fs = require('fs')
+
+fs.readFile(__filename, () => {
+    setTimeout(() => {
+        console.log('timeout');
+    }, 0)
+    setImmediate(() => {
+        console.log('immediate')
+    })
+})
+```
 ### poll
 
 处理poll队列的事件。（IO相关的回调）
@@ -57,7 +73,87 @@ even loop将同步执行poll队列里的回调，直到队列为空。接下来e
 ### check
 
 setImmediate()的回调会被加入check队列中, event loop处理check队列
+
+### setTimeout 和 setImmediate
+
+- setImmediate 设计在poll阶段完成时执行，即check阶段；
+- setTimeout 设计在poll阶段为空闲时，且设定时间到达后执行，但它在timer阶段执行
+
+### process.nextTick
+
+这个函数其实是独立于 Event Loop 之外的，它有一个自己的队列，当每个阶段完成后，如果存在 nextTick 队列，就会清空队列中的所有回调函数，并且优先于其他 microtask 执行。
+
+```js
+// node
+// poll开始，然后清空process.nextTick，接下来是timer队列，接下来是微任务
+setTimeout(() => {
+ console.log('timer1')
+ Promise.resolve().then(function() {
+   console.log('promise1')
+ })
+}, 0)
+
+process.nextTick(() => {
+ console.log('nextTick')
+ process.nextTick(() => {
+   console.log('nextTick')
+   process.nextTick(() => {
+     console.log('nextTick')
+     process.nextTick(() => {
+       console.log('nextTick')
+     })
+   })
+ })
+})
+```
 ## Node事件循环和浏览器端的差异
+
+![浏览器事件循环.png](https://i.loli.net/2021/08/04/BPMuCn3FLcGmrX2.png)
+
+浏览器环境下，microtask（微任务）的任务队列是每个macrotask（宏任务）执行完之后执行。
+
+![node事件循环.png](https://i.loli.net/2021/08/04/XcJ1y25BW6kMTRY.png)
+
+node中，microtask（微任务）会在事件循环的各个阶段之间执行，也就是一个阶段执行完毕，就会去执行microtask队列的任务。
+
+- node中，setTimeout、setInterval、 setImmediate、script（整体代码）、 I/O 操作，是宏任务
+- new Promise().then(回调) 是微任务。（process.nextTick优先级大于微任务，当每个阶段完成后，就会清空process.nextTick）
+
+```js
+// 浏览器端结果：1，2，3，4
+setTimeout(()=>{
+    console.log('1')
+    Promise.resolve().then(function() {
+        console.log('2')
+    })
+}, 0)
+
+setTimeout(()=>{
+    console.log('3')
+    Promise.resolve().then(function() {
+        console.log('4')
+    })
+}, 0)
+
+// node端：1 3 2 4
+// 两个timerout，添加到timer队列中
+// 清空timer队列，然后清空微任务队列
+setTimeout(()=>{
+    console.log('1')
+    Promise.resolve().then(function() {
+        console.log('2')
+    })
+}, 0)
+
+setTimeout(()=>{
+    console.log('3')
+    Promise.resolve().then(function() {
+        console.log('4')
+    })
+}, 0)
+```
+
+
 
 ## 😊 进程和线程的区别
 
