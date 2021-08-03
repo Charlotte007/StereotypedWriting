@@ -114,7 +114,7 @@ process.nextTick(() => {
 
 ![node事件循环.png](https://i.loli.net/2021/08/04/XcJ1y25BW6kMTRY.png)
 
-node中，microtask（微任务）会在事件循环的各个阶段之间执行，也就是一个阶段执行完毕，就会去执行microtask队列的任务。
+node中，microtask（微任务）会在事件循环的各个阶段之间执行，也就是一个阶段执行完毕，就会去执行清空microtask队列的任务。
 
 - node中，setTimeout、setInterval、 setImmediate、script（整体代码）、 I/O 操作，是宏任务
 - new Promise().then(回调) 是微任务。（process.nextTick优先级大于微任务，当每个阶段完成后，就会清空process.nextTick）
