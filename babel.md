@@ -3,7 +3,6 @@
 Babel是一个js编译器。babel接收输入的js代码，经过内部处理流程，最终输出修改后的js代码。babel没有任何额外能力。通过plugin对外提供介入babel-core的能力。多个plugin组合在一起形成的集合，被称为preset。
 
 ![babel.png](https://i.loli.net/2021/07/27/b2c8OGtKA4FpjPM.png)
-
 ## 😊 说一说babel的原理，编译过程？
 
 ![babel-core.png](https://i.loli.net/2021/07/27/S7loDijyZR4gcf6.png)
@@ -12,8 +11,18 @@ Babel是一个js编译器。babel接收输入的js代码，经过内部处理流
 2. 编辑AST，这一步称为`transforming`
 3. 将编辑后的AST输出为代码，这一步称为`printing`
 
+- babel-parser，用于将代码转为ast
 - babel-traverse，用于遍历和更新ast节点
 - babel-type，工具库，含了构造、验证以及变换 AST 节点的方法。
+- babel-generator, 将ast变为代码
+
+## 😊 babel插件的原理
+
+Babel对代码进行转换，会将JS代码转换为AST抽象语法树(解析)，对树进行静态分析(转换)，然后再将语法树转换为JS代码(生成)。每一层树被称为节点。每一层节点都会有type属性，用来描述节点的类型。其他属性用来进一步描述节点的类型。
+
+
+Visitors访问者本身就是一个对象，对象上不同的属性, 对应着不同的AST节点类型。例如，AST拥有BinaryExpression(二元表达式)类型的节点, 如果在访问者上定义BinaryExpression属性名的方法, 则这个方法在遇到BinaryExpression类型的节点, 就会执行, BinaryExpression方法的参数则是该节点的路径。注意对每一个节点的遍历会执行两次, 进入节点一次, 退出节点一次
+
 
 ## 😊 喜马拉雅面试题: webpack可以打包es模块吗？
 
