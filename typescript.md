@@ -1,4 +1,35 @@
-## ts基础知识复习
+## 😊 自己写过一些声明文件吗？
+
+下面是一个组件的例子
+
+```ts
+// d.ts
+import * as React from 'react';
+export interface AlertProps {
+    type?: 'success' | 'warning' | 'info' | 'error';
+    delete?: boolean;
+}
+declare const Alert: React.FC<AlertProps>;
+export default Alert;
+```
+
+## 😊 declare 关键字是做什么的？
+
+declare可以声明一个类型，一个变量，一个模块
+
+```ts
+declare const Alert: React.FC<AlertProps>;
+
+declare type Asd {
+    name: string;
+}
+
+declare module '*.css';
+declare module '*.less';
+```
+
+
+## 😊 ts基础知识复习
 
 https://juejin.cn/post/6844903981227966471#heading-79
 ## 😊 ts中的访问修饰符
