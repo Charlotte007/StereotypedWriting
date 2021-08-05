@@ -1,3 +1,8 @@
+## 😊 canvas和svg
+
+1. canvas是位图，svg是矢量图
+2. 矢量图不依赖分辨率，canvas放大会失真
+3. canvas是使用js程序绘图(动态生成)，svg是使用xml文档描述来绘图。
 ## 😊 JS的数据类型
 
 Boolean、Null、Undefined、Number、BigInt、String、Symbol 和 Object
@@ -233,6 +238,8 @@ class Son extends Father {
 }
 ```
 ### ES5继承和ES6继承有什么区别?
+
+> super关键字指代父类的实例，即父类的this对象。在子类构造函数中，调用super后，才可使用this关键字，否则报错。
 
 - `ES5`是先创建子类实例对象的`this`，然后再将父类的方法添加到`this`上面（`Parent.apply(this)`）。
 - `ES6`的继承机制完全不同，实质上是先创建父类的实例对象this（**所以必须先调用父类的super()方法**），然后再用子类的构造函数修改this。因为子类没有自己的this对象，而是继承了父类的this对象，然后对其进行加工，所以必须调用super。如果不调用super方法，子类得不到this对象。
