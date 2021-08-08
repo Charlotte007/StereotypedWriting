@@ -16,7 +16,6 @@
 - 计算是低优先级
 
 ## ReactRouter Switch原理（涂鸦智能一面题）
-## ⚙️ redux的原理
 
 ## 😊 React API回顾
 
@@ -315,6 +314,8 @@ FancyInput = forwardRef(FancyInput);
 ### useLayoutEffect
 
 函数签名与useEffect相同, 会在DOM更新后同步触发, 会阻塞浏览器的重绘。
+
+如果你使用服务端渲染，请记住，无论 useLayoutEffect 还是 useEffect 都无法在 Javascript 代码加载完成之前执行。
 ## 😊 useReducer和redux比较
 
 1. useReducer没有办法结合中间间，redux有中间件可以选择
@@ -352,7 +353,13 @@ const Buttons = props => {
 - useLayoutEffect, 会在DOM更新后同步触发。使用useLayoutEffect，会阻塞浏览器的重绘。如果你需要手动的修改Dom，推荐使用useLayoutEffect。因为如果在useEffect中更新Dom，useEffect不会阻塞重绘，用户可能会看到因为更新导致的闪烁，
 
 ## 😊 说一说react ssr (顺便介绍了SSR优点和缺点)
+### SSR如何优化性能？
 
+SSR存在的缺陷：首屏时间虽然比CSR减小了，但是可交互的时间却和CSR差不多
+
+1. 页面并非千人千面，总是为所有用户渲染相同的内容，可以对页面进行缓存。
+2. 避免页面过于复杂，减少node端渲染的时间和压力
+3. 流式传输，减小首屏到达的时间
 ### 说一说ssr和csr的区别
 
 CSR渲染过程:
@@ -730,7 +737,7 @@ const scheduler = {
 ### 挂载阶段
 
 - constructor() 构造函数
-- UNSAFE_componentWillMount() render之前调用，在UNSAFE_componentWillMount中调用setState不会触发渲染
+- UNSAFE_componentWillMount() render之前调用，在UNSAFE_componentWillMount中调用setState不会触发渲染。这个是服务端渲染期间唯一会调用的生命周期函数。
 - static getDerivedStateFromProps(nextProps, prevState), render之前调用，返回的对象将会用来更新state，返回null不更新任何内容。当内部的state依赖props时使用。对于之前的props，可以使用组件的state进行保存
 - render() 渲染函数
 - componentDidMount() 在组件挂载后（插入DO树中）立即调用。依赖于DOM节点的初始化应该放在这里。如需通过网络请求获取数据，此处是实例化请求的好地方。只会调用一次
@@ -903,15 +910,6 @@ Provider 组件用来挂载 redux 返回的 store 对象，同时将整个应用
 
 ## ssr和后端模版性能的差异？
 
-## ⚙️ Redux的原理
-## ⚙️ React部分组件的核心逻辑
+## Redux的原理
 
-> 回顾一下之前写的组件库的原理，面试的时候方便回答
-
-### Modal
-
-### 动画组件
-
-### Tabs
-
-### Alert
+## React-Redux的原理
