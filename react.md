@@ -1,7 +1,82 @@
 ## redux的原理
 
-## react的流程
+### currentState
 
+currentState 是一个全局（createStore内部定义）的变量
+### dispatch
+
+dispatch将会用来分发action, 更新currentState对象。在更新完成后，同时会更新currentListeners，并依次执行监听者列表。
+
+```js
+function dispatch (action) {
+  currentState = currentReducer(current)
+  const listeners = currentListeners = nextListeners
+  for (let i = 0; i < listeners.length; i += 1) {
+    const listener = listeners[i]
+    listener()
+  }
+  return action
+}
+```
+
+### getState
+
+getState就是返回currentState
+
+## subscribe
+
+将监听器push在nextListeners数组中
+
+```js
+function subscribe (listener) {
+  nextListeners.push(listener)
+}
+```
+
+## compose
+
+
+```js
+function f(next) {console.log(1);next();console.log(2);}
+function g(next) {console.log(3);next();console.log(4);}
+function h(next) {console.log(5);next();console.log(6);}
+
+// 不是洋葱的管道
+function (...funcs) {
+  return function () {
+    return funcs.reduce((a, b) => {
+      return (next) => {
+        a(() => {
+          b(next)
+        })
+      }
+    })(() => {})
+  }
+}
+```
+## react-redux的流程
+
+
+1. Provider 组件用来挂载 redux 返回的 store 对象，同时将整个应用作为Provider的子组件。
+2. connect 通过 context 获取 Provider 中的 store
+3. action 可以看做一个交互动作,改变应用状态或 view 的更新,都需要通过触发 action 来实现
+4. reducer 是一个纯函数，返回值只和传入的参数有关，返回新的 state
+
+## 为什么 reducer 是纯函数
+
+reducer 用于返回新的 state，redux 针对新老 state 需要进去比较
+
+## redux connect 作用？
+
+connect 函数就是一个高阶组件，将以下的参数传入函数，以 props 的形式传递方法和值，返回一个新的组件
+
+```js
+return connect(mapStateToProps, mapDispatchToProps)(Component);
+```
+
+## Provider
+
+Provider 组件用来挂载 redux 返回的 store 对象，同时将整个应用作为Provider的子组件。 只有当 Provider 的 value 值发生变化时，它内部的所有消费组件都会重新渲染。
 ## 😊 static getDerivedStateFromProps 为什么是静态的？
 
 保证纯度，唯一可以做的就是使用提供的前一个state和下一个props来更新state，避免对this的误用。
@@ -914,9 +989,3 @@ return connect(mapStateToProps, mapDispatchToProps)(Component);
 ```
 
 Provider 组件用来挂载 redux 返回的 store 对象，同时将整个应用作为Provider的子组件。 只有当 Provider 的 value 值发生变化时，它内部的所有消费组件都会重新渲染。
-
-## ssr和后端模版性能的差异？
-
-
-
-## React-Redux的原理
