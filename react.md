@@ -1,3 +1,10 @@
+## redux的原理
+
+## react的流程
+
+## 😊 static getDerivedStateFromProps 为什么是静态的？
+
+保证纯度，唯一可以做的就是使用提供的前一个state和下一个props来更新state，避免对this的误用。
 ## hook的解决了什么痛点？
 
 ## 😊 hoc需要注意什么
@@ -910,6 +917,6 @@ Provider 组件用来挂载 redux 返回的 store 对象，同时将整个应用
 
 ## ssr和后端模版性能的差异？
 
-## Redux的原理
+
 
 ## React-Redux的原理
