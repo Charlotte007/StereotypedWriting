@@ -6,12 +6,15 @@
 
 > 齿轮⚙️，代表等待完善
 
-- 浏览器
-- 更新简历（明天早上开始写，然后开始更新boss，拉钩，猎聘，脉脉的信息以及简历）
-- 网络
-- 项目相关
-- node
-- 其他
+### TODO
+
+- 项目细节的补充（sdk，pc，组件库）
+- 复习一些算法题
+- 测试题补充
+- 复习之前总结的内容
+
+
+- redux原理以及redux-react的原理（币安可能会问，还用就是控制Promise并发数量的题目）
 
 ### 参考资料
 
@@ -133,3 +136,92 @@
 - [浏览器缓存 from memory cache与from disk cache详解](https://blog.csdn.net/adley_app/article/details/102950695)
 - [浏览器工作原理：从 URL 输入到页面展现到底发生了什么？](https://www.jianshu.com/p/d616d887953a)
 - [如何监控网页崩溃？](https://zhuanlan.zhihu.com/p/40273861)
+- [从输入URL开始建立前端知识体系](https://juejin.cn/post/6935232082482298911#heading-9)
+- [你所不知道的 HSTS](https://www.barretlee.com/blog/2015/10/22/hsts-intro/)
+- [什么是单工、半双工和双工通信(最详细)](https://blog.csdn.net/a3192048/article/details/85319182)
+- [终于有人把正向代理和反向代理解释的明明白白了！](https://cloud.tencent.com/developer/article/1418457#:~:text=1%E3%80%81%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86%E5%85%B6%E5%AE%9E,%E4%B8%80%E4%B8%AA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E3%80%82)
+- [Proper use of KeepAlive in Apache Htaccess](https://stackoverflow.com/questions/12095533/proper-use-of-keepalive-in-apache-htaccess)
+- [1.6W字！梳理50道经典计算机网络面试题（收藏版）](https://juejin.cn/post/6988794419910541348#heading-16)
+- [HTTP Request Methods](https://www.w3schools.com/tags/ref_httpmethods.asp)
+- [一文读懂 HTTP/2 特性](https://zhuanlan.zhihu.com/p/26559480)
+- [CDN与DNS知识汇总](http://hpoenixf.com/DNS%E4%B8%8ECDN%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB.html)
+- [跨域资源共享 CORS 详解](https://www.ruanyifeng.com/blog/2016/04/cors.html)
+- [扫码登陆原理简析](https://www.cnblogs.com/54chensongxia/p/12530268.html)
+- [浏览器与Node的事件循环(Event Loop)有何区别?](https://juejin.cn/post/6844903761949753352#heading-14)
+- [深入理解js事件循环机制（Node.js篇）](http://lynnelv.github.io/js-event-loop-nodejs)
+- [git rebase 与 merge 的那些事儿~（详细图解，通俗易懂）](https://juejin.cn/post/6844903951679094798)
+- [拜托，不要再问我Git如何回滚代码](https://zhuanlan.zhihu.com/p/137856034)
+- [webpack构建流程及梳理](https://juejin.cn/post/6844904006003736583)
+- [Webpack源码解读：理清编译主流程](https://juejin.cn/post/6844903987129352206)
+- [Sending AJAX Data when User Moves Away / Exits from Page](https://usefulangle.com/post/62/javascript-send-data-to-server-on-page-exit-reload-redirect)
+- [what’s the difference between Expires and Cache-Control headers?](https://stackoverflow.com/questions/5799906/what-s-the-difference-between-expires-and-cache-control-headers)
+- [Setting HTTP Caching Headers - Last-Modified and ETag](https://docs.oracle.com/cd/E13158_01/alui/wci/docs103/devguide/tsk_pagelets_settingcaching_httplastmodified.html)
+- [Which one to use : Expire Header, Last Modified Header or ETags](https://stackoverflow.com/questions/5321876/which-one-to-use-expire-header-last-modified-header-or-etags)
+- [Last-Modified vs ETag http](https://stackoverflow.com/questions/53363917/last-modified-vs-etag-http)
+- [Vue-SSR 优化方案详细总结](https://zhuanlan.zhihu.com/p/93199714)
+- [判断浏览器是否支持 webp 的几种解决方法](https://www.jianshu.com/p/3ab716ee1a2e)
+- [Private properties in JavaScript](https://curiosity-driven.org/private-properties-in-javascript)
+- [Why is getDerivedStateFromProps is a static method?](https://stackoverflow.com/questions/52886075/why-is-getderivedstatefromprops-is-a-static-method/57976623)
+- [redux源码解析](https://juejin.cn/post/6844903861862268942#heading-3)
+
+虽然目前面试不少，但是大厂通过概率低，还是需要有清醒的认识
+
+
+
+
+- taptap一面挂
+- 蓝湖一面挂（问了一个二叉树的算法）
+- 太美医疗三轮面试挂（傻逼领导）
+- 爱奇艺二面挂
+- 众安二面挂？
+- 美团二面挂
+- 货拉拉HR面(还不知道结果)
+
+
+
+
+
+
+- 比心三轮面试结束，需要我确定之后才会发offer）
+- 8.12 现场 14:00 leetcode hr面结束
+
+
+- 触宝准备二面
+- ARKIE准备二面
+- 有赞二面（需要去杭州）
+- 微盟二面
+- 阿里巴巴二面
+- 币安二面 19:00
+
+- 涂鸦智能HR面
+
+
+- bybit一面 17:00
+
+
+
+下周六:
+- 8
+- 8.14 14:00 得物（毒）
+下周一
+- 8.16 视频 11:00 
+
+
+货啦啦
+1. 管理层面，项目推动层面 
+5. 你认为遗憾的点有那些
+10. 项目的技术亮点
+11. 未来2，3年的规划
+13. 对于公司或者团队的期待
+
+
+14. 组件库细节的实现（modal, tabs）
+15. ssr渲染的细节
+17. redux的原理，react-redux的原理
+
+
+
+3. flex具体细节
+4. 币安有那个录音(回顾一下)
+
+ 
