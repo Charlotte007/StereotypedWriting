@@ -1,3 +1,23 @@
+## 😊 hasOwnProperty 是做什么的?
+
+hasOwnProperty() 方法会返回一个布尔值，判断对象自身属性中是否具有指定的属性(原型上的属性也会返回false)
+
+## 😊 new Object 和 object.create 的区别
+
+- object.create 可以创建一个指定__porto__的对象
+- new Object 创建的对象，__proto___指向Object.prototype
+
+## 😊 await 后面如果是数字或者其他内容会怎么样？
+
+```js
+
+async function bar () {
+  const a = await 1
+}
+```
+
+async的内部会对1使用Promise.resolve进行包转
+
 ## 😊 私有属性的es5实现
 
 ```js
