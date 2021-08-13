@@ -1,3 +1,12 @@
+## 😊 一道执行题目
+
+```js
+const a = { b: () => { alert('Hello') } }
+const b = a.b = 3
+// error
+b()
+```
+
 ## 😊 hasOwnProperty 是做什么的?
 
 hasOwnProperty() 方法会返回一个布尔值，判断对象自身属性中是否具有指定的属性(原型上的属性也会返回false)
