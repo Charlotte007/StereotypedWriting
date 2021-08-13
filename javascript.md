@@ -16,7 +16,44 @@ async function bar () {
 }
 ```
 
-async的内部会对1使用Promise.resolve进行包转
+async的内部会对1使用Promise.resolve进行包装
+
+## 😊 一道爱奇艺的异步流程题（可能不完全一致）
+
+```js
+async function async1 () {
+  console.log(1)
+  await console.log('await')
+  console.log(2)
+}
+
+setTimeout(() => {
+  console.log(3)
+}, 0)
+
+console.log(4)
+
+async1()
+
+new Promise((resolve) => {
+  console.log(5)
+  resolve()
+  console.log(6)
+}).then(() => {
+  console.log(7)
+}).then(() => {
+  console.log(8)
+}).then(() => {
+  console.log(9)
+})
+
+console.log(10)
+
+
+// 第一次宏任务: 4 1 await 5 6 10
+// 第一次微任务 2 7 8 9
+// 第二次宏任务 3
+```
 
 ## 😊 私有属性的es5实现
 
