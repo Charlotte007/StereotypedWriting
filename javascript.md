@@ -1,3 +1,11 @@
+## json如何很大怎么办？
+
+
+## 😊 visibility: hidden 和 opacity: 0 的区别
+
+- visibility: hidden，事件不能被触发，会占据空间
+- opacity: 0，事件可以被触发，同样会占据空间
+
 ## 😊 一道执行题目
 
 ```js
