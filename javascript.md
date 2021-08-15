@@ -1,6 +1,6 @@
-## json如何很大怎么办？
+## 😊 json如何很大怎么办？（得物面试题）
 
-
+基于开源的[Oboe.js](http://oboejs.com/examples)库，通过的流的形式的处理JSON
 ## 😊 visibility: hidden 和 opacity: 0 的区别
 
 - visibility: hidden，事件不能被触发，会占据空间
