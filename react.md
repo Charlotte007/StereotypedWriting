@@ -1,3 +1,13 @@
+## 😊 react如何使用捕获事件
+
+```jsx
+<div onClickCapture={this.handleClickViaCapturing}>
+  <button onClick={this.handleClick}>
+    Click me, and my parent's `onClickCapture` will fire *first*!
+  </button>
+</div>
+```
+
 ## redux的原理
 
 ### currentState
