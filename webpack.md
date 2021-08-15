@@ -1,3 +1,76 @@
+## 😊 树摇的副作用
+### 什么是副作用的代码？
+
+假设B模块的代码如下
+
+```js
+// B module
+
+export function bar(v) { reutrn v }
+
+console.log(bar(1))
+```
+
+app.js 中引入的B模块，但是没有使用
+
+```js
+import A from './a'
+import B from './b'
+
+export { a }
+```
+
+经过树摇后B模块变为了
+
+```js
+console.log(function (v){ return v }(1))
+```
+
+虽然B模块的导出是被忽略了，但是副作用代码被保留下来了。这个时候就需要使用sideEffects。副作用还包括了，比如使用了原型链、给window加了属性等。对应新特性，经过babel的打包后也会产生副作用。
+
+如果你在写一个库, sideEffects: false, 告诉使用者库里所有代码都是没有副作用的。如果没有引入的包，那么整个包都是可以被摇掉的。
+
+```js
+// package.json
+{
+    "sideEffects": false
+}
+```
+
+数组则表示告诉使用方，这个包里指定文件代码是有副作用的，是不能被摇掉的。
+
+```js
+// package.json
+{
+  "sideEffects": [
+    "dist/*",
+    "es/**/style/*",
+    "lib/**/style/*"
+  ]
+}
+```
+
+> 注意，所有导入文件都会受到 tree shaking 的影响。这意味着，如果在项目中使用类似 css-loader 并 import 一个 CSS 文件，则需要将其添加到 side effect 列表中，以免在生产模式中无意中将它删除
+
+如果你在写业务代码。也可以把sideEffects配置写在module.rules的配置之中
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+        },
+        sideEffects: false || []
+      }
+    ]
+  },
+}
+```
+
 ## 😊 用过哪些plugin?
 
 - `html-webpack-plugin`, 创建HTML文件，并将打包的JS导入HTML中
@@ -304,6 +377,13 @@ apply () {
 ### 什么是Tree-shaking？
 
 `JavaScript`绝大多数情况需要通过网络进行加载，然后执行，加载的文件大小越小，整体执行时间更短，所以通过`Tree-shaking`将没有使用的模块删除, 去除无用代码以减少文件体积，对`JavaScript`来说很有意义。
+
+### 如何使用Tree-shaking？
+
+1. 使用es6模块
+2. 确保没有编译器将您的 ES2015 模块语法转换为 CommonJS 的（顺带一提，这是现在常用的 @babel/preset-env 的默认行为，详细信息请参阅文档）。
+3. 在项目的 package.json 文件中，添加 "sideEffects" 属性。
+4. 使用 mode 为 "production" 的配置项以启用更多优化项，包括压缩代码与 tree shaking。
 ### Tree-shaking的原理
 
 > 对于`Dead Code`的代码，`Tree-shaking`会基于AST进行分析。对于无用的模块代码，依赖于静态的模块分析（必须使用静态模块，，比如ES6模块才能实现`Tree-shaking`）。

@@ -1,3 +1,231 @@
+## 😊 json如何很大怎么办？（得物面试题）
+
+基于开源的[Oboe.js](http://oboejs.com/examples)库，通过的流的形式的处理JSON
+## 😊 visibility: hidden 和 opacity: 0 的区别
+
+- visibility: hidden，事件不能被触发，会占据空间
+- opacity: 0，事件可以被触发，同样会占据空间
+
+## 😊 一道执行题目
+
+```js
+const a = { b: () => { alert('Hello') } }
+const b = a.b = 3
+// error
+b()
+```
+
+## 😊 hasOwnProperty 是做什么的?
+
+hasOwnProperty() 方法会返回一个布尔值，判断对象自身属性中是否具有指定的属性(原型上的属性也会返回false)
+
+## 😊 new Object 和 object.create 的区别
+
+- object.create 可以创建一个指定__porto__的对象
+- new Object 创建的对象，__proto___指向Object.prototype
+
+## 😊 await 后面如果是数字或者其他内容会怎么样？
+
+```js
+
+async function bar () {
+  const a = await 1
+}
+```
+
+async的内部会对1使用Promise.resolve进行包装
+
+## 😊 一道爱奇艺的异步流程题（可能不完全一致）
+
+```js
+async function async1 () {
+  console.log(1)
+  await console.log('await')
+  console.log(2)
+}
+
+setTimeout(() => {
+  console.log(3)
+}, 0)
+
+console.log(4)
+
+async1()
+
+new Promise((resolve) => {
+  console.log(5)
+  resolve()
+  console.log(6)
+}).then(() => {
+  console.log(7)
+}).then(() => {
+  console.log(8)
+}).then(() => {
+  console.log(9)
+})
+
+console.log(10)
+
+
+// 第一次宏任务: 4 1 await 5 6 10
+// 第一次微任务 2 7 8 9
+// 第二次宏任务 3
+```
+
+## 😊 私有属性的es5实现
+
+```js
+// 使用闭包实现私有属性和私有方法
+// name是私有属性
+// bar是私有方法
+var Person = (function() {
+  function bar(baz) {
+    return this.snaf = baz;
+  }
+  function Person(name) {
+    this.getName = function() {
+      return name;
+    };
+  }
+  Person.prototype.foo = function (baz) {
+    bar.call(this, baz);
+  }
+  return Person;
+}());
+
+const person = new Person('Hello')
+
+```
+### babel转换使用的方法使用WeakMap
+
+```js
+// 实现私有属性
+var Person = (function() {
+    var private = new WeakMap();
+
+    function Person(name) {
+        var privateProperties = {
+            name: name
+        };
+        private.set(this, privateProperties);
+    }
+
+    Person.prototype.getName = function() {
+        return private.get(this).name;
+    };
+
+    return Person;
+}());
+```
+## 😊 setInterval 和 setTimeout
+
+setInterval, setTimeout 的等待时间⌛️，不会受到主线程阻塞的影响。
+
+```js
+function sleep () {
+  let flag = true
+  const start = Date.now()
+  while (flag) {
+    if (Date.now() - start >= 1000) {
+      flag = false
+    }
+  }
+}
+
+function main () {
+  const start = Date.now()
+
+  setInterval(() => {
+    console.log(1, Date.now() - start)
+  }, 900)
+
+  sleep()
+
+  setTimeout(() => {
+    console.log(2, Date.now() - start)
+  }, 0)
+
+  console.log(3, Date.now() - start)
+}
+
+main()
+
+// 3 1000
+// 1 1000
+// 2 1001
+// 1 1801
+```
+
+```js
+function main () {
+  const start = Date.now()
+
+  setTimeout(() => {
+    console.log(1, Date.now() - start)
+  }, 0)
+}
+
+main()
+
+// 不存在4ms的限制
+// 1, 1
+```
+## 😊 class语法的细节
+
+```js
+class P {
+  constructor () {
+    this.age = 20
+    // S {age: 20}
+    // 调用super就类似调用 P.call(this)
+    console.log('this:', this)
+  }
+}
+
+class S extends P {
+  constructor () {
+    super()
+    this.name = 1
+  }
+}
+
+const s = new S()
+```
+### super
+
+- super作为函数调用时，代表父类的构造函数。ES 要求，子类的构造函数必须执行一次super函数。
+- super作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
+
+## 😊 for……of 循环 map是什么情况？
+
+```js
+const map = new Map([
+  ['name', '张三'],
+  ['title', 'Author']
+]);
+
+
+for (let v of map) {
+  // ["name", "张三"]
+  // ["title", "Author"]
+  console.log(v)
+}
+```
+
+## 😊 不使用临时变量交换两个变量的值
+
+```js
+a = a * b;
+b = a / b;
+a = a / b;
+
+a = a + b;
+b = a - b;
+a = a - b;
+
+[a, b] = [b, a];
+```
+
 ## 😊 canvas和svg
 
 1. canvas是位图，svg是矢量图
