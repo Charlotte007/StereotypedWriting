@@ -1,3 +1,235 @@
+## 😊 生命周期函数的执行顺序
+
+### hooks
+
+```js
+function Child (props) {
+
+  const { state } = props
+
+  useMemo(() => {
+    console.log('child memo')
+    return () => state
+  }, [state])
+
+  useLayoutEffect(() => {
+    console.log('child layout effect')
+    return () => {
+      console.log('child clear layout effect')
+    }
+  }, [state])
+
+  useEffect(() => {
+    console.log('child effect')
+    return () => {
+      console.log('child clear effect')
+    }
+  }, [state])
+
+  console.log('child return')
+
+  return (
+    <div>child</div>
+  )
+}
+
+
+function App() {
+
+  const [state, setState] = useState(0)
+
+  useMemo(() => {
+    console.log('father memo')
+    return () => state
+  }, [state])
+
+  useLayoutEffect(() => {
+    console.log('father layout effect')
+    return () => {
+      console.log('father clear layout effect')
+    }
+  }, [state])
+
+  useEffect(() => {
+    console.log('father effect')
+    return () => {
+      console.log('father clear effect')
+    }
+  }, [state])
+
+  console.log('father return')
+
+  return (
+    <div>
+      <button
+        onClick={() => setState((p) => p + 1)}
+      >
+        +
+      </button>
+      father
+      <Child state={state} />
+      <p>state: { state }</p>
+    </div>
+  );
+}
+```
+
+#### 挂载阶段
+
+1. father memo
+2. father return
+3. child memo
+4. child return
+5. child layout effect （child 首先进行render）
+6. father layout effect （father 之后进行render）
+7. child effect
+8. father effect
+#### 更新阶段
+
+点击按钮，执行顺序如下:
+
+1. father memo
+2. father return
+3. child memo
+4. child return
+5. child clear layout effect
+6. father clear layout effect
+7. child layout effect
+8. father layout effect
+9. child clear effect
+10. father clear effect
+11. child effect
+12. father effect
+
+### class
+
+```jsx
+class Child extends React.Component {
+
+  constructor (props) {
+    super(props)
+    console.log('child constructor')
+  }
+
+  static getDerivedStateFromProps (nextProps, prevState) {
+    console.log('child getDerivedStateFromProps')
+    return null
+  }
+
+  componentDidMount () {
+    console.log('child componentDidMount')
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('child shouldComponentUpdate')
+    return true
+  }
+
+  getSnapshotBeforeUpdate() {
+    console.log('child getSnapshotBeforeUpdate')
+  }
+
+  componentDidUpdate() {
+    console.log('child componentDidUpdate')
+  }
+
+  render () {
+    console.log('child render')
+    return (
+      <div>
+        child
+      </div>
+    )
+  }
+}
+
+class Father extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      count: 0
+    }
+    console.log('father constructor')
+  }
+
+  static getDerivedStateFromProps (nextProps, prevState) {
+    console.log('father getDerivedStateFromProps')
+    return null
+  }
+
+  componentDidMount () {
+    console.log('father componentDidMount')
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('father shouldComponentUpdate')
+    return true
+  }
+
+  getSnapshotBeforeUpdate() {
+    console.log('father getSnapshotBeforeUpdate')
+  }
+
+  componentDidUpdate() {
+    console.log('father componentDidUpdate')
+  }
+
+  handleClick = () => {
+    this.setState((prev) => {
+      return {
+        count: prev.count + 1
+      }
+    })
+  }
+
+  render () {
+    console.log('father render')
+    const { count } = this.state
+
+    return (
+      <div>
+        <button
+          onClick={this.handleClick}
+        >
+          +
+        </button>
+        { count }
+        father
+        <Child count={count} />
+      </div>
+    )
+  }
+}
+```
+
+#### 挂载阶段
+
+子组件完成componentDidMount后，父组件进行componentDidMount
+
+1. father constructor
+2. father getDerivedStateFromProps
+3. father render
+4. child constructor
+5. child getDerivedStateFromProps
+6. child render
+7. child componentDidMount
+8. father componentDidMount
+
+#### 更新阶段
+
+1. father getDerivedStateFromProps
+2. father shouldComponentUpdate
+3. father render
+4. child getDerivedStateFromProps
+5. child shouldComponentUpdate
+6. child render
+7. child getSnapshotBeforeUpdate
+8. father getSnapshotBeforeUpdate
+9. child componentDidUpdate
+10. father componentDidUpdate
+
+## react ssr 流式渲染 (简单的原理)
+
 ## 😊 react如何使用捕获事件
 
 ```jsx
