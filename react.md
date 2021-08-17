@@ -278,6 +278,38 @@ class Father extends React.Component {
 
 ## react ssr 流式渲染 (简单的原理)
 
+```js
+const name = "Marvelous Wololo";
+
+  const componentStream = ReactDOMServer.renderToNodeStream(
+    <Hello name={name} />
+  );
+
+  const htmlStart = `
+  <!doctype html>
+    <html>
+    <head>
+      <script>window.__INITIAL__DATA__ = ${JSON.stringify({ name })}</script>
+    </head>
+    <body>
+    <div id="root">`;
+
+  res.write(htmlStart);
+
+  componentStream.pipe(res, { end: false });
+
+  const htmlEnd = `</div>
+    <script src="/static/home.js"></script>
+  </body>
+  </html>`;
+
+  componentStream.on("end", () => {
+    res.write(htmlEnd);
+
+    res.end();
+  });
+```
+
 ## 😊 react如何使用捕获事件
 
 ```jsx
