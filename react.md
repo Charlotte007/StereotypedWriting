@@ -1,3 +1,51 @@
+## 😊 父组件的更新是否会影响到子组件？
+
+```js
+function Child1 (props) {
+
+  const { state } = props
+
+  console.log('child1 render')
+
+  return (
+    <div>child1</div>
+  )
+}
+
+const Child1Memo = React.memo(Child1)
+
+
+function Child2 (props) {
+
+  console.log('child2 render')
+
+  return (
+    <div>child2</div>
+  )
+}
+
+const Child2Memo = React.memo(Child2)
+
+function App() {
+
+  const [state, setState] = useState(0)
+
+  return (
+    <div>
+      <button onClick={() => setState((p) => p + 1)}>
+        +
+      </button>
+      father
+      <Child1Memo state={state} />
+      <Child2Memo />
+      <p>state: { state }</p>
+    </div>
+  );
+}
+```
+
+使用React.memo，父组件变化，没有依赖state的child不会更新。如果没有使用React.memo，没有使用的child1也会更新。
+
 ## 😊 生命周期函数的执行顺序
 
 ### hooks
