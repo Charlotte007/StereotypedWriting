@@ -149,7 +149,7 @@
 - [Private properties in JavaScript](https://curiosity-driven.org/private-properties-in-javascript)
 - [Why is getDerivedStateFromProps is a static method?](https://stackoverflow.com/questions/52886075/why-is-getderivedstatefromprops-is-a-static-method/57976623)
 - [redux源码解析](https://juejin.cn/post/6844903861862268942#heading-3)
-
-
-
- 
+- [Webpack 中的 sideEffects 到底该怎么用？](https://segmentfault.com/a/1190000015689240)
+- [你的Tree-Shaking真的起作用了吗](https://blog.csdn.net/qiwoo_weekly/article/details/108891773)
+- [Parse large JSON file in Nodejs](https://stackoverflow.com/questions/11874096/parse-large-json-file-in-nodejs)
+- [Example for Bubbling and Capturing in React.js](https://stackoverflow.com/questions/34522931/example-for-bubbling-and-capturing-in-react-js)

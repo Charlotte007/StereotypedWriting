@@ -309,7 +309,6 @@ const name = "Marvelous Wololo";
     res.end();
   });
 ```
-
 ## 😊 react如何使用捕获事件
 
 ```jsx
