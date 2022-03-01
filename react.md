@@ -1200,8 +1200,6 @@ React.PureComponent 与 React.Component 几乎完全相同，但 React.PureCompo
 2. 不能渲染组件
 
 
-
-
 ## 😊 React Route的原理（前端路由的原理）
 
 VueRouter和ReactRoute的核心原理应该是一致。我之前看过VueRouter的源码，所以这里简单说一下VueRoute的原理。
