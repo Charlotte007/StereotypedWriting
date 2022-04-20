@@ -149,8 +149,8 @@ webpack只是模块打包器。可以将不同模块的文件打包整合在一�
 ![image.png](https://i.loli.net/2021/05/07/RXic8pqhtP6uoJj.png)
 
 - 我们写的代码模块被称为module
-- webpack内部打包时根据引用关系生成chunk文件
-- webpack会把chunk输出为bundle文件，bundle中包含源代码和编译的代码。
+- webpack内部打包时根据`引用关系`生成chunk文件
+- webpack会把chunk输出为bundle文件，`bundle中包含源代码和编译的代码`。
 
 一般来说一个chunk对应一个bundle。module，chunk 和bundle其实就是同一份逻辑代码在不同转换场景下的取了三个名字。
 

@@ -8,7 +8,9 @@
 
 ### vue2.x现有监控数组的两条限制：索引赋值，修改长度，是因为 defineProperty 方法不支持吗？
 - 实际上， defineProperty 是`可以监听索引赋值!!!`, (区别)
-- 修改数组length，确是不能触发 setter
+- 修改数组length，的确不能触发 setter， （兼容问题）
+  - Object.defineProperty(arr, 'length', {}) 的兼容问题，可能会抛出异常
+  - 可以参考 [mdn Object.defineProperty() 兼容问题](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty#重定义数组_array_对象的_length_属性)
 - 使用 修改原数组的数组方法，如 pop，push 等，也是无法触发setter
 - 【综上所述】：对数组`已有元素`进行监听，而没有对`数组本身`的变化进行监听（如length，push等）
 

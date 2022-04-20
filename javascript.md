@@ -365,10 +365,22 @@ requestAnimationFrame只会在浏览器渲染前执行，和宏任务，微任�
 3. 清空微任务栈
 4. 可能会执行requestAnimationFrame，然后渲染浏览器
 5. 下一轮事件循环
-### 事件循环的题目
+
+```` js
+for (macroTask of macroTaskQueue) {
+    // 1. Handle current MACRO-TASK
+    handleMacroTask();
+      
+    // 2. Handle all MICRO-TASK
+    for (microTask of microTaskQueue) {
+        handleMicroTask(microTask);
+    }
+}
+````
+### 事件循环的题目 (先执行宏任务，再执行微任务队列)
 
 ```js
-// 1, 2, 3, 4, 5, 6
+// 1, 2, 3, 4, 5, 6, 7 , 8
 setTimeout(() => {
   console.log(1)
   new Promise((resolve, reject) => {
@@ -380,23 +392,24 @@ setTimeout(() => {
 }, 0)
 
 setTimeout(() => {
+  console.log(4)
   new Promise((resolve) => {
+    console.log(5)
     resolve()
   }).then(() => {
-    console.log(4)
+    console.log(6)
     new Promise((resolve) => {
       resolve()
     }).then(() => {
-      console.log(5)
+      console.log(7)
     })
   }).then(() => {
-    console.log(6)
+    console.log(8)
   })
 }, 0)
 
 
 // 1, 2, 3, Hello , 4, 5, 6, 7, 8
-
 setTimeout(() => {
   console.log(1)
   new Promise((resolve) => {
@@ -753,20 +766,24 @@ class Shape {
 
 ## 😊 map和object的区别，set和array的区别
 
-1. map实现了迭代器，可以使用`for...of`遍历。object不可以
-2. map具有有序性，object没有有序性
+1. 迭代器： map实现了迭代器，可以使用`for...of`遍历。object不可以
+2. 有序性：map具有有序性，object没有有序性; map中的key是按照顺序存储的
 3. map可以展开为二维数组，object不可以
-4. map可以使用对象作为key，object不可以
+4. KEY类型：map可以使用对象作为key，object不可以
 
-1. set是基于键的集合，不能通过直接通过索引访问。array可以直接通过索引访问
-2. set不可以包含重复的元素。array可以。
-3. 添加，删除元素的方法不同。
+1. 索引访问： set是基于键的集合，不能通过直接通过索引访问。array可以直接通过索引访问
+2. 元素重复： set不可以包含重复的元素。array可以。
+3. 使用方法：添加，删除元素的方法不同。
 
 ## 😊 bind, call, apply的区别
 
-1. bind接收多个参数，第一个参数会修改this，之后的参数可以是函数的参数，并返回一个新的函数。返回的新函数，新函数不能再次修改this。函数的参数可以分多次传入，第一次修改this时传入，第二次调用时传入。
+1. bind接收多个参数，第一个参数会修改this，之后的参数可以是函数的参数，并返回一个`新的函数`。返回的新函数，新函数不能再次修改this。函数的参数可以分多次传入，第一次修改this时传入，第二次调用时传入。
+``` function.bind(thisArg[,arg1[,arg2[, ...]]]) ```
+
 2. call接收多个参数，第一个参数会修改this，之后的参数可以是函数的参数。call会立即执行。
+``` fun.call(thisArg, arg1, arg2, ...)  ```
 3. apply接收两个参数，第一个参数会修改this，第二个参数可以是函数的参数的数组。apply会立即执行。
+``` func.apply(thisArg, [argsArray]) ```
 
 ```js
 // 实现一个call方法
@@ -784,9 +801,11 @@ Function.prototype.mycall = function(thisArg, ...args) {
     thisArg = new Boolean(thisArg)
   }
   const key = Symbol()
-  thisArg[key] = this
-  const result = thisArg[key](...args)
+  thisArg[key] = this // this指向 funInstance
+  const result = thisArg[key](...args);  // newTarget.fn() ==> this -> newTarget(对象方法调用)
   delete thisArg[key]
+
+  // + 返回，运行结果
   return result
 }
 
@@ -805,9 +824,12 @@ Function.prototype.mybind = function (thisArg, ...initArgs) {
     thisArg = new Boolean(thisArg)
   }
   const that = this
+
+  // + 二次参数传入，返回是函数
   return function (...args) {
     const key = Symbol()
     thisArg[key] = that
+
     const result = thisArg[key](...initArgs, ...args)
     delete thisArg[key]
     return result
@@ -1177,7 +1199,7 @@ DOM事件模型分为捕获和冒泡
 
 ```js
 Object.defineProperties(`需要修改的对象obj`, {
-  'obj的属性名': {
+  'obj_key': {
     configurable: boolean, // 该属性描述符是否可以被修改，是否可以被删除。默认false
     enumerable: boolean, // 是否被枚举。默认false
     value: any, // 属性值。默认 undefined
@@ -1252,7 +1274,7 @@ const obj = new Proxy(target, {
 - 对于属性值也是对象的属性，避免逐层遍历，对每一个对象调用 Object.defineProperty。
 
 - Proxy支持对数组操作的拦截
-- Proxy支持对整个对象进行拦截，不在需要为每一个属性进行设置
+- Proxy支持对`整个对象`进行拦截，不在需要为每一个属性进行设置
 - Proxy支持对嵌套对象的拦截
 
 
