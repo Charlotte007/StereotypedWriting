@@ -170,9 +170,26 @@ a!.length // ok
 1. declaration: true, 将会自动生成声明文件
 2. outDir: '', 指定目录
 
+
+
 ## 😊 什么是泛型
 
 泛型用来来创建可重用的组件，一个组件可以支持多种类型的数据。这样用户就可以以自己的数据类型来使用组件。**简单的说，“泛型就是把类型当成参数”。**
+
+### 定义泛型的步骤
++ 提取可变的`类型参数` （提取变量）
++ `类型参数` 添加继承 （泛型约束，输入类型参数的类型，key, value 的类型）
+  + 如何定义 a | b | c，输入类型
+  + 
++ 使用 工具，推导出泛型
+
+### 定义泛型的经验
++ 获取数组 index ,value
+  + index: 
+  + value:  T[number]
++ 判断类型
+  + T extends XX?  A : B
+
 ## 😊 -?，-readonly 是什么含义
 
 用于删除修饰符
@@ -216,9 +233,9 @@ p = new Person()
 
 const断言，typescript会为变量添加一个自身的字面量类型
 
-1. 对象字面量的属性，获得readonly的属性，成为只读属性
-2. 数组字面量成为readonly tuple只读元组
-3. 字面量类型不能被扩展（比如从hello类型到string类型）
+1. 对象字面量 的属性，获得readonly的属性，成为只读属性
+2. 数组字面量 成为readonly tuple只读元组
+3. 字面量类型 不能被扩展（比如从hello类型到string类型）
 
 ```ts
 // type '"hello"'
@@ -236,6 +253,23 @@ let z = { text: "hello" } as const
 3. 类型别名不会创建一个真正的名字
 4. 类型别名无法被实现(implements)，而接口可以被派生类实现
 5. 类型别名重名时编译器会抛出错误，接口重名时会产生合并
+
+## extends理解
++ 接口继承
+  + 单类型继承，多类型继承； T3 extends T1,T2
++ 泛型约束
++ 条件判断 A extends B ? true : false
+  + A extends B，是指类型A可以分配给类型B，而不是说类型A是类型B的子集
+  + `分配条件类型`：第一，参数是泛型类型，第二，代入参数的是联合类型
+    + 泛型：type P<T> = T extends 'x' ? string : number;   type A3 = P<'x' | 'y'>  // A3的类型是 string | number
+      + P<'x' | 'y'> 相当于 P<'x'> | P<'y'>
+    + 特殊的never，空的联合类型； type P<T> = T extends 'x' ? string : number;   type A2 = P<never> // never
+      + P<never> 空的联合类型，也就是说，没有联合项的联合类型；没有联合项可以分配，所以不会执行，没有类型返回就是never
+      + 防止分配：type P<T> = [T] extends ['x'] ? string : number; type A2 = P<never> // string
+  + TIPS： 泛型的返回值的思考，实现内置的Exclude <T, U>类型，
+    + type MyExclude<T, U> =  T extends U ? never : T;  type Result = MyExclude<'a' | 'b' | 'c', 'a'> // 'b' | 'c'
+    + 等价于：(MyExclude<'a', 'a'> => never) | (MyExclude<'b', 'a'> => 'b') | (MyExclude<'c', 'a'> => 'c')  ===>  'b' | 'c'
+
 
 ## 😊 implements 与 extends 的区别
 
