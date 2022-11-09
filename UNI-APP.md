@@ -36,6 +36,7 @@
 + html5plus中plus.nativeObj.view的能力绘制区间
   + 只能覆盖状态栏和tabar，否则会覆盖vue弹窗，可能会出现淡入效果不同步的情况，否则没有办法适应弹窗内容
   + 内存占用过多
+  + 在弹窗存在时跳转，需要处理 statusBar 和 tabbar的 mask层
 + cover-view，只能覆盖常规原生组件，无法覆盖 navbar， tabbar、web-view
 + 使用原生组件封装
   + uni.requireNativePlugin 引入原生插件
