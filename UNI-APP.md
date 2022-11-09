@@ -33,7 +33,9 @@
     + 作为组件：层级高度无法覆盖navBar，tabBar（亲测）
       + 支持slot
   + 可以全局封装
-+ html5plus中plus.nativeObj.view的能力绘制区间，只能覆盖状态栏和tabar，否则会覆盖 vue弹窗，问题：如何封装内容，slot？
++ html5plus中plus.nativeObj.view的能力绘制区间
+  + 只能覆盖状态栏和tabar，否则会覆盖vue弹窗，可能会出现淡入效果不同步的情况，否则没有办法适应弹窗内容
+  + 内存占用过多
 + cover-view，只能覆盖常规原生组件，无法覆盖 navbar， tabbar、web-view
 + 使用原生组件封装
   + uni.requireNativePlugin 引入原生插件
