@@ -19,6 +19,23 @@
 
 1. box-sizing: border-box; IE盒模型; width = padding + border + 内容的宽度
 2. box-sizing: content-box; 标准盒模型; width = 内容的宽度
+
+### css 变量
+> `--`是css自定义属性的标识， 可以js动态设置 document.documentElement.style.setProperty('--primary-color', '#f60'); 使用 background: var(--primary-color, '#fff');
+
+> var(--defined-var, defautlValue);  第一个参数是自定义属性名称。第二个参数是可选的，但必须是声明值
+
+> 兼容性，IE全系列不支持，可以添加自定义css属性，但无法使用env(--xx), var(--xx), 等方式使用值
+``` css
+:root, /* :root 指向的是根节点html */
+body,
+[data-color-mode=light][data-light-theme=light], 
+[data-color-mode=dark][data-dark-theme=light] {
+    --color-canvas-default-transparent: rgba(255,255,255,0);
+    --color-page-header-bg: #f6f8fa;
+    --color-marketing-icon-primary: #218bff;
+}
+```
  
 ## 😊 `flex: 0 0 100px` 是什么意思
 
