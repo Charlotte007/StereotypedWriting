@@ -28,6 +28,11 @@
   + (https://developers.weixin.qq.com/community/develop/article/doc/00088ebe4e0500035999338cb56813)
 + [Tencent westore](https://github.com/Tencent/westore)
 
+### web-view
++ webview标题优先级： webview内部设置 > setNavigationBarTitle > 页面的json配置文件 > app.json
++ [webview与JSSDK提供的方案](https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html)
+  + TIPS: 可作为原生与h5通信时，封装API的框架参考
+
 ## 分包的种类 **（重要）**
 + 普通分包
 + 独立分包，"independent": true
@@ -52,6 +57,31 @@
   }
 }
 ```
+###  环境变量，版本管理
++ 使用 `发布环境`区分
+``` js
+/*
+  @enum envVersion{
+    'develop',  // 开发版
+    'trial',    // 体验版
+    'release'   // 正式版
+  }
+*/
+function getEnvironment() {
+  var { miniProgram } = wx.getAccountInfoSync()
+  return miniProgram.envVersion
+}
+
+const envMap = {
+  'develop': {},
+  'trial': {},
+  'release': {},
+}
+
+```
++ 借助node读写以及获取命令行参数，设置参数；
+  + [参考](https://developers.weixin.qq.com/community/develop/article/doc/000ae44d0e498032109edaad856813)
+
 
 
 ## 性能优化

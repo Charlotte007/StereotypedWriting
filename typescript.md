@@ -176,12 +176,75 @@ a!.length // ok
 
 泛型用来来创建可重用的组件，一个组件可以支持多种类型的数据。这样用户就可以以自己的数据类型来使用组件。**简单的说，“泛型就是把类型当成参数”。**
 
-### 定义泛型的步骤
+### 定义泛型的步骤，(练习题type-challenges)[https://github.com/type-challenges/type-challenges/blob/main/README.zh-CN.md]
 + 提取可变的`类型参数` （提取变量）
 + `类型参数` 添加继承 （泛型约束，输入类型参数的类型，key, value 的类型）
   + 如何定义 a | b | c，输入类型
-  + 
 + 使用 工具，推导出泛型
+  + 基本工具
+    + extends
+    + typeof：在类型上下文中获取`变量或者属性`的类型；typeof 实例，返回该实例的所对应添加的TS类型；
+    + keyof: 获取类型的所有键值，类似 Object.keys
+    + in:  遍历，类似 for in
+    + infer: 声明类型变量
+    + ?
+    + -
+    + +
+    + Readonly
+  + 泛型工具
+    + Pick<T, K>
+    + Record<T, K>  将T中所有类型，都转化为T
+    + ReturnType<T> 获取函数类型的返回值类型
+    + Exclude<T, U> 从T中删除U，返回剩余的类型，如 [1,2,3,4]中删除[3,4],得到 [1,2] 
+    + Extract<T, U> 从T中提取U，返回存在的类型，如 [1,2,3,4]中提取[3,4],得到 [3,4] 
+    + 
+
+``` ts
+// ## DEMO
+
+// 元组长度
+type Length<T extends readonly any[]> = T['length']
+
+// 排除，找合集
+type Exclude<T, U> = T extends U ? never : T  // 需要理解extends
+
+// 判断，包含关系；TIPS：排除 undefined情况
+type Includes<T extends readonly any[], U> = {
+  [P in T[number]]: true
+}[U] extends true ? true : false;
+
+// 选择 需要的属性；
+type Pick<T, K extends keyof T> = {
+  [P in K]: T[P]
+}
+
+// 获取Promise类型，返回值类型；TIPS：递归，避免pormise执行后返回promise; U表示`输入`的泛型的参数，如例，为string
+type MyAwaited<T extends Promise<unknown>> = T extends Promise<infer U> 
+  ? U extends Promise<unknown> 
+    ? MyAwaited<U> 
+    : U
+  : never
+  // USE: type ExampleType = Promise<string>; type Result = MyAwaited<ExampleType> // string
+
+// 元组中添加新类型，TIPS：避免类型重复，减少检测次数，区别于js中push，仅仅用于扩展数组
+type Push<T extends any[], U> = [U] extends [T[number]] ? T : [...T, U]
+
+
+// 获取函数返回类型，TIPS： => 返回值类型；infter 定义返回值
+type ReturnType<T> = T extends (...args: any) => infer R ? R : never
+// USE
+const fn = (v: boolean) => {
+  if (v)
+    return 1
+  else
+    return 2
+}
+
+// typof fn 结果为 (v: boolean) => "1 | 2"  
+type a = ReturnType<typeof fn> // 应推导出 "1 | 2"
+
+
+```
 
 ### 定义泛型的经验
 + 获取数组 index ,value
@@ -262,7 +325,7 @@ let z = { text: "hello" } as const
   + A extends B，是指类型A可以分配给类型B，而不是说类型A是类型B的子集
   + `分配条件类型`：第一，参数是泛型类型，第二，代入参数的是联合类型
     + 泛型：type P<T> = T extends 'x' ? string : number;   type A3 = P<'x' | 'y'>  // A3的类型是 string | number
-      + P<'x' | 'y'> 相当于 P<'x'> | P<'y'>
+      + P<'x' | 'y'> 相当于 `P<'x'> | P<'y'>`
     + 特殊的never，空的联合类型； type P<T> = T extends 'x' ? string : number;   type A2 = P<never> // never
       + P<never> 空的联合类型，也就是说，没有联合项的联合类型；没有联合项可以分配，所以不会执行，没有类型返回就是never
       + 防止分配：type P<T> = [T] extends ['x'] ? string : number; type A2 = P<never> // string
