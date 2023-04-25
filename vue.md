@@ -205,4 +205,4 @@ state.dictionaryMap = {
 + Vue2.x 独立（运行）构建（standalone）和运行时构建（runtime-only）有什么区别？
   + standalone = 编译器（template编译为render函数，js包大概占用16kb左右） + 运行时（调用render函数渲染）
   + runtime-only = （vue-loader + vueify 预编译）+ 运行时（调用render函数渲染） 
-  + standalone = standalone + compiler（编译器）
+  + standalone = runtime-only + compiler（编译器）
