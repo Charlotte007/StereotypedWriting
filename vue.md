@@ -206,3 +206,26 @@ state.dictionaryMap = {
   + standalone = 编译器（template编译为render函数，js包大概占用16kb左右） + 运行时（调用render函数渲染）
   + runtime-only = （vue-loader + vueify 预编译）+ 运行时（调用render函数渲染） 
   + standalone = runtime-only + compiler（编译器）
+
+### jsx 或 render 中，$slots与 $scopedSlots 有什么区别
++ 类型
+  + $slots 属于静态插槽，即父组件调用时，组件中传入的嵌套组件，调用`具名属性`后会返回Vnode数组；默认包含 $slots.default;
+    + $slots 是一个对象 {[name: string]: ?Array<VNode>}
+    + 属性值是一个Vnode数组，非函数
+  + $scopedSlots 属于作用域插槽，每个作用域插槽都是一个返回若干 VNode 的`函数`；
+    + $slots 是一个对象  {[name: string]: props => Array<VNode> | undefined}
+    + 属性值是一个`函数`, 调用后返回 Vnode数组，函数调用时传入值，可用于插槽中子组件通信；
+    + slot-scope 与 $scopedSlots 的混淆
+      + <template slot-scope="{data}"></template> 混淆(老语法), 这个是 调用端，获取的数据；data的来源是封装组件上 <slot name="default" v-bind:data="prop"></slot> 传入的
+      + slot-scoped 已废弃，使用 <template v-slot:default="{data}"></template> 代替
++ 什么时候存在
+  + $slots 嵌套子组件时，源组件未传入属性值，则存在；
+  + $scopedSlots 嵌套子组件时，源组件传入属性，才存在；
+  
+总结：$slots与 $scopedSlots 本质都是插槽中传入的组件；只不过传入的组件 会 因为对应 <slot></slot> 是否传入值而进行区分；
+<slot name="A"></slot> : 这种类型，不传入作用域值的，将被收集到 $slots中；包含的是静态Vnode；
+<slot name="B" :user="user"></slot>: 这种类型，传入父组件作用域值，将被收集到 $scopedSlots中，是动态的组件；会随着传入值的变化而变化，所以是一个函数；
+谜底就在谜面上，无作用域的在$slots中，有作用域的在$scopedSlots中； $slots 和 $scopedSlots 中所有属性数量的和，才是这个组件所有插槽的数量，！！！
+
+(参考)[https://blog.csdn.net/guzhao593/article/details/89219229]
+  
