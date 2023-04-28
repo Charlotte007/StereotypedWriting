@@ -21,6 +21,9 @@
   + prop入参
   + event，$emit, $on等，主要是通信
   + slot 应对扩展变动，内容分发
++ 使用render，jsx代替 template
+  + template本质是html结构，自定义顺序，内外包含关系时，会在大量重复代码
+  + jsx render 本质是js逻辑，灵活度更高
 2.vue2项目平滑无bug的向vue3过度，包括各种组件库的升级
   + [vue2升级vue3的迁移指南-官方](https://v3-migration.vuejs.org/zh/)
 
