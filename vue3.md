@@ -20,32 +20,36 @@
 + 组件的三个API，三要素，对外暴露的接口：（从使用角度看）
   + prop入参
   + event，$emit, $on等，主要是通信
-  + slot 应对扩展变动，内容分发
+  + slot 应对扩展变动 ；细微差别可以在此处做处理，做好默认组件和内容分发
 + 使用render，jsx代替 template
-  + template本质是html结构，自定义顺序，内外包含关系时，会在大量重复代码
+  + template本质是html结构，自定义顺序，内外包含关系时，会存在大量重复代码或难以实现
   + jsx render 本质是js逻辑，灵活度更高
 2.vue2项目平滑无bug的向vue3过度，包括各种组件库的升级
-  + [vue2升级vue3的迁移指南-官方](https://v3-migration.vuejs.org/zh/)
++ [vue2升级vue3的迁移指南-官方](https://v3-migration.vuejs.org/zh/)
 
-  + vue2和vue3的差异（大框架下）
-    + 破坏性的api变更，移除 $on, $off, $once, 事件总线通信被移除；（需要推翻重写）
-    + 变更的api数量较多
-    + ** 颠覆式的设计模式（开发模式）**：vue3采用composition-api （组合式API）的模式开发，偏向函数式开发，向react靠拢，开发更加自由；
-      + vue2采用的是options-api，基于配置项开发；
-      + 有点类似于angular1.x 升级到 angular2.x，但angular升级基本抛弃的原有的设计，属于是新框架
-    + 生态系统的更新速度，目前主流框架，插件等已同步到vue3
-    + 构建工具的差异，vue-cli -> vite
-  + 如何应对差异，平滑迁移
-    + 官方迁移指南中包含不少vue2/3 兼容包，引入后可以磨平部分api带来的差异；
-    +  GoGoCode gogocode-plugin-vue 可以基于代码生成AST树，实现语法的转化；（减少工作量）
-    +  @vue/compat (即“迁移构建版本”) 是一个 Vue 3 的构建版本，提供了可配置的兼容 Vue 2 的行为；（只是过渡方案，）
-        时间充裕后还是需要重构为vue3版本，更为稳妥
-    +  vue2的项目较大，迁移难度变高，可以使用vue2.7作为最后的方案，支持vue3.0大多数特性；（兜底方案）
-    +  (迁移的细节-官方)[https://v3-migration.vuejs.org/zh/migration-build.html]
++ vue2和vue3的差异（大框架下）
+  + 破坏性的api变更，移除 $on, $off, $once, 事件总线通信被移除；（需要推翻重写）
+  + 变更的api数量较多
+  + ** 颠覆式的设计模式（开发模式）**：vue3采用composition-api （组合式API）的模式开发，偏向函数式开发，向react靠拢，开发更加自由；
+    + vue2采用的是options-api，基于配置项开发；
+    + 有点类似于angular1.x 升级到 angular2.x，但angular升级基本抛弃的原有的设计，属于是新框架
+  + 生态系统的更新速度，目前主流框架，插件等已同步到vue3
+  + 构建工具的差异，vue-cli -> vite
++ 如何应对差异，平滑迁移
+  + 官方迁移指南中包含不少vue2/3 兼容包，引入后可以磨平部分api带来的差异；
+  +  GoGoCode gogocode-plugin-vue 可以基于代码生成AST树，实现语法的转化；（减少工作量）
+  +  @vue/compat (即“迁移构建版本”) 是一个 Vue 3 的构建版本，提供了可配置的兼容 Vue 2 的行为；（只是过渡方案，）
+      时间充裕后还是需要重构为vue3版本，更为稳妥
+  +  vue2的项目较大，迁移难度变高，可以使用vue2.7作为最后的方案，支持vue3.0大多数特性；（兜底方案）
+  +  (迁移的细节-官方)[https://v3-migration.vuejs.org/zh/migration-build.html]
++ 总结：vue2升级vue3的难度，远大于vue1升级到vue2, 推荐使用过渡方案，先保证功能迁移，后续时间允许后在逐步转为vue3，可借助GOGOCode提高效率；
 
 3.接口返回的数据怎么加密，不明文显示，防止数据爬取
     + AES 对称加密
     + RSA 非对称加密
+    + 入参排序md5加密 作为sign
+    + 时间戳校验
+    + 客户端标识，不能跨客户端使用token等信息；
   
 4.开发环境下，app.js和chunk-vendors.js过大，提高加载速度，和工作效率
     + app.js 业务代码，main.js中引入的代码; main.js等非路由页面内容;
