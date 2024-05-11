@@ -132,6 +132,8 @@ let p = new Proxy(target, handler);
 + key的作用
 + v-model
 + keep-alive的使用
++ 自定义指令的组成由哪些，如何使用
++ 插槽的使用
 + vuex，vue-router使用熟练度考察
 + Vue 组件中 data 为什么必须是函数
 + 大批量数据渲染
